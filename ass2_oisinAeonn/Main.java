@@ -1,8 +1,13 @@
 package ass2_oisinAeonn;
 
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 // This class represents the Main Entry Point for the Social Media Analyzer Application.
 
-public class Main {
+public class Main extends Application {
 
   // The main method initializes the socialMediaAnalyzerApp object, and runs the Application.
 
@@ -16,6 +21,27 @@ public class Main {
     
     socialMediaAnalyzerApp.run();
 
-  } 
+  }
+
+  @Override
+    
+  public void start(Stage primaryStage) {
   
+    // Create the login view and set it as the scene
+  
+    Main loginGUI = new Main();
+    Scene scene = new Scene(loginGUI.getPane(), 400, 300);
+        
+      primaryStage.setTitle("Login App");
+      primaryStage.setScene(scene);
+      primaryStage.show(); 
+  
+  }
+
+  private Parent getPane() {
+
+    return null;
+  
+  }
+
 }
