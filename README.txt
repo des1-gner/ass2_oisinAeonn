@@ -73,7 +73,7 @@ ________________________________________________________________________________
 
 Here is a guide to running my Program outside an IDE via the command-line. I have included instructions for both Linux (my everyday platform), and Windows. 
 
-WARNING: You will need to be in the correct directory in order for these commands to work. You should be in the parents directory of ass1_oisinAeonn. 
+WARNING: You will need to be in the correct directory in order for these commands to work. You should be in the parents directory of ass2_oisinAeonn. 
 
 NOTE: If you are a Mac User you can switch to the bash terminal via running the following command: 
 
@@ -105,25 +105,25 @@ find . -name "*.class" -type f -delete
 
 Build all .java files for my project:
 
-javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass1_oisinAeonn/*.java
+javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass2_oisinAeonn/*.java
 
 -
 
 Run my program:
 
-java ass1_oisinAeonn.Main 
+java ass2_oisinAeonn.Main 
 
 -
 
 Run a JUnit Test:
 
-java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass1_oisinAeonn.socialMediaAnalyzerAppTest
+java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass2_oisinAeonn.socialMediaAnalyzerAppTest
 
 -
 
 Generate JavaDoc:
 
-javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass1_oisinAeonn/*.java
+javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass2_oisinAeonn/*.java
 
 -
 
@@ -145,26 +145,26 @@ for /r . %G in (*.class) do del /S /Q "%G"
 
 Build all .java files for my project:
 
-javac -cp .;lib\junit-4.13.2.jar;lib\hamcrest-core-1.3.jar ass1_oisinAeonn\*.java
+javac -cp .;lib\junit-4.13.2.jar;lib\hamcrest-core-1.3.jar ass2_oisinAeonn\*.java
 
 -
 
 Run my program:
 
-java ass1_oisinAeonn.Main
+java ass2_oisinAeonn.Main
 
 -
 
 Run a JUnit Test:
 
-java -cp .;lib\junit-4.13.2.jar;lib\hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass1_oisinAeonn.socialMediaAnalyzerAppTest
+java -cp .;lib\junit-4.13.2.jar;lib\hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass2_oisinAeonn.socialMediaAnalyzerAppTest
 
 
 -
 
 Generate JavaDoc:
 
-javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass1_oisinAeonn/*.java
+javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass2_oisinAeonn/*.java
 
 -
 
