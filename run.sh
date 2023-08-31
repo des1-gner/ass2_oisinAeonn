@@ -2,7 +2,7 @@
 
 echo "Java Test Script written by Oisin s3952320" 
 
-echo "WARNING: Please ensure you are in the parent ass1_oisinAeonn directory."
+echo "WARNING: Please ensure you are in the parent ass2_oisinAeonn directory."
 
 while true
 
@@ -62,7 +62,7 @@ do
     
             # Build all .java files for my project
     
-            javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass1_oisinAeonn/*.java
+            javac -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass2_oisinAeonn/*.java
     
             echo "Successfully built the project! Try to run!"
 
@@ -74,7 +74,7 @@ do
     
             # Run my program
     
-            java ass1_oisinAeonn.Main
+            java ass2_oisinAeonn.Main
     
             ;;
 
@@ -82,7 +82,7 @@ do
 
             # Run a JUnit Test
 
-            java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass1_oisinAeonn.socialMediaAnalyzerAppTest
+            java -cp .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar org.junit.runner.JUnitCore ass2_oisinAeonn.socialMediaAnalyzerAppTest
 
             ;;
 
@@ -90,7 +90,7 @@ do
 
             # Generate JavaDoc
 
-            javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass1_oisinAeonn/*.java
+            javadoc -d doc -classpath .:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar ass2_oisinAeonn/*.java
 
             echo "JavaDoc successfully created!"
 

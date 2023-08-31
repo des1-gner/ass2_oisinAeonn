@@ -1,4 +1,4 @@
-package ass1_oisinAeonn;
+package ass2_oisinAeonn;
 
 // Imports
 

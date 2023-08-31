@@ -1,4 +1,4 @@
-package ass1_oisinAeonn;
+package ass2_oisinAeonn;
 
 // This class represents the Main Entry Point for the Social Media Analyzer Application.
 
