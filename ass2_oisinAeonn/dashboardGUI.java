@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class dashboardGUI {
@@ -13,70 +14,66 @@ public class dashboardGUI {
     private Label welcomeLabel;
     private TabPane tabPane;
     private MenuButton menuButton;
-    private TextArea postList;  // To display the posts
+    private TextArea postList;
 
-    // Runnable to handle logout action
     private Runnable onLogoutEvent;
 
     public dashboardGUI(String username) {
-    
-        // Welcome label
-    
-        welcomeLabel = new Label("Welcome, " + username + "!");
         
-        // Create MenuButton with an icon
-    
+        welcomeLabel = new Label("Welcome, " + username + "!");
+
         ImageView menuIcon = new ImageView(new Image("file:assets/menu.png"));
         menuIcon.setFitHeight(16);
         menuIcon.setFitWidth(16);
         menuButton = new MenuButton("", menuIcon);
+        menuButton.setStyle("-fx-background-insets:0; -fx-padding:0;");
         
-        // Add menu items to the MenuButton
-    
         MenuItem profileItem = new MenuItem("Profile");
         MenuItem upgradeAccountItem = new MenuItem("Upgrade Account");
         MenuItem logoutItem = new MenuItem("Logout");
 
-        // Attach action to logoutItem
-    
         logoutItem.setOnAction(e -> handleLogout());
 
         menuButton.getItems().addAll(profileItem, upgradeAccountItem, logoutItem);
-        
-        // Create Tabs
-    
+
         Tab addPostTab = new Tab("Add Post");
         Tab searchTab = new Tab("Search");
         
-        // Make tabs non-closable
-    
         addPostTab.setClosable(false);
         searchTab.setClosable(false);
+
+        TextField postIdField = new TextField();
+        postIdField.setPromptText("Post ID");
+        TextField postContentField = new TextField();
+        postContentField.setPromptText("Content");
+        TextField authorField = new TextField();
+        authorField.setPromptText("Author");
+        TextField likesField = new TextField();
+        likesField.setPromptText("Likes");
+        TextField sharesField = new TextField();
+        sharesField.setPromptText("Shares");
+        TextField dateTimeField = new TextField();
+        dateTimeField.setPromptText("Date & Time");
         
-        // Existing Add Post functionality
-    
-        TextField postTextField = new TextField();
-        postTextField.setPromptText("Write your post here...");
         Button postButton = new Button("Add Post");
         postList = new TextArea();
         postList.setEditable(false);
-        
+
         postButton.setOnAction(e -> {
-    
-            String postContent = postTextField.getText();
-            postList.appendText(username + ": " + postContent + "\n");
-            postTextField.clear();
-    
-        });
         
-        VBox addPostVBox = new VBox(postTextField, postButton, postList);
+            String post = "Post added: " + postIdField.getText() + ", " + postContentField.getText() + ", " + authorField.getText() + ", " + likesField.getText() + ", " + sharesField.getText() + ", " + dateTimeField.getText() + "\n";
+            postList.appendText(post);
+        
+        });
+
+        VBox addPostVBox = new VBox(postIdField, postContentField, authorField, likesField, sharesField, dateTimeField, postButton, postList);
         addPostVBox.setPadding(new Insets(15));
         addPostVBox.setSpacing(10);
-        
+
         addPostTab.setContent(addPostVBox);
 
-        // New Search functionality
-    
+        // Search Functionality
+        
         TextField searchField = new TextField();
         searchField.setPromptText("Enter Post ID...");
         Button retrieveButton = new Button("Retrieve");
@@ -85,64 +82,58 @@ public class dashboardGUI {
         searchResults.setEditable(false);
 
         retrieveButton.setOnAction(e -> {
-    
+        
             int postId = Integer.parseInt(searchField.getText());
-            String result = "Post Content: ";  
+            String result = "Post Content: ";
             searchResults.setText(result);
-    
+        
         });
 
         deleteButton.setOnAction(e -> {
-    
-            int postId = Integer.parseInt(searchField.getText()); 
-            String result = "Post deleted."; 
+        
+            int postId = Integer.parseInt(searchField.getText());
+            String result = "Post deleted.";
             searchResults.setText(result);
-    
+        
         });
 
         VBox searchVBox = new VBox(searchField, retrieveButton, deleteButton, searchResults);
         searchVBox.setPadding(new Insets(15));
         searchVBox.setSpacing(10);
-        
+
         searchTab.setContent(searchVBox);
-        
-        // Create a TabPane and add tabs to it
-    
+
         tabPane = new TabPane();
         tabPane.getTabs().addAll(addPostTab, searchTab);
-        
-        // Create a VBox for the welcome label and the TabPane
-    
+
+        HBox topBar = new HBox(tabPane, menuButton);
+
         vbox = new VBox();
         vbox.setPadding(new Insets(10, 10, 10, 10));
         vbox.setSpacing(10);
-        vbox.getChildren().addAll(welcomeLabel, tabPane, menuButton);
+        vbox.getChildren().addAll(welcomeLabel, topBar);
     }
 
-    // Method to handle logout
-    
     private void handleLogout() {
-    
+
         if (onLogoutEvent != null) {
-    
+
             onLogoutEvent.run();
-    
+
         }
-    
+
     }
 
-    // Setter for onLogoutEvent
-    
     public void setOnLogoutEvent(Runnable onLogoutEvent) {
-    
+
         this.onLogoutEvent = onLogoutEvent;
-    
+
     }
 
     public Parent getPane() {
-    
+
         return vbox;
-    
+
     }
 
 }
