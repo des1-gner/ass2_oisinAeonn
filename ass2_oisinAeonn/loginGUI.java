@@ -18,6 +18,7 @@ public class loginGUI {
     private Runnable onRegisterEvent;
 
     public loginGUI() {
+    
         pane = new VBox(10);
         pane.setPadding(new Insets(20));
 
@@ -34,30 +35,47 @@ public class loginGUI {
         registerButton.setOnAction(e -> handleRegister());
 
         pane.getChildren().addAll(usernameField, passwordField, loginButton, registerButton);
+    
     }
 
     public void setOnLoginSuccessEvent(Consumer<String> onLoginSuccessEvent) {
+    
         this.onLoginSuccessEvent = onLoginSuccessEvent;
+    
     }
 
     public void setOnRegisterEvent(Runnable onRegisterEvent) {
+    
         this.onRegisterEvent = onRegisterEvent;
+    
     }
 
     private void handleLogin() {
+    
         // TODO: Handle actual authentication
+    
         if (onLoginSuccessEvent != null) {
+    
             onLoginSuccessEvent.accept(usernameField.getText());
+    
         }
+    
     }
 
     private void handleRegister() {
+        
         if (onRegisterEvent != null) {
+        
             onRegisterEvent.run();
+        
         }
+    
     }
 
     public Parent getPane() {
+
         return pane;
+    
     }
+
 }
