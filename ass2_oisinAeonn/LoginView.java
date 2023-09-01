@@ -1,10 +1,11 @@
 package ass2_oisinAeonn;
 
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
-public class loginGUI {
+public class LoginView {
     
     private Pane pane;
     private TextField usernameField;
@@ -12,7 +13,7 @@ public class loginGUI {
     private Button loginButton;
     private Button registerButton;
 
-    public loginGUI() {
+    public LoginView() {
 
         pane = new VBox(10);
         pane.setPadding(new Insets(20));
@@ -52,6 +53,12 @@ public class loginGUI {
     public Button getRegisterButton() {
     
         return registerButton;
+    
+    }
+
+    public Parent getPane() {
+
+        return null;
     
     }
 

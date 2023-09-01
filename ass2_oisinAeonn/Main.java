@@ -24,24 +24,14 @@ public class Main extends Application {
   }
 
   @Override
-    
-  public void start(Stage primaryStage) {
-  
-    // Create the login view and set it as the scene
-  
-    Main loginGUI = new Main();
-    Scene scene = new Scene(loginGUI.getPane(), 400, 300);
-        
-      primaryStage.setTitle("Login App");
-      primaryStage.setScene(scene);
-      primaryStage.show(); 
-  
-  }
+    public void start(Stage primaryStage) {
+        // Create the login view and set it as the scene
+        LoginView loginView = new LoginView(); // Assuming you have a class named LoginView
+        Scene scene = new Scene(loginView.getPane(), 400, 300);
 
-  private Parent getPane() {
-
-    return null;
-  
-  }
+        primaryStage.setTitle("Login App");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
 }
