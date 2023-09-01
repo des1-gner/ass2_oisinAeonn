@@ -1,0 +1,36 @@
+using javafx create a login page. is the first step.
+
+users class with private username, password (encrypted maybe use hash), firstname, lastname, username will be the unique identifer.
+
+maybe create database version after.
+
+ability to create user on the first page.
+
+2nd page is a dashboard.
+-welcome msg containing user fullname getter for first, and last name. with paramter of username (unique)
+
+each user can keep a collection of social media posts and analyze it.
+-edit their own profile seperate tab.
+-add post using same things as ass1
+post can be added to collection
+all variables must be correct type like in ass1
+
+post search tab to
+retrieve
+delete
+POSTS
+export a post.
+retrieve top N posts for likes / shares (MAYBE A TRENDING TAB?)
+
+logout in corner of all
+
+STAGE 2
+new users are considered non-VIP. they must upgrade use similar thing to P1 ass about payment. must relog to gain functionality.
+
+Analytics Tab
+-Draw a pie chart showing the distribution of likes / shares
+by categorising all posts into three groups. 0-99, 100-999, 1000+
+
+bulk import of posts from csv. catch exceptions if csv does not follow correct format.
+
+
