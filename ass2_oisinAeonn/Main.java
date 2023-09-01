@@ -23,14 +23,17 @@ public class Main extends Application {
   }
 
   @Override
-  
   public void start(Stage primaryStage) {
-
+  
     // Create the login view and set it as the scene
     
-    loginGUI loginView = new loginGUI(); // Assuming you have a class named LoginGUI
+    loginGUI loginView = new loginGUI();
     Scene loginScene = new Scene(loginView.getPane(), 400, 300);
     
+    // Function to set login scene
+    
+    Runnable setLoginScene = () -> primaryStage.setScene(loginScene);
+
     primaryStage.setTitle("Login App");
     primaryStage.setScene(loginScene);
 
@@ -38,9 +41,7 @@ public class Main extends Application {
     
     loginView.setOnLoginSuccessEvent((user) -> {
     
-      // Create a user-specific dashboard and set it as the scene
-    
-      dashboardGUI dashboardView = new dashboardGUI(user); // Assuming you have a class named DashboardView
+      dashboardGUI dashboardView = new dashboardGUI(user);
       Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
     
       primaryStage.setScene(dashboardScene);
@@ -49,17 +50,16 @@ public class Main extends Application {
 
     loginView.setOnRegisterEvent(() -> {
     
-      // Create a register view and set it as the scene
-    
-      registerGUI registerView = new registerGUI(); // Assuming you have a class named RegisterView
+      registerGUI registerView = new registerGUI();
       Scene registerScene = new Scene(registerView.getPane(), 400, 300);
+    
+      registerView.setOnBackEvent(setLoginScene);  // Attach the back event handler
     
       primaryStage.setScene(registerScene);
     
     });
 
     primaryStage.show();
-  
   }
 
 }
