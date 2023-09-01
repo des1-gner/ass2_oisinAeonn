@@ -5,7 +5,7 @@
             "type": "java",
             "name": "Launch App",
             "request": "launch",
-            "mainClass": "Main",
+            "mainClass": "ass2_oisinAeonn.Main",
             "vmArgs": "--module-path lib --add-modules javafx.controls,javafx.fxml",
         }
     ]
