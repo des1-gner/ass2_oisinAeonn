@@ -58,7 +58,7 @@ public class LoginView {
 
     public Parent getPane() {
 
-        return null;
+        return pane;
     
     }
 
