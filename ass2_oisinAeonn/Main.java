@@ -34,7 +34,7 @@ public class Main extends Application {
     
     Runnable setLoginScene = () -> primaryStage.setScene(loginScene);
 
-    primaryStage.setTitle("Login App");
+    primaryStage.setTitle("Social Media Analyzer App");
     primaryStage.setScene(loginScene);
 
     // Attach login success and register event handlers
@@ -43,6 +43,10 @@ public class Main extends Application {
     
       dashboardGUI dashboardView = new dashboardGUI(user);
       Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
+
+      // Attach the logout event handler to switch back to login scene
+      
+      dashboardView.setOnLogoutEvent(setLoginScene);
     
       primaryStage.setScene(dashboardScene);
     
