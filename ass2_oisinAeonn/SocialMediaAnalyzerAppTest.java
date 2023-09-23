@@ -12,9 +12,9 @@ import java.util.List;
 
 // Declaration of the socialMediaAnalyzerApp instance for JUnit Tests
 
-public class socialMediaAnalyzerAppTest {
+public class SocialMediaAnalyzerAppTest {
 
-    private socialMediaAnalyzerApp sma;
+    private SocialMediaAnalyzerApp sma;
 
     // This method will run before each test
 
@@ -24,7 +24,7 @@ public class socialMediaAnalyzerAppTest {
 
         // Initialize a new socialMediaAnalyzerApp before each test
 
-        sma = new socialMediaAnalyzerApp();
+        sma = new SocialMediaAnalyzerApp();
 
     }
 
@@ -46,7 +46,7 @@ public class socialMediaAnalyzerAppTest {
         
         // Create an instance of socialMediaAnalyzerApp
         
-        socialMediaAnalyzerApp sma = new socialMediaAnalyzerApp();
+        SocialMediaAnalyzerApp sma = new SocialMediaAnalyzerApp();
 
         // Save the initial count of posts
         
@@ -77,7 +77,7 @@ public class socialMediaAnalyzerAppTest {
     
         // Create an instance of socialMediaAnalyzerApp
         
-        socialMediaAnalyzerApp sma = new socialMediaAnalyzerApp();
+        SocialMediaAnalyzerApp sma = new SocialMediaAnalyzerApp();
 
         // Redirect System.out to capture console output
         

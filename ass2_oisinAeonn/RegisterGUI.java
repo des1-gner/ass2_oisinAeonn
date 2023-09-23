@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-public class registerGUI {
+public class RegisterGUI {
 
     private Pane pane;
     private TextField usernameField;
@@ -33,7 +33,7 @@ public class registerGUI {
 
     private static LinkedHashMap<String, User> users;
 
-    public registerGUI() {
+    public RegisterGUI() {
         users = new LinkedHashMap<>();
         loadUsers();
 

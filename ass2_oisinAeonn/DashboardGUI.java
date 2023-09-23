@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class dashboardGUI {
+public class DashboardGUI {
 
     private VBox vbox;
     private Label welcomeLabel;
@@ -18,7 +18,7 @@ public class dashboardGUI {
 
     private Runnable onLogoutEvent;
 
-    public dashboardGUI(String username) {
+    public DashboardGUI(String username) {
         
         welcomeLabel = new Label("Welcome, " + username + "!");
 

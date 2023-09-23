@@ -1,5 +1,5 @@
 package ass2_oisinAeonn;
 
-public class databaseConnector {
+public class PaymentGUI {
     
 }

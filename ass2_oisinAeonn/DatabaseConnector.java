@@ -1,5 +1,5 @@
 package ass2_oisinAeonn;
 
-public class profileGUI {
+public class DatabaseConnector {
     
 }

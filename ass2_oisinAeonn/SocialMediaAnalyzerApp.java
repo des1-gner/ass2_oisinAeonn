@@ -14,7 +14,7 @@ import java.time.format.DateTimeParseException;
 
 // Define public class of socialMediaAnalyzerApp
 
-public class socialMediaAnalyzerApp {
+public class SocialMediaAnalyzerApp {
 
   // Static Declaration of csv file
 
@@ -26,7 +26,7 @@ public class socialMediaAnalyzerApp {
 
   // Constructor initializes ArrayLists. 
 
-  public socialMediaAnalyzerApp() {
+  public SocialMediaAnalyzerApp() {
     
     // Initializes ArrayList: "posts".
 

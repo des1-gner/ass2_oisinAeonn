@@ -1,5 +1,5 @@
 package ass2_oisinAeonn;
 
-public class paymentGUI {
+public class ProfileGUI {
     
 }

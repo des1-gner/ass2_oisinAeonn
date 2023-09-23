@@ -27,7 +27,7 @@ public class Main extends Application {
   
     // Create the login view and set it as the scene
     
-    loginGUI loginView = new loginGUI();
+    LoginGUI loginView = new LoginGUI();
     Scene loginScene = new Scene(loginView.getPane(), 400, 300);
     
     // Function to set login scene
@@ -41,7 +41,7 @@ public class Main extends Application {
     
     loginView.setOnLoginSuccessEvent((user) -> {
     
-      dashboardGUI dashboardView = new dashboardGUI(user);
+      DashboardGUI dashboardView = new DashboardGUI(user);
       Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
 
       // Attach the logout event handler to switch back to login scene
@@ -54,7 +54,7 @@ public class Main extends Application {
 
     loginView.setOnRegisterEvent(() -> {
     
-      registerGUI registerView = new registerGUI();
+      RegisterGUI registerView = new RegisterGUI();
       Scene registerScene = new Scene(registerView.getPane(), 400, 300);
     
       registerView.setOnBackEvent(setLoginScene);  // Attach the back event handler

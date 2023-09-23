@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import java.util.function.Consumer;
 
-public class loginGUI {
+public class LoginGUI {
 
     private Pane pane;
     private TextField usernameField;
@@ -17,7 +17,7 @@ public class loginGUI {
     private Consumer<String> onLoginSuccessEvent;
     private Runnable onRegisterEvent;
 
-    public loginGUI() {
+    public LoginGUI() {
     
         pane = new VBox(10);
         pane.setPadding(new Insets(20));
