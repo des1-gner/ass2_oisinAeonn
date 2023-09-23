@@ -1,9 +1,12 @@
-package ass2_oisinAeonn;
+package ass2_oisinAeonn.JUnit;
 
 // Imports
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ass2_oisinAeonn.SocialMediaAnalyzerApp;
+
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
