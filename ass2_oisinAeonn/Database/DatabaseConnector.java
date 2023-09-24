@@ -2,101 +2,37 @@ package ass2_oisinAeonn.Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-// database connectivity
+import ass2_oisinAeonn.Model.Post;
+
 public class DatabaseConnector {
 
-	public void charactersDatabase() {
-		// driver
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		final String url = "jdbc:mysql://localhost/ass2";
-		// user
-		final String user = "root";
-		// pass
-		final String password = "";
-		Connection con = null;
-		Statement st = null;
-		try {
-			// connection
-			con = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// error msg
-		if (con == null) {
-			System.out.println("JDBC connection is not established");
-			return;
-		} else
-			// connection success
-			System.out.println("Congratulations," +
-					" JDBC connection is established successfully.\n");
-		try {
-			// character add to table
-			st = (Statement) con.createStatement();
-			st.executeUpdate(
-					"INSERT INTO characters(`Name`, `Type`, `Health`, `Mana`, `Attack`, `Speed`, `Evil`) VALUES ('Bart', 'Human', 25, 0, 20, 75, false);");
-			st.executeUpdate(
-					"INSERT INTO characters(`Name`, `Type`, `Health`, `Mana`, `Attack`, `Speed`, `Evil`) VALUES ('Symba', 'Warlock', 25, 0, 20, 75, true);");
-			st.executeUpdate(
-					"INSERT INTO characters(`Name`, `Type`, `Health`, `Mana`, `Attack`, `Speed`, `Evil`) VALUES ('Farquad', 'Dwarf', 25, 0, 20, 75, true);");
-			System.out.println("Updated characters Table");
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/postsDB";
+    private static final String DATABASE_USER = "YOUR_USERNAME";
+    private static final String DATABASE_PASS = "YOUR_PASSWORD";
+    
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
+    }
+    
+    public static void insertPost(Post post) {
+        String sql = "INSERT INTO posts (postId, author, content, likes, shares, dateTime) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setInt(1, post.getPostId());
+            stmt.setString(2, post.getAuthor());
+            stmt.setString(3, post.getContent());
+            stmt.setInt(4, post.getLikes());
+            stmt.setInt(5, post.getShares());
+            stmt.setString(6, post.getDateTime());  // Ensure this matches your table's format
 
-	}
-
-	// similar code (should have used method...)
-	public void placesDatabase() {
-
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		final String url = "jdbc:mysql://localhost/ass2";
-		final String user = "root";
-		final String password = "";
-		Connection con = null;
-		Statement st = null;
-		try {
-			con = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (con == null) {
-			System.out.println("JDBC connection is not established");
-			return;
-		} else
-			System.out.println("Congratulations," +
-					" JDBC connection is established successfully.\n");
-		try {
-			// place add to table
-			st = (Statement) con.createStatement();
-			st.executeUpdate("INSERT INTO places(`Location`, `Size`, `Biome`) VALUES ('Melbourne', 'Large', 'City');");
-			st.executeUpdate(
-					"INSERT INTO places(`Location`, `Size`, `Biome`) VALUES ('Siberia', 'Extremely Large', 'Desert Tundra');");
-			st.executeUpdate(
-					"INSERT INTO places(`Location`, `Size`, `Biome`) VALUES ('Amazon', 'Very Large', 'Rainforest');");
-			System.out.println("Updated places Table");
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle this in a more user-friendly way in a real application
+        }
+    }
 }
