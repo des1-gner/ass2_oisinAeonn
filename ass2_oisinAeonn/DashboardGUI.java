@@ -10,13 +10,13 @@ import javafx.scene.layout.VBox;
 
 public class DashboardGUI {
 
-    private VBox vbox;
-    private Label welcomeLabel;
-    private TabPane tabPane;
-    private MenuButton menuButton;
-    private TextArea postList;
+    protected VBox vbox;
+    protected Label welcomeLabel;
+    protected TabPane tabPane;
+    protected MenuButton menuButton;
+    protected TextArea postList;
 
-    private Runnable onLogoutEvent;
+    protected Runnable onLogoutEvent;
 
     public DashboardGUI(String username) {
         
@@ -114,7 +114,7 @@ public class DashboardGUI {
         vbox.getChildren().addAll(welcomeLabel, topBar);
     }
 
-    private void handleLogout() {
+    protected void handleLogout() {
 
         if (onLogoutEvent != null) {
 

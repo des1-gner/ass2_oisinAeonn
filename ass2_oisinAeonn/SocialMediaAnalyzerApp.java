@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import ass2_oisinAeonn.model.Post;
+import ass2_oisinAeonn.Model.Post;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;

@@ -6,64 +6,62 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
+        launch(args);
+    }
 
-    // create an instance of the object socialMediaAnalyzerApp class.
-    
-    // socialMediaAnalyzerApp socialMediaAnalyzerApp = new socialMediaAnalyzerApp();
+    @Override
+    public void start(Stage primaryStage) {
+        setupLoginStage(primaryStage);
+    }
 
-    // Run Menu until Option 6 is Inputted by User.
-    
-    // socialMediaAnalyzerApp.run();
-    
-    // Start the JavaFX application
-    
-    launch(args);
-  
-  }
+    private void setupLoginStage(Stage primaryStage) {
+        LoginGUI loginView = new LoginGUI();
+        Scene loginScene = new Scene(loginView.getPane(), 400, 300);
+        primaryStage.setTitle("Social Media Analyzer App - Login");
+        primaryStage.setScene(loginScene);
 
-  @Override
-  public void start(Stage primaryStage) {
-  
-    // Create the login view and set it as the scene
-    
-    LoginGUI loginView = new LoginGUI();
-    Scene loginScene = new Scene(loginView.getPane(), 400, 300);
-    
-    // Function to set login scene
-    
-    Runnable setLoginScene = () -> primaryStage.setScene(loginScene);
+        // Attach login success and register event handlers
+        loginView.setOnLoginSuccessEvent(user -> {
+            primaryStage.hide();  // Close the login window
+            setupDashboardStage(user);
+        });
 
-    primaryStage.setTitle("Social Media Analyzer App");
-    primaryStage.setScene(loginScene);
+        loginView.setOnRegisterEvent(() -> {
+            primaryStage.hide();  // Close the login window
+            setupRegisterStage(primaryStage);
+        });
 
-    // Attach login success and register event handlers
-    
-    loginView.setOnLoginSuccessEvent((user) -> {
-    
-      DashboardGUI dashboardView = new DashboardGUI(user);
-      Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
+        primaryStage.show();
+    }
 
-      // Attach the logout event handler to switch back to login scene
-      
-      dashboardView.setOnLogoutEvent(setLoginScene);
-    
-      primaryStage.setScene(dashboardScene);
-    
-    });
+    private void setupRegisterStage(Stage previousStage) {
+        RegisterGUI registerView = new RegisterGUI();
+        Stage registerStage = new Stage();
+        Scene registerScene = new Scene(registerView.getPane(), 400, 300);
+        registerStage.setTitle("Social Media Analyzer App - Register");
+        registerStage.setScene(registerScene);
 
-    loginView.setOnRegisterEvent(() -> {
-    
-      RegisterGUI registerView = new RegisterGUI();
-      Scene registerScene = new Scene(registerView.getPane(), 400, 300);
-    
-      registerView.setOnBackEvent(setLoginScene);  // Attach the back event handler
-    
-      primaryStage.setScene(registerScene);
-    
-    });
+        registerView.setOnBackEvent(() -> {
+            registerStage.close();  // Close the register window
+            previousStage.show();  // Show the login window again
+        });
 
-    primaryStage.show();
-  }
+        registerStage.show();
+    }
 
+    private void setupDashboardStage(String username) {
+        DashboardGUI dashboardView = new DashboardGUI(username);
+        Stage dashboardStage = new Stage();
+        Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
+        dashboardStage.setTitle("Social Media Analyzer App - Dashboard");
+        dashboardStage.setScene(dashboardScene);
+
+        dashboardView.setOnLogoutEvent(() -> {
+            dashboardStage.close();  // Close the dashboard
+            setupLoginStage(new Stage());  // Show the login stage again
+        });
+
+        dashboardStage.show();
+    }
 }

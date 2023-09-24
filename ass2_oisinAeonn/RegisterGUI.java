@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import ass2_oisinAeonn.model.User;
+import ass2_oisinAeonn.Model.User;
 
 public class RegisterGUI {
 
