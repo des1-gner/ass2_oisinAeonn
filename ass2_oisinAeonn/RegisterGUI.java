@@ -15,6 +15,8 @@ import java.util.LinkedHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import ass2_oisinAeonn.model.User;
+
 public class RegisterGUI {
 
     private Pane pane;

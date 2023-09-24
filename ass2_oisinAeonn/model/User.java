@@ -1,4 +1,4 @@
-package ass2_oisinAeonn;
+package ass2_oisinAeonn.model;
 
 public class User {
 
