@@ -51,24 +51,35 @@ public class Main extends Application {
     }
 
     private void setupDashboardStage(String username) {
-        DashboardGUI dashboardView = new DashboardGUI(username);
-        Stage dashboardStage = new Stage();
-        Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
-        dashboardStage.setTitle("Social Media Analyzer App - Dashboard");
-        dashboardStage.setScene(dashboardScene);
-
-        dashboardView.setOnLogoutEvent(() -> {
-            dashboardStage.close();  // Close the dashboard
-            setupLoginStage(new Stage());  // Show the login stage again
-        });
-
-        dashboardStage.show();
-    }
+      DashboardGUI dashboardView = new DashboardGUI(username);
+      Stage dashboardStage = new Stage();
+      Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
+      
+      // Setting up the Profile Scene
+      ProfileGUI profileView = new ProfileGUI(username);
+      Scene profileScene = new Scene(profileView.getPane(), 400, 300);
+      // dashboardView.setProfileScene(profileScene, dashboardStage);
+  
+      // Setting up the Upgrade Account Scene
+      UpgradeAccountGUI upgradeAccountView = new UpgradeAccountGUI();
+      Scene upgradeAccountScene = new Scene(upgradeAccountView.getPane(), 400, 300);
+      // dashboardView.setUpgradeAccountScene(upgradeAccountScene, dashboardStage);
+  
+      dashboardStage.setTitle("Social Media Analyzer App - Dashboard");
+      dashboardStage.setScene(dashboardScene);
+  
+      dashboardView.setOnLogoutEvent(() -> {
+          dashboardStage.close();  // Close the dashboard
+          setupLoginStage(new Stage());  // Show the login stage again
+      });
+  
+      dashboardStage.show();
+  } 
 
     private void setupVIPDashboardStage(String username) {
       VIPDashboardGUI vipDashboardView = new VIPDashboardGUI(username);
       Stage vipDashboardStage = new Stage();
-      Scene vipDashboardScene = new Scene(vipDashboardView.getPane(), 700, 450);  // Assuming VIP dashboard might be slightly bigger
+      Scene vipDashboardScene = new Scene(vipDashboardView.getPane(), 700, 450);  
       vipDashboardStage.setTitle("Social Media Analyzer App - VIP Dashboard");
       vipDashboardStage.setScene(vipDashboardScene);
 

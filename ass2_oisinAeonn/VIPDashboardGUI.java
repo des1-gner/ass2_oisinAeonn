@@ -9,11 +9,10 @@ public class VIPDashboardGUI extends DashboardGUI {
     private Button vipFeatureButton;
 
     public VIPDashboardGUI(String username) {
-
+    
         super(username); // Initialize the base dashboard
-
         setupVIPFeatures(); // Add additional VIP features
-
+    
     }
 
     private void setupVIPFeatures() {
@@ -25,7 +24,7 @@ public class VIPDashboardGUI extends DashboardGUI {
         vipFeatureButton.setOnAction(e -> {
         
             // Handle VIP-specific action here
-        
+    
         });
 
         VBox vipBox = new VBox(vipFeatureButton);  // A container for all VIP specific features
