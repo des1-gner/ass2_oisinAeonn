@@ -16,7 +16,7 @@ public class DatabaseConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final String url = "jdbc:mysql://localhost/creator";
+		final String url = "jdbc:mysql://localhost/ass2";
 		// user
 		final String user = "root";
 		// pass
@@ -65,7 +65,7 @@ public class DatabaseConnector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		final String url = "jdbc:mysql://localhost/creator";
+		final String url = "jdbc:mysql://localhost/ass2";
 		final String user = "root";
 		final String password = "";
 		Connection con = null;

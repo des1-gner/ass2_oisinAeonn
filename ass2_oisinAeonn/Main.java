@@ -64,4 +64,21 @@ public class Main extends Application {
 
         dashboardStage.show();
     }
+
+    private void setupVIPDashboardStage(String username) {
+      VIPDashboardGUI vipDashboardView = new VIPDashboardGUI(username);
+      Stage vipDashboardStage = new Stage();
+      Scene vipDashboardScene = new Scene(vipDashboardView.getPane(), 700, 450);  // Assuming VIP dashboard might be slightly bigger
+      vipDashboardStage.setTitle("Social Media Analyzer App - VIP Dashboard");
+      vipDashboardStage.setScene(vipDashboardScene);
+
+      vipDashboardView.setOnLogoutEvent(() -> {
+          vipDashboardStage.close();
+          setupLoginStage(new Stage());
+      });
+
+      // You can add any VIP-specific event handlers here
+
+      vipDashboardStage.show();
+  }
 }
