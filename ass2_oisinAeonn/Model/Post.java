@@ -16,10 +16,11 @@ public class Post implements Serializable {
   private int likes;
   private int shares;
   private String dateTime;
+  private String image;
 
   // Post Class Attributes / Properties / Fields.
 
-  public Post (int postId, String content, String author, int likes, int shares, String dateTime) {
+  public Post (int postId, String content, String author, int likes, int shares, String dateTime, String image) {
 
     this.postId = postId;
     this.content = content;
@@ -27,6 +28,7 @@ public class Post implements Serializable {
     this.likes = likes;
     this.shares = shares;
     this.dateTime = dateTime;
+    this.image = image;
 
   }
 
@@ -68,30 +70,18 @@ public class Post implements Serializable {
 
   }
 
+  public String getImage () {
+
+    return image;
+
+  }
+
   // ToString Output of the Object Post.
  
   @Override
   
   public String toString() {
-    
-    return postId + "," +
-
-           content + "," +
-    
-           author + "," +
-    
-           likes + "," +
-    
-           shares + "," +
-    
-           dateTime;
-
-  }
-
-  public int getText() {
-  
-    return 0;
-
-  }
+    return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
+}
   
 }

@@ -1,4 +1,4 @@
-package ass2_oisinAeonn;
+package ass2_oisinAeonn.UI;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -6,11 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-public class ProfileGUI {
+public class ProfileView {
     
     private VBox vbox;
     
-    public ProfileGUI(String username, Runnable onBackButtonPressed) {
+    public ProfileView(String username, Runnable onBackButtonPressed) {
     
         vbox = new VBox(10);
         
@@ -30,7 +30,7 @@ public class ProfileGUI {
     
     // Overloaded constructor to maintain the compatibility with previous codes
     
-    public ProfileGUI(String username) {
+    public ProfileView(String username) {
     
         vbox = new VBox(10);
         

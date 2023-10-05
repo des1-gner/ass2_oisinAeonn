@@ -6,15 +6,19 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
+    private boolean vip;
+    private boolean admin;
 
     // Constructors
     
-    public User(String username, String firstName, String lastName, String password) {
+    public User(String username, String firstName, String lastName, String password, boolean vip, boolean admin) {
     
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password; 
+        this.password = password;
+        this.vip = vip;
+        this.admin = admin;
     
     }
 
@@ -44,6 +48,18 @@ public class User {
     
     }
 
+    public boolean isVip() {
+    
+        return vip;
+    
+    }
+
+    public boolean isAdmin() {
+    
+        return admin;
+    
+    }
+
     // Setters
     
     public void setUsername(String username) {
@@ -70,11 +86,23 @@ public class User {
     
     }
 
+    public void setVip(boolean vip) {
+    
+        this.vip = vip;
+    
+    }
+
+    public void setAdmin(boolean admin) {
+    
+        this.admin = admin;
+    
+    }
+
     @Override
     
     public String toString() {
     
-        return String.join(",", username, firstName, lastName, password);
+        return String.join(",", username, firstName, lastName, password, String.valueOf(vip), String.valueOf(admin));
     
     }
 

@@ -1,14 +1,14 @@
-package ass2_oisinAeonn;
+package ass2_oisinAeonn.UI;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
-public class VIPDashboardGUI extends DashboardGUI {
+public class VIPView extends DashboardView {
 
     private Button vipFeatureButton;
 
-    public VIPDashboardGUI(String username) {
+    public VIPView(String username) {
     
         super(username); // Initialize the base dashboard
         setupVIPFeatures(); // Add additional VIP features

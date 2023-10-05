@@ -1,5 +1,5 @@
 package ass2_oisinAeonn.Controllers;
 
-public class VIPDashboardController {
+public class VIPController {
     
 }

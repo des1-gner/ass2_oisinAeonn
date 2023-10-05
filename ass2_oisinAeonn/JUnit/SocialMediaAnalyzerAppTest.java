@@ -5,8 +5,8 @@ package ass2_oisinAeonn.JUnit;
 import org.junit.Before;
 import org.junit.Test;
 
-import ass2_oisinAeonn.SocialMediaAnalyzerApp;
 import ass2_oisinAeonn.Model.Post;
+import ass2_oisinAeonn.UI.SocialMediaAnalyzerApp;
 
 import static org.junit.Assert.*;
 

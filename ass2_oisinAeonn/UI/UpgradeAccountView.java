@@ -1,14 +1,14 @@
-package ass2_oisinAeonn;
+package ass2_oisinAeonn.UI;
 
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
-public class UpgradeAccountGUI {
+public class UpgradeAccountView {
 
     private VBox vbox;
     
-    public UpgradeAccountGUI() {
+    public UpgradeAccountView() {
         
         vbox = new VBox(10);
         
@@ -20,7 +20,7 @@ public class UpgradeAccountGUI {
     
     }
     
-    public UpgradeAccountGUI(Object object) {
+    public UpgradeAccountView(Object object) {
     
     }
 
