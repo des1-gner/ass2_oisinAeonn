@@ -1,4 +1,4 @@
-package ass2_oisinAeonn.Util;
+package ass2_oisinAeonn.Graphics;
 
 public class ChartGenerator {
     
