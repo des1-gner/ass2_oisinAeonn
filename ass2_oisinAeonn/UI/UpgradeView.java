@@ -4,11 +4,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
-public class UpgradeAccountView {
+public class UpgradeView {
 
     private VBox vbox;
     
-    public UpgradeAccountView() {
+    public UpgradeView() {
         
         vbox = new VBox(10);
         
@@ -20,7 +20,7 @@ public class UpgradeAccountView {
     
     }
     
-    public UpgradeAccountView(Object object) {
+    public UpgradeView(Object object) {
     
     }
 

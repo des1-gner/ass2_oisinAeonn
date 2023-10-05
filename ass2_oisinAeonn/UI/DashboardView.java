@@ -22,9 +22,9 @@ public class DashboardView {
     private TextArea postList, searchResultsArea;
     private DatePicker datePicker;
     private ImageView postImageView;
-    private TextField postContentField;
-    private Button postButton;
-    private FileChooser fileChooser;
+    private TextField postContentField, searchField;
+    private Button postButton, uploadImageButton, deleteButton, retrieveButton;
+    private MenuItem profileItem, upgradeAccountItem, logoutItem;
 
     public DashboardView(String username) {
         
@@ -39,10 +39,9 @@ public class DashboardView {
         menuIcon.setFitWidth(16);
         menuButton = new MenuButton("", menuIcon);
         menuButton.setStyle("-fx-background-insets:0; -fx-padding:0;");
-
-        MenuItem profileItem = new MenuItem("Profile");
-        MenuItem upgradeAccountItem = new MenuItem("Upgrade Account");
-        MenuItem logoutItem = new MenuItem("Logout");
+        profileItem = new MenuItem("Profile");
+        upgradeAccountItem = new MenuItem("Upgrade Account");
+        logoutItem = new MenuItem("Logout");
         menuButton.getItems().addAll(profileItem, upgradeAccountItem, logoutItem);
 
         topHBox = new HBox(10, welcomeLabel, menuButton);
@@ -52,11 +51,15 @@ public class DashboardView {
         // Set up the tabs
         tabPane = new TabPane();
 
+        postImageView = new ImageView();
+        uploadImageButton = new Button("Upload Image");
+        
         VBox addPostVBox = new VBox(10, 
             postContentField = new TextField(),
             datePicker = new DatePicker(LocalDate.now()), // Set the current date as default
+            uploadImageButton,
+            postImageView,
             postButton = new Button("Post"),
-            new Button("Upload Image"), // Opens the file explorer
             postList = new TextArea()
         );
         addPostVBox.setPadding(new Insets(15));
@@ -71,9 +74,14 @@ public class DashboardView {
         addPostTab.setClosable(false);
 
         // Search Tab components
+        searchField = new TextField();
+        searchField.setPromptText("Enter Post ID...");
+        deleteButton = new Button("Delete Post");
+        retrieveButton = new Button("Retrieve Post");
         searchResultsArea = new TextArea();
         searchResultsArea.setEditable(false);
-        VBox searchVBox = new VBox(10, new TextField(), new Button("Search"), new Button("Delete Post"), new Button("Retrieve Post"), searchResultsArea);
+        
+        VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, searchResultsArea);
 
         Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
@@ -81,47 +89,60 @@ public class DashboardView {
         tabPane.getTabs().addAll(addPostTab, searchTab);
 
         dashboardVBox.getChildren().addAll(topHBox, tabPane);
-
     }
 
     public void setPostImageView(Image img) {
         postImageView.setImage(img);
     }
 
-    // Getters for the controller to use
-    public TextArea getPostList() {
-        return postList;
+    // ... rest of the getters ...
+
+    public Button getDeleteButton() {
+        return deleteButton;
     }
 
-    public TextField getPostContentField() {
-        return postContentField;
+    public Button getRetrieveButton() {
+        return retrieveButton;
+    }
+
+    public TextField getSearchField() {
+        return searchField;
+    }
+
+    public Button getUploadImageButton() {
+        return uploadImageButton;
     }
 
     public Button getPostButton() {
         return postButton;
     }
-
-    public DatePicker getDatePicker() {
-        return datePicker;
+    
+    public MenuItem getProfileMenuItem() {
+        return profileItem;
     }
-
-    public FileChooser getFileChooser() {
-        return fileChooser;
+    
+    public MenuItem getUpgradeAccountMenuItem() {
+        return upgradeAccountItem;
     }
+    
+    public MenuItem getLogoutMenuItem() {
+        return logoutItem;
+    }
+    
+    public TextField getPostContentField() {
+        return postContentField;
+    }
+    
 
-    public Button getUploadImageButton() {
-        return getUploadImageButton();
-    }    
+    public File showImageFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select an Image");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
+        return fileChooser.showOpenDialog(null);
+    }
 
     public Parent getPane() {
         return dashboardVBox;
     }
-
-    public File showImageFileChooser() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Select an Image");
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
-    return fileChooser.showOpenDialog(null);
-}
-
+    
 }
