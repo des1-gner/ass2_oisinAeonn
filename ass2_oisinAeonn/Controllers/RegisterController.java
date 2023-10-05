@@ -26,7 +26,7 @@ public class RegisterController {
         String lastName = view.getLastNameField().getText();
         String password = hashPassword(view.getPasswordField().getText());
 
-        User user = new User(username, firstName, lastName, password, false, false);
+        User user = new User(username, firstName, lastName, password, null);
 
         try {
             if (DatabaseConnector.checkIfUserExists(username)) {

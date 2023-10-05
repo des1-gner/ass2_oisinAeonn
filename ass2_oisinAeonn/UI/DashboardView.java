@@ -1,29 +1,33 @@
 package ass2_oisinAeonn.UI;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+
+import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class DashboardView {
-    
+
     private VBox dashboardVBox;
+    private HBox topHBox; // For welcome label and menu
     private Label welcomeLabel;
     private TabPane tabPane;
     private MenuButton menuButton;
-    private TextArea postList;
+    private TextArea postList, searchResultsArea;
     private DatePicker datePicker;
     private ImageView postImageView;
-    private TextField postIdField, postContentField, authorField;
+    private TextField postContentField;
     private Button postButton;
+    private FileChooser fileChooser;
 
     public DashboardView(String username) {
+        
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
 
@@ -41,36 +45,47 @@ public class DashboardView {
         MenuItem logoutItem = new MenuItem("Logout");
         menuButton.getItems().addAll(profileItem, upgradeAccountItem, logoutItem);
 
+        topHBox = new HBox(10, welcomeLabel, menuButton);
+        HBox.setHgrow(welcomeLabel, Priority.ALWAYS);
+        topHBox.setAlignment(Pos.CENTER_RIGHT);
+
         // Set up the tabs
         tabPane = new TabPane();
 
         VBox addPostVBox = new VBox(10, 
-            postIdField = new TextField(),
             postContentField = new TextField(),
-            authorField = new TextField(),
-            datePicker = new DatePicker(),
+            datePicker = new DatePicker(LocalDate.now()), // Set the current date as default
             postButton = new Button("Post"),
+            new Button("Upload Image"), // Opens the file explorer
             postList = new TextArea()
         );
         addPostVBox.setPadding(new Insets(15));
 
         postList.setEditable(false);
         postList.setPromptText("Posts will be displayed here...");
-        postIdField.setPromptText("Post ID");
         postContentField.setPromptText("Content");
-        authorField.setPromptText("Author");
         datePicker.setPromptText("Date of Post");
+        datePicker.setEditable(false);  // To make sure users can't change the date
 
         Tab addPostTab = new Tab("Add Post", addPostVBox);
         addPostTab.setClosable(false);
 
-        Tab searchTab = new Tab("Search");
+        // Search Tab components
+        searchResultsArea = new TextArea();
+        searchResultsArea.setEditable(false);
+        VBox searchVBox = new VBox(10, new TextField(), new Button("Search"), new Button("Delete Post"), new Button("Retrieve Post"), searchResultsArea);
+
+        Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
-        // You can add the search content for the searchTab here as you did previously.
 
         tabPane.getTabs().addAll(addPostTab, searchTab);
 
-        dashboardVBox.getChildren().addAll(welcomeLabel, tabPane, menuButton);
+        dashboardVBox.getChildren().addAll(topHBox, tabPane);
+
+    }
+
+    public void setPostImageView(Image img) {
+        postImageView.setImage(img);
     }
 
     // Getters for the controller to use
@@ -78,16 +93,8 @@ public class DashboardView {
         return postList;
     }
 
-    public TextField getPostIdField() {
-        return postIdField;
-    }
-
     public TextField getPostContentField() {
         return postContentField;
-    }
-
-    public TextField getAuthorField() {
-        return authorField;
     }
 
     public Button getPostButton() {
@@ -98,7 +105,23 @@ public class DashboardView {
         return datePicker;
     }
 
+    public FileChooser getFileChooser() {
+        return fileChooser;
+    }
+
+    public Button getUploadImageButton() {
+        return getUploadImageButton();
+    }    
+
     public Parent getPane() {
         return dashboardVBox;
     }
+
+    public File showImageFileChooser() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Select an Image");
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
+    return fileChooser.showOpenDialog(null);
+}
+
 }

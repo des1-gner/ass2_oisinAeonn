@@ -38,7 +38,7 @@ public class DatabaseConnector {
     }
 
     public static void registerUser(User user) {
-        String sql = "INSERT INTO users (username, firstName, lastName, password, vip, admin) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, firstName, lastName, password, userType) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
@@ -46,8 +46,7 @@ public class DatabaseConnector {
             stmt.setString(2, user.getFirstName());
             stmt.setString(3, user.getLastName());
             stmt.setString(4, user.getPassword());
-            stmt.setBoolean(5, user.isVip());
-            stmt.setBoolean(6, user.isAdmin());
+            stmt.setString(5, user.getUserType());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -71,7 +70,7 @@ public class DatabaseConnector {
 
 
     public static void upgradeUserToVIP(String username) {
-        String sql = "UPDATE users SET vip = TRUE WHERE username = ?";
+        String sql = "UPDATE users SET userType = VIP WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -83,7 +82,7 @@ public class DatabaseConnector {
     }
 
     public static void upgradeUserToAdmin(String username) {
-        String sql = "UPDATE users SET admin = TRUE WHERE username = ?";
+        String sql = "UPDATE users SET userType = admin WHERE username = ?";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

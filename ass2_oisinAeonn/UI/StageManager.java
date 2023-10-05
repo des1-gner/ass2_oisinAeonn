@@ -24,10 +24,19 @@ public class StageManager {
         currentStage.setTitle("Data Analytics Hub - Login");
         currentStage.setScene(loginScene);
 
-        loginController.setOnLoginSuccessEvent(user -> {
+        loginController.setOnLoginSuccessEvent(userType -> { // Assuming userType is a String
             closeCurrentStage();
-            setupDashboardStage(user);
+            String username = loginView.getUsernameField().getText(); // Get the username from the login view
+        
+            if ("Admin".equals(userType)) {
+                setupAdminStage(username);
+            } else if ("VIP".equals(userType)) {
+                setupVIPStage(username);
+            } else {
+                setupDashboardStage(username);
+            }            
         });
+        
 
         loginController.setOnRegisterEvent(() -> {
             closeCurrentStage();
@@ -35,12 +44,6 @@ public class StageManager {
         });
 
         currentStage.show();
-    }
-
-    private void closeCurrentStage() {
-        if (currentStage != null) {
-            currentStage.close();
-        }
     }
 
     public void setupRegisterStage() {
@@ -88,4 +91,11 @@ public class StageManager {
         currentStage.setScene(adminScene);
         currentStage.show();
     }
+
+    private void closeCurrentStage() {
+        if (currentStage != null) {
+            currentStage.close();
+        }
+    }
+    
 }

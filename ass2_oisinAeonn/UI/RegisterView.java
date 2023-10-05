@@ -86,13 +86,4 @@ public void setOnBackEvent(Runnable onBackEvent) {
     this.onBackEvent = onBackEvent;
 }
 
-// Inside handleBack() method in RegisterView (if you have one)
-
-private void handleBack() {
-    if (onBackEvent != null) {
-        onBackEvent.run();
-    }
-}
-
-
 }

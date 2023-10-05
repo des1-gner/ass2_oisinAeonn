@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class LoginView {
 
@@ -12,6 +13,7 @@ public class LoginView {
     private PasswordField passwordField;
     private Button loginButton;
     private Button registerButton;
+    private Label errorLabel;  // This is the new error label
 
     public LoginView() {
         pane = new VBox(10);
@@ -26,7 +28,10 @@ public class LoginView {
         loginButton = new Button("Login");
         registerButton = new Button("Register");
 
-        pane.getChildren().addAll(usernameField, passwordField, loginButton, registerButton);
+        errorLabel = new Label();  // Initialize the error label
+        errorLabel.setTextFill(Color.RED);  // Set error text color to red
+
+        pane.getChildren().addAll(usernameField, passwordField, loginButton, registerButton, errorLabel);
     }
 
     public TextField getUsernameField() {
@@ -47,5 +52,10 @@ public class LoginView {
 
     public Parent getPane() {
         return pane;
+    }
+
+    // New getter for the error label
+    public Label getErrorLabel() {
+        return errorLabel;
     }
 }
