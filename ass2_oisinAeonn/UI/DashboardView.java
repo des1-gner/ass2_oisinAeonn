@@ -11,14 +11,12 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.time.LocalDate;
-
 import ass2_oisinAeonn.Model.Post;
 
 public class DashboardView {
 
     private VBox dashboardVBox;
-    private HBox topHBox; // For welcome label and menu
+    private HBox topHBox;
     private Label welcomeLabel;
     private TabPane tabPane;
     private MenuButton menuButton;
@@ -29,28 +27,23 @@ public class DashboardView {
     private Button postButton, uploadImageButton, deleteButton, retrieveButton;
     private MenuItem profileItem, upgradeItem, logoutItem;
     private Button filterButton;
-    private RadioButton postIdRadio;
-    private RadioButton likesRadio;
-    private RadioButton sharesRadio;
+    private RadioButton postIdRadio, dateRadio, likesRadio, sharesRadio;
     private ToggleGroup radioGroup;
     private TextField retrieveCountField;
     private ComboBox<String> sortOrderComboBox;
     private int likes;
     private int shares;
-    private TableView<Post> trendingPostsTable;
+    private ListView<Post> postsListView;
 
     public DashboardView(String username) {
-        
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
         postContentField = new TextField();
-postButton = new Button("Post");
-postList = new TextArea();
-datePicker = new DatePicker();
+        postButton = new Button("Post");
+        postList = new TextArea();
+        datePicker = new DatePicker();
 
         welcomeLabel = new Label("Welcome, " + username + "!");
-
-        // Setting up the menu
         ImageView menuIcon = new ImageView(new Image("file:assets/menu.png"));
         menuIcon.setFitHeight(16);
         menuIcon.setFitWidth(16);
@@ -65,46 +58,41 @@ datePicker = new DatePicker();
         HBox.setHgrow(welcomeLabel, Priority.ALWAYS);
         topHBox.setAlignment(Pos.CENTER_RIGHT);
 
-        // Set up the tabs
         tabPane = new TabPane();
-
         postImageView = new ImageView();
         uploadImageButton = new Button("Upload Image");
-        
+
         Label likesLabel = new Label("Likes:");
-likesField = new TextField("0");
-likesField.setEditable(true);  // Assuming users can't manually set likes.
+        likesField = new TextField("0");
+        likesField.setEditable(true);
 
-Label sharesLabel = new Label("Shares:");
-sharesField = new TextField("0");
-sharesField.setEditable(true);  // Assuming users can't manually set shares.
+        Label sharesLabel = new Label("Shares:");
+        sharesField = new TextField("0");
+        sharesField.setEditable(true);
 
-// ... other components ...
-
-VBox addPostVBox = new VBox(10, 
-    postContentField,
-    likesLabel,
-    likesField,
-    sharesLabel,
-    sharesField,
-    datePicker,
-    uploadImageButton,
-    postImageView,
-    postButton,
-    postList
-);
+        VBox addPostVBox = new VBox(10, 
+            postContentField,
+            likesLabel,
+            likesField,
+            sharesLabel,
+            sharesField,
+            datePicker,
+            uploadImageButton,
+            postImageView,
+            postButton,
+            postList
+        );
         addPostVBox.setPadding(new Insets(15));
 
         postList.setEditable(false);
         postList.setPromptText("Posts will be displayed here...");
         postContentField.setPromptText("Content");
         datePicker.setPromptText("Date of Post");
-        datePicker.setEditable(false);  // To make sure users can't change the date
+        datePicker.setEditable(false);
 
         Tab addPostTab = new Tab("Add Post", addPostVBox);
         addPostTab.setClosable(false);
 
-        // Search Tab components
         searchField = new TextField();
         searchField.setPromptText("Enter Post ID...");
         deleteButton = new Button("Delete Post");
@@ -113,61 +101,66 @@ VBox addPostVBox = new VBox(10,
         searchResultsArea.setEditable(false);
         
         VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, searchResultsArea);
-
         Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
 
         Tab trendingTab = new Tab("Trending");
+        trendingTab.setClosable(false);
         tabPane.getTabs().addAll(addPostTab, searchTab, trendingTab);
-
-
         dashboardVBox.getChildren().addAll(topHBox, tabPane);
 
         postImageView.setFitHeight(100);
-postImageView.setFitWidth(100);
-postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ratio is maintained
-
-    // New Trending Tab
-        
+        postImageView.setFitWidth(100);
+        postImageView.setPreserveRatio(true);
 
         VBox layout = new VBox();
         HBox controls = new HBox();
-        
+
         filterButton = new Button("Filter");
-        
         radioGroup = new ToggleGroup();
         postIdRadio = new RadioButton("Post ID");
+        dateRadio = new RadioButton("Date");
+        postIdRadio.setSelected(true);
         likesRadio = new RadioButton("Likes");
         sharesRadio = new RadioButton("Shares");
-        
         postIdRadio.setToggleGroup(radioGroup);
+        dateRadio.setToggleGroup(radioGroup);
         likesRadio.setToggleGroup(radioGroup);
         sharesRadio.setToggleGroup(radioGroup);
-
         retrieveCountField = new TextField();
         retrieveCountField.setPromptText("Number of posts (up to 100)");
-        
-
         sortOrderComboBox = new ComboBox<>();
         sortOrderComboBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
+        sortOrderComboBox.setValue("Descending");
+        controls.getChildren().addAll(filterButton, postIdRadio, dateRadio, likesRadio, sharesRadio, retrieveCountField, sortOrderComboBox);
+        postsListView = new ListView<>();
+        setupPostsListView();
+        layout.getChildren().addAll(controls, postsListView);
+        trendingTab.setContent(layout);
+    }
 
-        controls.getChildren().addAll(filterButton, postIdRadio, likesRadio, sharesRadio, retrieveCountField, sortOrderComboBox);
-        
-        trendingPostsTable = new TableView<>();
-
-        getTrendingPostsTable();
-
-        layout.getChildren().addAll(controls, trendingPostsTable);
-        
-        trendingTab.setContent(layout);    
-
+    private void setupPostsListView() {
+        postsListView.setCellFactory(postsListView -> new ListCell<Post>() {
+            @Override
+            protected void updateItem(Post post, boolean empty) {
+                super.updateItem(post, empty);
+                if (post == null || empty) {
+                    setText(null);
+                } else {
+                    String displayText = "Author: " + post.getAuthor() + 
+                        "\nContent: " + post.getContent() +
+                        "\nLikes: " + post.getLikes() +
+                        "\nShares: " + post.getShares() + 
+                        "\nDateTime: " + post.getDateTime();
+                    setText(displayText);
+                }
+            }
+        });
     }
 
     public void setPostImageView(Image img) {
         postImageView.setImage(img);
     }
-
-    // ... rest of the getters ...
 
     public Button getDeleteButton() {
         return deleteButton;
@@ -179,6 +172,14 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
 
     public RadioButton getPostIdRadio() {
         return postIdRadio;
+    }
+
+    public ToggleGroup getRadioGroup() {
+        return radioGroup;
+    }
+
+    public RadioButton getDateRadio() {
+        return dateRadio;
     }
 
     public RadioButton getLikesRadio() {
@@ -201,6 +202,10 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
         return retrieveButton;
     }
 
+    public TextArea getSearchResultsArea() {
+        return searchResultsArea;
+    }
+
     public TextField getSearchField() {
         return searchField;
     }
@@ -216,28 +221,26 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public TextField getLikesField() {
         return likesField;
     }
-    
+
     public TextField getSharesField() {
         return sharesField;
     }
-    
-    
+
     public MenuItem getProfileMenuItem() {
         return profileItem;
     }
-    
+
     public MenuItem getUpgradeMenuItem() {
         return upgradeItem;
     }
-    
+
     public MenuItem getLogoutMenuItem() {
         return logoutItem;
     }
-    
+
     public TextField getPostContentField() {
         return postContentField;
     }
-    
 
     public File showImageFileChooser() {
         FileChooser fileChooser = new FileChooser();
@@ -249,7 +252,7 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public VBox getProfileView() {
         VBox profileVBox = new VBox(new Label("Profile View"));
         Button backButton = new Button("Back to Dashboard");
-        backButton.setOnAction(e -> setDashboardContent()); // We will need to modify this action in the controller
+        backButton.setOnAction(e -> setDashboardContent());
         profileVBox.getChildren().add(backButton);
         return profileVBox;
     }
@@ -257,11 +260,11 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public VBox getUpgradeView() {
         VBox upgradeVBox = new VBox(new Label("Upgrade Account View"));
         Button backButton = new Button("Back to Dashboard");
-        backButton.setOnAction(e -> setDashboardContent()); // We will need to modify this action in the controller
+        backButton.setOnAction(e -> setDashboardContent());
         upgradeVBox.getChildren().add(backButton);
         return upgradeVBox;
     }
-    
+
     private Object setDashboardContent() {
         return dashboardVBox;
     }
@@ -269,7 +272,7 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public void setLikes(int likes) {
         this.likes = likes;
     }
-    
+
     public void setShares(int shares) {
         this.shares = shares;
     }
@@ -286,9 +289,7 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
         return datePicker;
     }
 
-	public TableView<Post> getTrendingPostsTable() {
-    return trendingPostsTable;
-}
-    
-    
+    public ListView<Post> getPostsListView() {
+        return postsListView;
+    }
 }

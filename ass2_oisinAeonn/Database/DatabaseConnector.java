@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import ass2_oisinAeonn.Model.Post;
@@ -23,6 +23,16 @@ public class DatabaseConnector {
         return DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
     }
     
+    public static void testConnection() {
+    try (Connection conn = getConnection()) {
+        System.out.println("Connection successful!");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.out.println("Failed to establish connection.");
+    }
+}
+
+
     public static void insertPost(Post post) {
         String sql = "INSERT INTO posts (author, content, likes, shares, dateTime, image) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
@@ -110,43 +120,94 @@ public class DatabaseConnector {
         return dateTime.format(formatter);
     }
 
-    public static Post getPostById(int postId) {
-        String sql = "SELECT * FROM posts WHERE postId = ?";
-        Post post = null;
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, postId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                post = new Post();
-                post.setAuthor(rs.getString("author"));
-                post.setContent(rs.getString("content"));
-                post.setLikes(rs.getInt("likes"));
-                post.setShares(rs.getInt("shares"));
-                post.setDateTime(rs.getString("dateTime"));
-                post.setImage(rs.getString("image"));
-                // set other fields as necessary
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    // Inside DatabaseConnector.java
+
+public static Post getPostById(int postId) {
+    String sql = "SELECT * FROM posts WHERE postId = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+         
+        stmt.setInt(1, postId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Post post = new Post();
+            post.setAuthor(rs.getString("author"));
+            post.setContent(rs.getString("content"));
+            post.setLikes(rs.getInt("likes"));
+            post.setShares(rs.getInt("shares"));
+            post.setDateTime(rs.getString("dateTime"));
+            post.setImage(rs.getString("image"));
+            return post;
         }
-        return post;
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return null;
+}
+
+public static void deletePostById(int postId) {
+    String sql = "DELETE FROM posts WHERE postId = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+         
+        stmt.setInt(1, postId);
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+public static List<Post> getFilteredPosts(String filterBy, int numPosts, String sortOrder) {
+    List<Post> posts = new ArrayList<>();
+    
+    // Building the SQL query string
+    String query = "SELECT * FROM posts ORDER BY ";
+    
+    switch (filterBy) {
+        case "Post ID":
+            query += "postId";
+            break;
+        
+        case "Date":
+            query += "dateTime";
+            break;
+
+        case "Likes":
+            query += "likes";
+            break;
+
+        case "Shares":
+            query += "shares";
+            break;
     }
 
-    public static void deletePostById(int postId) {
-        String sql = "DELETE FROM posts WHERE postId = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, postId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    query += " " + sortOrder.toUpperCase() + " LIMIT " + numPosts;
+
+    // Debug: Print the query to ensure it's correct
+    System.out.println(query);
+
+    // Execute the query and populate the posts list
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(query);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            Post post = new Post();
+            post.setAuthor(rs.getString("author"));
+            post.setContent(rs.getString("content"));
+            post.setLikes(rs.getInt("likes"));
+            post.setShares(rs.getInt("shares"));
+            post.setDateTime(rs.getString("dateTime"));
+            post.setImage(rs.getString("image"));
+            posts.add(post);
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
 
-    public static List<Post> getFilteredTrendingPosts(String filterType, int retrieveCount, String sortOrder) {
-        return null;
-    }
-    
-    
+    return posts;
+}
+
+
+
 }

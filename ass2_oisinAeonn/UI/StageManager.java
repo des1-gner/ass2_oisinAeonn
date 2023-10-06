@@ -68,7 +68,7 @@ public class StageManager {
         DashboardController dashboardController = new DashboardController(dashboardView, this, username); // Linking view with controller
     
         currentStage = new Stage();
-        Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
+        Scene dashboardScene = new Scene(dashboardView.getPane(), 800, 600);
     
         currentStage.setTitle("Data Analytics Hub - Dashboard");
         currentStage.setScene(dashboardScene);

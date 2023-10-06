@@ -21,6 +21,7 @@ import ass2_oisinAeonn.UI.StageManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -40,7 +41,6 @@ public class DashboardController {
         this.post = new Post();
 
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
-        view.getFilterButton().setOnAction(e -> filterAndLoadTrendingPosts());
 
         attachHandlers();
     }
@@ -50,6 +50,8 @@ public class DashboardController {
         view.getProfileMenuItem().setOnAction(e -> showProfileScene());
         view.getUpgradeMenuItem().setOnAction(e -> showUpgradeScene());
         view.getLogoutMenuItem().setOnAction(e -> handleLogoutAction());
+        view.getRetrieveButton().setOnAction(e -> retrievePost());
+        view.getDeleteButton().setOnAction(e -> deletePost());
     }
 
     private void addPost() {
@@ -73,7 +75,6 @@ public class DashboardController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         String formattedDateTime = combinedDateTime.format(formatter);
         post.setDateTime(formattedDateTime);
-        System.out.println(post);
 
         if (content == null || content.trim().isEmpty()) {
             isError = true;
@@ -90,39 +91,6 @@ public class DashboardController {
             alert.setContentText("\nContent: " + content);
             alert.showAndWait();
         }
-    }
-
-    private void filterAndLoadTrendingPosts() {
-    String filterType = null;
-    if (view.getPostIdRadio().isSelected()) {
-        filterType = "postId";
-    } else if (view.getLikesRadio().isSelected()) {
-        filterType = "likes";
-    } else if (view.getSharesRadio().isSelected()) {
-        filterType = "shares";
-    }
-
-    int retrieveCount;
-    try {
-        retrieveCount = Integer.parseInt(view.getRetrieveCountField().getText().trim());
-        if (retrieveCount > 100) retrieveCount = 100;
-    } catch (NumberFormatException e) {
-        showAlert("Error", "Please enter a valid number of posts to retrieve.");
-        return;
-    }
-
-    String sortOrder = view.getSortOrderComboBox().getSelectionModel().getSelectedItem();
-
-    List<Post> trendingPosts = DatabaseConnector.getFilteredTrendingPosts(filterType, retrieveCount, sortOrder);
-    view.getTrendingPostsTable().getItems().setAll(trendingPosts);
-}
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     private void handleUploadImage() {
@@ -178,6 +146,15 @@ public class DashboardController {
         currentScene.setRoot(profileView);
     }
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+
     public void showUpgradeScene() {
         Scene currentScene = view.getPane().getScene();
         VBox upgradeView = view.getUpgradeView();
@@ -197,5 +174,42 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void retrievePost() {
+        int postId;
+        try {
+            postId = Integer.parseInt(view.getSearchField().getText());
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid Post ID");
+            return;
+        }
+    
+        Post post = DatabaseConnector.getPostById(postId);
+        if (post != null) {
+            view.getSearchResultsArea().setText(
+                "Author: " + post.getAuthor() + "\n" +
+                "Content: " + post.getContent() + "\n" +
+                "Likes: " + post.getLikes() + "\n" +
+                "Shares: " + post.getShares() + "\n" +
+                "DateTime: " + post.getDateTime() + "\n" +
+                "Image: " + post.getImage()
+            );
+        } else {
+            showAlert("Info", "No post found for the given ID.");
+        }
+    }
+    
+    private void deletePost() {
+        int postId;
+        try {
+            postId = Integer.parseInt(view.getSearchField().getText());
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Invalid Post ID");
+            return;
+        }
+    
+        DatabaseConnector.deletePostById(postId);
+        view.getSearchResultsArea().setText("Post successfully deleted.");
     }
 }
