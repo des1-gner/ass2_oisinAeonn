@@ -109,5 +109,40 @@ public class DatabaseConnector {
         LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
         return dateTime.format(formatter);
     }
+
+    public static Post getPostById(int postId) {
+        String sql = "SELECT * FROM posts WHERE postId = ?";
+        Post post = null;
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, postId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                post = new Post();
+                post.setAuthor(rs.getString("author"));
+                post.setContent(rs.getString("content"));
+                post.setLikes(rs.getInt("likes"));
+                post.setShares(rs.getInt("shares"));
+                post.setDateTime(rs.getString("dateTime"));
+                post.setImage(rs.getString("image"));
+                // set other fields as necessary
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return post;
+    }
+
+    public static void deletePostById(int postId) {
+        String sql = "DELETE FROM posts WHERE postId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, postId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
 }
