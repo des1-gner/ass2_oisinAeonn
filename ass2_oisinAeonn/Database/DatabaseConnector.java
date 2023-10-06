@@ -28,19 +28,19 @@ public class DatabaseConnector {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
-                // Print out the values of the Post object
-        System.out.println("Author: " + post.getAuthor());
-        System.out.println("Content: " + post.getContent());
-        System.out.println("Likes: " + post.getLikes());
-        System.out.println("Shares: " + post.getShares());
-        System.out.println("DateTime: " + post.getDateTime());
-        System.out.println("Image: " + post.getImage());
+            // Print out the values of the Post object
+            System.out.println("Author: " + post.getAuthor());
+            System.out.println("Content: " + post.getContent());
+            System.out.println("Likes: " + post.getLikes());
+            System.out.println("Shares: " + post.getShares());
+            System.out.println("DateTime: " + post.getDateTime());
+            System.out.println("Image: " + post.getImage());
             stmt.setString(1, post.getAuthor());
             stmt.setString(2, post.getContent());
             stmt.setInt(3, post.getLikes());
             stmt.setInt(4, post.getShares());
-            stmt.setString(5, formatDateTime(post.getDateTime()));
-            stmt.setString(6, post.getImage());  // Now a string, representing path or URL
+            stmt.setString(5, post.getDateTime());  // No need to format
+            stmt.setString(6, post.getImage());  // Assuming it's a string representing path or URL
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -105,7 +105,7 @@ public class DatabaseConnector {
     }
 
     private static String formatDateTime(String string) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
         return dateTime.format(formatter);
     }
