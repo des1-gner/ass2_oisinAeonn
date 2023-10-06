@@ -34,8 +34,14 @@ public class DashboardView {
     private int likes;
     private int shares;
     private ListView<Post> postsListView;
+    private ImageView searchedPostImageView;
 
     public DashboardView(String username) {
+
+        searchedPostImageView = new ImageView();
+searchedPostImageView.setFitHeight(100);
+searchedPostImageView.setFitWidth(100);
+searchedPostImageView.setPreserveRatio(true);
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
         postContentField = new TextField();
@@ -100,7 +106,7 @@ public class DashboardView {
         searchResultsArea = new TextArea();
         searchResultsArea.setEditable(false);
         
-        VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, searchResultsArea);
+        VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, searchedPostImageView, searchResultsArea);
         Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
 
@@ -292,4 +298,9 @@ public class DashboardView {
     public ListView<Post> getPostsListView() {
         return postsListView;
     }
+
+    public ImageView getSearchedPostImageView() {
+        return searchedPostImageView;
+    }
+
 }

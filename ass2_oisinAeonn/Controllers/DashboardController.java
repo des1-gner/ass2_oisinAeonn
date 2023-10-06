@@ -195,10 +195,24 @@ public class DashboardController {
                 "DateTime: " + post.getDateTime() + "\n" +
                 "Image: " + post.getImage()
             );
+    
+            // Display image if it exists
+            if (post.getImage() != null && !post.getImage().trim().isEmpty()) {
+                String imagePath = "file:" + post.getImage();
+                Image image = new Image(imagePath);
+                view.getSearchedPostImageView().setImage(image);
+            } else {
+                view.getSearchedPostImageView().setImage(null); // clear any previous image
+            }
+            
+            
+            
         } else {
+            view.getSearchedPostImageView().setImage(null); // clear any previous image
             showAlert("Info", "No post found for the given ID.");
         }
     }
+    
     
     private void deletePost() {
         int postId;
