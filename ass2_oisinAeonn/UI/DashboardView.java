@@ -22,7 +22,7 @@ public class DashboardView {
     private TextArea postList, searchResultsArea;
     private DatePicker datePicker;
     private ImageView postImageView;
-    private TextField postContentField, searchField;
+    private TextField postContentField, searchField, likesField, sharesField;
     private Button postButton, uploadImageButton, deleteButton, retrieveButton;
     private MenuItem profileItem, upgradeItem, logoutItem;
 
@@ -30,6 +30,10 @@ public class DashboardView {
         
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
+        postContentField = new TextField();
+postButton = new Button("Post");
+postList = new TextArea();
+datePicker = new DatePicker();
 
         welcomeLabel = new Label("Welcome, " + username + "!");
 
@@ -54,14 +58,28 @@ public class DashboardView {
         postImageView = new ImageView();
         uploadImageButton = new Button("Upload Image");
         
-        VBox addPostVBox = new VBox(10, 
-            postContentField = new TextField(),
-            datePicker = new DatePicker(LocalDate.now()), // Set the current date as default
-            uploadImageButton,
-            postImageView,
-            postButton = new Button("Post"),
-            postList = new TextArea()
-        );
+        Label likesLabel = new Label("Likes:");
+likesField = new TextField("0");
+likesField.setEditable(true);  // Assuming users can't manually set likes.
+
+Label sharesLabel = new Label("Shares:");
+sharesField = new TextField("0");
+sharesField.setEditable(true);  // Assuming users can't manually set shares.
+
+// ... other components ...
+
+VBox addPostVBox = new VBox(10, 
+    postContentField,
+    likesLabel,
+    likesField,
+    sharesLabel,
+    sharesField,
+    datePicker,
+    uploadImageButton,
+    postImageView,
+    postButton,
+    postList
+);
         addPostVBox.setPadding(new Insets(15));
 
         postList.setEditable(false);
@@ -121,6 +139,15 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public Button getPostButton() {
         return postButton;
     }
+
+    public TextField getLikesField() {
+        return likesField;
+    }
+    
+    public TextField getSharesField() {
+        return sharesField;
+    }
+    
     
     public MenuItem getProfileMenuItem() {
         return profileItem;
@@ -166,6 +193,15 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
         return dashboardVBox;
     }
 
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+    
+    public void setShares(int shares) {
+        this.shares = shares;
+    }
+    
+
     public VBox getDashboardView() {
         return dashboardVBox;
     }
@@ -173,5 +209,10 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public Parent getPane() {
         return dashboardVBox;
     }
+
+    public DatePicker getDatePicker() {
+        return datePicker;
+    }
+    
     
 }

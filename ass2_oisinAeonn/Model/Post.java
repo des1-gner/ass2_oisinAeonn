@@ -91,7 +91,25 @@ public int getPostId () {
     return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
 }
 
-public void setContent(String content2) {
+public void setAuthor(String username) {
+  this.author = username;
 }
+
+public void setLikes(int likes) {
+  this.likes = likes;
+}
+
+public void setShares(int shares) {
+  this.shares = shares;
+}
+
+public void setDateTime(String dateTime) {
+  this.dateTime = dateTime;
+}
+
+public void setContent(String content) {
+    this.content = content;
+}
+
   
 }

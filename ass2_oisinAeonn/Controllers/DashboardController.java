@@ -1,6 +1,10 @@
 package ass2_oisinAeonn.Controllers;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
@@ -8,6 +12,7 @@ import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
 import ass2_oisinAeonn.UI.StageManager;
 import ass2_oisinAeonn.UI.UpgradeView;
+import ass2_oisinAeonn.Util.CustomDateTimeFormatter;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -44,20 +49,59 @@ public class DashboardController {
         
     }    
 
-   private void addPost() {
+    private void addPost() {
+        boolean isError = false; // Flag to track if there are errors
+        
         // Assuming you have methods to get other fields from the view.
         String content = view.getPostContentField().getText();
-        post.setContent(content);
-        // ... Set other attributes for post ...
+        post.setAuthor(username);
+    post.setContent(view.getPostContentField().getText());
+    post.setLikes(Integer.parseInt(view.getLikesField().getText()));
+    post.setShares(Integer.parseInt(view.getSharesField().getText()));
 
-        DatabaseConnector.insertPost(post); // Add post to the database
+    /// Parsing and formatting date-time
+    LocalDate dateFromPicker = view.getDatePicker().getValue();
+    String dateStr = dateFromPicker.toString();
+    if (dateStr.contains("T")) {
+        dateStr = dateStr.replace("T", " ");
+    }
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Post Added");
+    LocalTime currentTime = LocalTime.now();
+    LocalDateTime combinedDateTime = LocalDateTime.of(LocalDate.parse(dateStr), currentTime);
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String formattedDateTime = combinedDateTime.format(formatter);
+
+    post.setDateTime(formattedDateTime);
+System.out.println(post);
+
+
+        // Check if content is empty
+        if (content == null || content.trim().isEmpty()) {
+            isError = true;
+            showAlert("Error", "Please enter the post content.");
+            return;
+        }
+    
+        if (!isError) {  // Only insert post if there are no errors
+            DatabaseConnector.insertPost(post); // Add post to the database
+    
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Post Added");
+            alert.setHeaderText(null);
+            alert.setContentText("\nContent: " + content);
+            alert.showAndWait();
+        }
+    }
+    
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText("\nContent: " + content);
+        alert.setContentText(message);
         alert.showAndWait();
     }
+    
 
     private void handleUploadImage() {
         try {

@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
@@ -25,11 +28,18 @@ public class DatabaseConnector {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
+                // Print out the values of the Post object
+        System.out.println("Author: " + post.getAuthor());
+        System.out.println("Content: " + post.getContent());
+        System.out.println("Likes: " + post.getLikes());
+        System.out.println("Shares: " + post.getShares());
+        System.out.println("DateTime: " + post.getDateTime());
+        System.out.println("Image: " + post.getImage());
             stmt.setString(1, post.getAuthor());
             stmt.setString(2, post.getContent());
             stmt.setInt(3, post.getLikes());
             stmt.setInt(4, post.getShares());
-            stmt.setTimestamp(5, Timestamp.valueOf(post.getDateTime()));  // Assuming post.getDateTime() returns a LocalDateTime
+            stmt.setString(5, formatDateTime(post.getDateTime()));
             stmt.setString(6, post.getImage());  // Now a string, representing path or URL
 
             stmt.executeUpdate();
@@ -93,4 +103,11 @@ public class DatabaseConnector {
             e.printStackTrace();
         }
     }
+
+    private static String formatDateTime(String string) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDateTime dateTime = LocalDateTime.parse(string, formatter);
+        return dateTime.format(formatter);
+    }
+    
 }
