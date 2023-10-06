@@ -2,7 +2,6 @@ package ass2_oisinAeonn.Controllers;
 
 import ass2_oisinAeonn.UI.ProfileView;
 import ass2_oisinAeonn.Database.DatabaseConnector;
-import ass2_oisinAeonn.Model.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,6 +41,7 @@ public class ProfileController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            view.getErrorLabel().setText("Database error occurred.");
         }
 
         if (storedPasswordHash != null && storedPasswordHash.equals(hashPassword(currentPassword))) {
@@ -63,9 +63,7 @@ public class ProfileController {
 
     private void handleBack() {
         // Navigate back to the Dashboard or wherever you'd like.
-        // The implementation will depend on your UI flow.
-        // For example:
-        // stageManager.showDashboard();
+        // This will depend on how you've set up your UI flow.
     }
 
     private String hashPassword(String passwordToHash) {
@@ -87,5 +85,4 @@ public class ProfileController {
     public ProfileView getView() {
         return this.view;
     }
-
 }

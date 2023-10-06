@@ -24,7 +24,7 @@ public class DashboardView {
     private ImageView postImageView;
     private TextField postContentField, searchField;
     private Button postButton, uploadImageButton, deleteButton, retrieveButton;
-    private MenuItem profileItem, upgradeAccountItem, logoutItem;
+    private MenuItem profileItem, upgradeItem, logoutItem;
 
     public DashboardView(String username) {
         
@@ -40,9 +40,9 @@ public class DashboardView {
         menuButton = new MenuButton("", menuIcon);
         menuButton.setStyle("-fx-background-insets:0; -fx-padding:0;");
         profileItem = new MenuItem("Profile");
-        upgradeAccountItem = new MenuItem("Upgrade Account");
+        upgradeItem = new MenuItem("Upgrade Account");
         logoutItem = new MenuItem("Logout");
-        menuButton.getItems().addAll(profileItem, upgradeAccountItem, logoutItem);
+        menuButton.getItems().addAll(profileItem, upgradeItem, logoutItem);
 
         topHBox = new HBox(10, welcomeLabel, menuButton);
         HBox.setHgrow(welcomeLabel, Priority.ALWAYS);
@@ -121,8 +121,8 @@ public class DashboardView {
         return profileItem;
     }
     
-    public MenuItem getUpgradeAccountMenuItem() {
-        return upgradeAccountItem;
+    public MenuItem getUpgradeMenuItem() {
+        return upgradeItem;
     }
     
     public MenuItem getLogoutMenuItem() {
@@ -139,6 +139,26 @@ public class DashboardView {
         fileChooser.setTitle("Select an Image");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
         return fileChooser.showOpenDialog(null);
+    }
+
+    public VBox getProfileView() {
+        VBox profileVBox = new VBox(new Label("Profile View"));
+        Button backButton = new Button("Back to Dashboard");
+        backButton.setOnAction(e -> setDashboardContent()); // We will need to modify this action in the controller
+        profileVBox.getChildren().add(backButton);
+        return profileVBox;
+    }
+
+    public VBox getUpgradeView() {
+        VBox upgradeVBox = new VBox(new Label("Upgrade Account View"));
+        Button backButton = new Button("Back to Dashboard");
+        backButton.setOnAction(e -> setDashboardContent()); // We will need to modify this action in the controller
+        upgradeVBox.getChildren().add(backButton);
+        return upgradeVBox;
+    }
+    
+    public VBox getDashboardView() {
+        return dashboardVBox;
     }
 
     public Parent getPane() {

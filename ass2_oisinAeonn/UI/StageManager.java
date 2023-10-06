@@ -5,6 +5,7 @@ import ass2_oisinAeonn.Controllers.AdminController;
 import ass2_oisinAeonn.Controllers.VIPController;
 import ass2_oisinAeonn.Controllers.DashboardController;
 import ass2_oisinAeonn.Controllers.RegisterController;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -97,5 +98,13 @@ public class StageManager {
             currentStage.close();
         }
     }
+
+    public void swapSceneContent(Parent newContent) {
+        if (currentStage != null) {
+            Scene newScene = new Scene(newContent, currentStage.getScene().getWidth(), currentStage.getScene().getHeight());
+            currentStage.setScene(newScene);
+        }
+    }
+    
     
 }

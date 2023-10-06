@@ -2,28 +2,37 @@ package ass2_oisinAeonn.Controllers;
 
 import java.io.File;
 import ass2_oisinAeonn.UI.DashboardView;
+import ass2_oisinAeonn.UI.ProfileView;
 import ass2_oisinAeonn.UI.StageManager;
+import ass2_oisinAeonn.UI.UpgradeView;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class DashboardController {
     
     private DashboardView view;
     private StageManager stageManager;
+    private String username;
 
-    public DashboardController(DashboardView view, StageManager stageManager) {
+    public DashboardController(DashboardView view, StageManager stageManager, String username) {
         this.view = view;
         this.stageManager = stageManager;
-
+        this.username = username; 
+        view.getUploadImageButton().setOnAction(e -> handleUploadImage());
+    
         attachHandlers();
     }
+    
 
     private void attachHandlers() {
         view.getPostButton().setOnAction(e -> addPost());
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
-        view.getProfileMenuItem().setOnAction(e -> handleProfileAction());
-        view.getUpgradeAccountMenuItem().setOnAction(e -> handleUpgradeAccountAction());
+        view.getProfileMenuItem().setOnAction(e -> showProfileScene());
+        view.getUpgradeMenuItem().setOnAction(e -> showUpgradeScene());
         view.getLogoutMenuItem().setOnAction(e -> handleLogoutAction());
         
     }    
@@ -44,23 +53,30 @@ public class DashboardController {
         }
     }
 
-    private void handleProfileAction() {
-        // For demo purposes, use an alert. Replace with actual navigation logic.
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Navigation");
-        alert.setHeaderText(null);
-        alert.setContentText("Navigated to Profile.");
-        alert.showAndWait();
+    public void showProfileScene() {
+        Scene currentScene = view.getPane().getScene();
+        VBox profileView = view.getProfileView();
+        Button backButton = (Button) profileView.getChildren().stream()
+                                   .filter(node -> node instanceof Button)
+                                   .findFirst().orElse(null);
+        if (backButton != null) {
+            backButton.setOnAction(e -> currentScene.setRoot(view.getDashboardView()));
+        }
+        currentScene.setRoot(profileView);
     }
 
-    private void handleUpgradeAccountAction() {
-        // For demo purposes, use an alert. Replace with actual navigation logic.
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Navigation");
-        alert.setHeaderText(null);
-        alert.setContentText("Navigated to Upgrade Account.");
-        alert.showAndWait();
+    public void showUpgradeScene() {
+        Scene currentScene = view.getPane().getScene();
+        VBox upgradeView = view.getUpgradeView();
+        Button backButton = (Button) upgradeView.getChildren().stream()
+                                   .filter(node -> node instanceof Button)
+                                   .findFirst().orElse(null);
+        if (backButton != null) {
+            backButton.setOnAction(e -> currentScene.setRoot(view.getDashboardView()));
+        }
+        currentScene.setRoot(upgradeView);
     }
+    
 
     private void handleLogoutAction() {
         try {
