@@ -18,6 +18,7 @@ import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
 import ass2_oisinAeonn.UI.UpgradeView;
 import ass2_oisinAeonn.UI.StageManager;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -52,6 +53,7 @@ public class DashboardController {
         view.getLogoutMenuItem().setOnAction(e -> handleLogoutAction());
         view.getRetrieveButton().setOnAction(e -> retrievePost());
         view.getDeleteButton().setOnAction(e -> deletePost());
+        view.getFilterButton().setOnAction(e -> retrieveTrendingPosts());
     }
 
     private void addPost() {
@@ -226,4 +228,38 @@ public class DashboardController {
         DatabaseConnector.deletePostById(postId);
         view.getSearchResultsArea().setText("Post successfully deleted.");
     }
+
+    private void retrieveTrendingPosts() {
+        // Extract user's choice for column to sort by
+        RadioButton selectedRadioButton = (RadioButton) view.getRadioGroup().getSelectedToggle();
+        String selectedColumn = "";
+        if (selectedRadioButton == view.getPostIdRadio()) {
+            selectedColumn = "postId";
+        } else if (selectedRadioButton == view.getDateRadio()) {
+            selectedColumn = "dateTime";
+        } else if (selectedRadioButton == view.getLikesRadio()) {
+            selectedColumn = "likes";
+        } else if (selectedRadioButton == view.getSharesRadio()) {
+            selectedColumn = "shares";
+        }
+    
+        // Extract user's choice for sort order
+        boolean isAscending = "Ascending".equals(view.getSortOrderComboBox().getValue());
+    
+        // Extract user's choice for number of posts
+        int retrieveCount;
+        try {
+            retrieveCount = Integer.parseInt(view.getRetrieveCountField().getText());
+            if (retrieveCount > 100) retrieveCount = 100;  // Cap at 100 as per the placeholder
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Please enter a valid number for posts to retrieve.");
+            return;
+        }
+    
+        List<Post> trendingPosts = DatabaseConnector.getTrendingPosts(selectedColumn, isAscending, retrieveCount);
+        // Update the UI with the retrieved posts
+        view.getPostsListView().setItems(FXCollections.observableArrayList(trendingPosts));
+    }
+    
+    
 }

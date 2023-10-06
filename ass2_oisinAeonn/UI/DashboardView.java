@@ -153,7 +153,8 @@ searchedPostImageView.setPreserveRatio(true);
                 if (post == null || empty) {
                     setText(null);
                 } else {
-                    String displayText = "Author: " + post.getAuthor() + 
+                    String displayText = "Post ID: " + post.getPostId() + "\n" +  // Add this line
+                        "Author: " + post.getAuthor() + 
                         "\nContent: " + post.getContent() +
                         "\nLikes: " + post.getLikes() +
                         "\nShares: " + post.getShares() + 
@@ -163,6 +164,7 @@ searchedPostImageView.setPreserveRatio(true);
             }
         });
     }
+    
 
     public void setPostImageView(Image img) {
         postImageView.setImage(img);

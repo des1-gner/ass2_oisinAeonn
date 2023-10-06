@@ -157,42 +157,21 @@ public static void deletePostById(int postId) {
     }
 }
 
-public static List<Post> getFilteredPosts(String filterBy, int numPosts, String sortOrder) {
+public static List<Post> getTrendingPosts(String columnName, boolean isAscending, int retrieveCount) {
     List<Post> posts = new ArrayList<>();
-    
-    // Building the SQL query string
-    String query = "SELECT * FROM posts ORDER BY ";
-    
-    switch (filterBy) {
-        case "Post ID":
-            query += "postId";
-            break;
-        
-        case "Date":
-            query += "dateTime";
-            break;
 
-        case "Likes":
-            query += "likes";
-            break;
+    String sortOrder = isAscending ? "ASC" : "DESC";
+    String query = String.format("SELECT * FROM posts ORDER BY %s %s LIMIT ?", columnName, sortOrder);
 
-        case "Shares":
-            query += "shares";
-            break;
-    }
-
-    query += " " + sortOrder.toUpperCase() + " LIMIT " + numPosts;
-
-    // Debug: Print the query to ensure it's correct
-    System.out.println(query);
-
-    // Execute the query and populate the posts list
     try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement(query);
-         ResultSet rs = stmt.executeQuery()) {
+         PreparedStatement stmt = conn.prepareStatement(query)) {
 
+        stmt.setInt(1, retrieveCount);
+
+        ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Post post = new Post();
+            post.setPostId(rs.getInt("postId"));
             post.setAuthor(rs.getString("author"));
             post.setContent(rs.getString("content"));
             post.setLikes(rs.getInt("likes"));
@@ -201,13 +180,11 @@ public static List<Post> getFilteredPosts(String filterBy, int numPosts, String 
             post.setImage(rs.getString("image"));
             posts.add(post);
         }
+
     } catch (SQLException e) {
         e.printStackTrace();
     }
-
     return posts;
 }
-
-
 
 }
