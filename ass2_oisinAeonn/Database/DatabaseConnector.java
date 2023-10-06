@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-
+import java.util.List;
 
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
@@ -142,6 +142,10 @@ public class DatabaseConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static List<Post> getFilteredTrendingPosts(String filterType, int retrieveCount, String sortOrder) {
+        return null;
     }
     
     

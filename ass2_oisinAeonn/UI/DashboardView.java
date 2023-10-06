@@ -1,5 +1,6 @@
 package ass2_oisinAeonn.UI;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -11,6 +12,8 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.time.LocalDate;
+
+import ass2_oisinAeonn.Model.Post;
 
 public class DashboardView {
 
@@ -25,6 +28,16 @@ public class DashboardView {
     private TextField postContentField, searchField, likesField, sharesField;
     private Button postButton, uploadImageButton, deleteButton, retrieveButton;
     private MenuItem profileItem, upgradeItem, logoutItem;
+    private Button filterButton;
+    private RadioButton postIdRadio;
+    private RadioButton likesRadio;
+    private RadioButton sharesRadio;
+    private ToggleGroup radioGroup;
+    private TextField retrieveCountField;
+    private ComboBox<String> sortOrderComboBox;
+    private int likes;
+    private int shares;
+    private TableView<Post> trendingPostsTable;
 
     public DashboardView(String username) {
         
@@ -104,13 +117,49 @@ VBox addPostVBox = new VBox(10,
         Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
 
-        tabPane.getTabs().addAll(addPostTab, searchTab);
+        Tab trendingTab = new Tab("Trending");
+        tabPane.getTabs().addAll(addPostTab, searchTab, trendingTab);
+
 
         dashboardVBox.getChildren().addAll(topHBox, tabPane);
 
         postImageView.setFitHeight(100);
 postImageView.setFitWidth(100);
 postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ratio is maintained
+
+    // New Trending Tab
+        
+
+        VBox layout = new VBox();
+        HBox controls = new HBox();
+        
+        filterButton = new Button("Filter");
+        
+        radioGroup = new ToggleGroup();
+        postIdRadio = new RadioButton("Post ID");
+        likesRadio = new RadioButton("Likes");
+        sharesRadio = new RadioButton("Shares");
+        
+        postIdRadio.setToggleGroup(radioGroup);
+        likesRadio.setToggleGroup(radioGroup);
+        sharesRadio.setToggleGroup(radioGroup);
+
+        retrieveCountField = new TextField();
+        retrieveCountField.setPromptText("Number of posts (up to 100)");
+        
+
+        sortOrderComboBox = new ComboBox<>();
+        sortOrderComboBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
+
+        controls.getChildren().addAll(filterButton, postIdRadio, likesRadio, sharesRadio, retrieveCountField, sortOrderComboBox);
+        
+        trendingPostsTable = new TableView<>();
+
+        getTrendingPostsTable();
+
+        layout.getChildren().addAll(controls, trendingPostsTable);
+        
+        trendingTab.setContent(layout);    
 
     }
 
@@ -122,6 +171,30 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
 
     public Button getDeleteButton() {
         return deleteButton;
+    }
+
+    public Button getFilterButton() {
+        return filterButton;
+    }
+
+    public RadioButton getPostIdRadio() {
+        return postIdRadio;
+    }
+
+    public RadioButton getLikesRadio() {
+        return likesRadio;
+    }
+
+    public RadioButton getSharesRadio() {
+        return sharesRadio;
+    }
+
+    public TextField getRetrieveCountField() {
+        return retrieveCountField;
+    }
+
+    public ComboBox<String> getSortOrderComboBox() {
+        return sortOrderComboBox;
     }
 
     public Button getRetrieveButton() {
@@ -200,7 +273,6 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public void setShares(int shares) {
         this.shares = shares;
     }
-    
 
     public VBox getDashboardView() {
         return dashboardVBox;
@@ -213,6 +285,10 @@ postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ra
     public DatePicker getDatePicker() {
         return datePicker;
     }
+
+	public TableView<Post> getTrendingPostsTable() {
+    return trendingPostsTable;
+}
     
     
 }

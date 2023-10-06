@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
@@ -39,6 +40,8 @@ public class DashboardController {
         this.post = new Post();
 
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
+        view.getFilterButton().setOnAction(e -> filterAndLoadTrendingPosts());
+
         attachHandlers();
     }
 
@@ -88,6 +91,31 @@ public class DashboardController {
             alert.showAndWait();
         }
     }
+
+    private void filterAndLoadTrendingPosts() {
+    String filterType = null;
+    if (view.getPostIdRadio().isSelected()) {
+        filterType = "postId";
+    } else if (view.getLikesRadio().isSelected()) {
+        filterType = "likes";
+    } else if (view.getSharesRadio().isSelected()) {
+        filterType = "shares";
+    }
+
+    int retrieveCount;
+    try {
+        retrieveCount = Integer.parseInt(view.getRetrieveCountField().getText().trim());
+        if (retrieveCount > 100) retrieveCount = 100;
+    } catch (NumberFormatException e) {
+        showAlert("Error", "Please enter a valid number of posts to retrieve.");
+        return;
+    }
+
+    String sortOrder = view.getSortOrderComboBox().getSelectionModel().getSelectedItem();
+
+    List<Post> trendingPosts = DatabaseConnector.getFilteredTrendingPosts(filterType, retrieveCount, sortOrder);
+    view.getTrendingPostsTable().getItems().setAll(trendingPosts);
+}
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
