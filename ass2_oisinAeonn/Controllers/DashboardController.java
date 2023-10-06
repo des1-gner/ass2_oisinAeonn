@@ -1,6 +1,11 @@
 package ass2_oisinAeonn.Controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,9 +15,8 @@ import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
-import ass2_oisinAeonn.UI.StageManager;
 import ass2_oisinAeonn.UI.UpgradeView;
-import ass2_oisinAeonn.Util.CustomDateTimeFormatter;
+import ass2_oisinAeonn.UI.StageManager;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -21,7 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class DashboardController {
-    
+
     private DashboardView view;
     private StageManager stageManager;
     private String username;
@@ -31,61 +35,52 @@ public class DashboardController {
         this.view = view;
         this.stageManager = stageManager;
         this.username = username;
-    
-        this.post = new Post();  // Initialize the post instance
-        
+
+        this.post = new Post();
+
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
         attachHandlers();
     }
-    
-    
 
     private void attachHandlers() {
         view.getPostButton().setOnAction(e -> addPost());
-        view.getUploadImageButton().setOnAction(e -> handleUploadImage());
         view.getProfileMenuItem().setOnAction(e -> showProfileScene());
         view.getUpgradeMenuItem().setOnAction(e -> showUpgradeScene());
         view.getLogoutMenuItem().setOnAction(e -> handleLogoutAction());
-        
-    }    
-
-    private void addPost() {
-        boolean isError = false; // Flag to track if there are errors
-        
-        // Assuming you have methods to get other fields from the view.
-        String content = view.getPostContentField().getText();
-        post.setAuthor(username);
-    post.setContent(view.getPostContentField().getText());
-    post.setLikes(Integer.parseInt(view.getLikesField().getText()));
-    post.setShares(Integer.parseInt(view.getSharesField().getText()));
-
-    /// Parsing and formatting date-time
-    LocalDate dateFromPicker = view.getDatePicker().getValue();
-    String dateStr = dateFromPicker.toString();
-    if (dateStr.contains("T")) {
-        dateStr = dateStr.replace("T", " ");
     }
 
-    LocalTime currentTime = LocalTime.now();
-    LocalDateTime combinedDateTime = LocalDateTime.of(LocalDate.parse(dateStr), currentTime);
+    private void addPost() {
+        boolean isError = false;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    String formattedDateTime = combinedDateTime.format(formatter);
+        String content = view.getPostContentField().getText();
+        post.setAuthor(username);
+        post.setContent(view.getPostContentField().getText());
+        post.setLikes(Integer.parseInt(view.getLikesField().getText()));
+        post.setShares(Integer.parseInt(view.getSharesField().getText()));
 
-    post.setDateTime(formattedDateTime);
-System.out.println(post);
+        LocalDate dateFromPicker = view.getDatePicker().getValue();
+        String dateStr = dateFromPicker.toString();
 
+        if (dateStr.contains("T")) {
+            dateStr = dateStr.replace("T", " ");
+        }
 
-        // Check if content is empty
+        LocalTime currentTime = LocalTime.now();
+        LocalDateTime combinedDateTime = LocalDateTime.of(LocalDate.parse(dateStr), currentTime);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String formattedDateTime = combinedDateTime.format(formatter);
+        post.setDateTime(formattedDateTime);
+        System.out.println(post);
+
         if (content == null || content.trim().isEmpty()) {
             isError = true;
             showAlert("Error", "Please enter the post content.");
             return;
         }
-    
-        if (!isError) {  // Only insert post if there are no errors
-            DatabaseConnector.insertPost(post); // Add post to the database
-    
+
+        if (!isError) {
+            DatabaseConnector.insertPost(post);
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Post Added");
             alert.setHeaderText(null);
@@ -93,7 +88,7 @@ System.out.println(post);
             alert.showAndWait();
         }
     }
-    
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -101,14 +96,17 @@ System.out.println(post);
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
 
     private void handleUploadImage() {
         try {
             File chosenFile = view.showImageFileChooser();
             if (chosenFile != null) {
-                Image image = new Image(chosenFile.toURI().toString());
-                view.setPostImageView(image);
+                Path copiedPath = copyFileToAssets(chosenFile);
+                if (copiedPath != null) {
+                    post.setImage(copiedPath.toString());
+                    Image image = new Image(copiedPath.toUri().toString());
+                    view.setPostImageView(image);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +117,26 @@ System.out.println(post);
             errorAlert.showAndWait();
         }
     }
-    
+
+    private Path copyFileToAssets(File chosenFile) {
+        Path destDir = Paths.get("assets");
+        if (!Files.exists(destDir)) {
+            try {
+                Files.createDirectory(destDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        Path dest = destDir.resolve(chosenFile.getName());
+        try {
+            Files.copy(chosenFile.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return dest;
+    }
 
     public void showProfileScene() {
         Scene currentScene = view.getPane().getScene();
@@ -144,18 +161,13 @@ System.out.println(post);
         }
         currentScene.setRoot(upgradeView);
     }
-    
 
     private void handleLogoutAction() {
         try {
-            // Close the current dashboard stage
             ((Stage) view.getPane().getScene().getWindow()).close();
-        
-            // Show the login stage again
             stageManager.setupLoginStage();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
 }
