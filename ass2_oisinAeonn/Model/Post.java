@@ -34,7 +34,10 @@ public class Post implements Serializable {
 
   // Getter methods for postId, Contents, Author, Likes, Shares, and dateTime.
 
-  public int getPostId () {
+  public Post() {
+}
+
+public int getPostId () {
 
     return postId;
 
@@ -76,12 +79,19 @@ public class Post implements Serializable {
 
   }
 
+  public void setImage(String image) {
+    this.image = image;
+}
+
   // ToString Output of the Object Post.
  
   @Override
   
   public String toString() {
     return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
+}
+
+public void setContent(String content2) {
 }
   
 }

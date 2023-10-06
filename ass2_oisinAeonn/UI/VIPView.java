@@ -31,7 +31,7 @@ public class VIPView extends DashboardView {
         
         vipBox.setPadding(new Insets(10, 0, 0, 0));
 
-        vbox.getChildren().add(vipBox);  // Add the VIP box to the main container
+        vipBox.getChildren().add(vipBox);  // Add the VIP box to the main container
     
     }
 

@@ -89,6 +89,11 @@ public class DashboardView {
         tabPane.getTabs().addAll(addPostTab, searchTab);
 
         dashboardVBox.getChildren().addAll(topHBox, tabPane);
+
+        postImageView.setFitHeight(100);
+postImageView.setFitWidth(100);
+postImageView.setPreserveRatio(true);  // This will ensure the image's aspect ratio is maintained
+
     }
 
     public void setPostImageView(Image img) {
@@ -157,6 +162,10 @@ public class DashboardView {
         return upgradeVBox;
     }
     
+    private Object setDashboardContent() {
+        return dashboardVBox;
+    }
+
     public VBox getDashboardView() {
         return dashboardVBox;
     }

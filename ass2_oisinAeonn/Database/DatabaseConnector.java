@@ -5,12 +5,14 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
 
 public class DatabaseConnector {
 
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ass2_oisinAeonn";  // Note: Added the "jdbc:mysql://" prefix
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ass2_oisinAeonn";  
     private static final String DATABASE_USER = "root";
     private static final String DATABASE_PASS = "";
     
@@ -19,17 +21,16 @@ public class DatabaseConnector {
     }
     
     public static void insertPost(Post post) {
-        String sql = "INSERT INTO posts (postId, author, content, likes, shares, dateTime, image) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO posts (author, content, likes, shares, dateTime, image) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
              
-            stmt.setInt(1, post.getPostId());
-            stmt.setString(2, post.getAuthor());
-            stmt.setString(3, post.getContent());
-            stmt.setInt(4, post.getLikes());
-            stmt.setInt(5, post.getShares());
-            stmt.setString(6, post.getDateTime());
-            stmt.setString(7, post.getImage());
+            stmt.setString(1, post.getAuthor());
+            stmt.setString(2, post.getContent());
+            stmt.setInt(3, post.getLikes());
+            stmt.setInt(4, post.getShares());
+            stmt.setTimestamp(5, Timestamp.valueOf(post.getDateTime()));  // Assuming post.getDateTime() returns a LocalDateTime
+            stmt.setString(6, post.getImage());  // Now a string, representing path or URL
 
             stmt.executeUpdate();
         } catch (SQLException e) {

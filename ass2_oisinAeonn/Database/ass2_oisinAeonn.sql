@@ -17,6 +17,6 @@ CREATE TABLE posts (
     likes INT NOT NULL DEFAULT 0,
     shares INT NOT NULL DEFAULT 0,
     dateTime TIMESTAMP NOT NULL,
-    image BLOB,
+    image VARCHAR(255) NOT NULL,
     FOREIGN KEY (author) REFERENCES users(username)
 );

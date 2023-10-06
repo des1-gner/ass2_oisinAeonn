@@ -65,13 +65,16 @@ public class StageManager {
 
     public void setupDashboardStage(String username) {
         DashboardView dashboardView = new DashboardView(username);
+        DashboardController dashboardController = new DashboardController(dashboardView, this, username); // Linking view with controller
+    
         currentStage = new Stage();
         Scene dashboardScene = new Scene(dashboardView.getPane(), 600, 400);
-
+    
         currentStage.setTitle("Data Analytics Hub - Dashboard");
         currentStage.setScene(dashboardScene);
         currentStage.show();
     }
+    
 
     public void setupVIPStage(String username) {
         VIPView vipView = new VIPView(username);
