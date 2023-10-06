@@ -69,7 +69,7 @@ public class DashboardController {
     LocalTime currentTime = LocalTime.now();
     LocalDateTime combinedDateTime = LocalDateTime.of(LocalDate.parse(dateStr), currentTime);
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
     String formattedDateTime = combinedDateTime.format(formatter);
 
     post.setDateTime(formattedDateTime);
