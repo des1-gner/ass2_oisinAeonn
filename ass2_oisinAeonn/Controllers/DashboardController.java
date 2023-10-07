@@ -250,8 +250,10 @@ public class DashboardController {
             showAlert("Error", "Please enter a valid number for posts to retrieve.");
             return;
         }
-    
-        List<Post> trendingPosts = DatabaseConnector.getTrendingPosts(selectedColumn, isAscending, retrieveCount);
+        String usernameFilter = view.getUsernameFilterField().getText();
+
+        List<Post> trendingPosts = DatabaseConnector.getTrendingPosts(selectedColumn, isAscending, retrieveCount, usernameFilter);
+
         // Update the UI with the retrieved posts
         view.getPostsListView().setItems(FXCollections.observableArrayList(trendingPosts));
     }

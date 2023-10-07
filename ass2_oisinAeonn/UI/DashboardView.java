@@ -31,6 +31,7 @@ public class DashboardView {
     private ToggleGroup radioGroup;
     private TextField retrieveCountField;
     private ComboBox<String> sortOrderComboBox;
+    private TextField usernameFilterField;
     private int likes;
     private int shares;
     private ListView<Post> postsListView;
@@ -133,12 +134,14 @@ searchedPostImageView.setPreserveRatio(true);
         dateRadio.setToggleGroup(radioGroup);
         likesRadio.setToggleGroup(radioGroup);
         sharesRadio.setToggleGroup(radioGroup);
+        usernameFilterField = new TextField();
+        usernameFilterField.setPromptText("Filter by Username (optional)");
         retrieveCountField = new TextField();
         retrieveCountField.setPromptText("Number of posts (up to 100)");
         sortOrderComboBox = new ComboBox<>();
         sortOrderComboBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
         sortOrderComboBox.setValue("Descending");
-        controls.getChildren().addAll(filterButton, postIdRadio, dateRadio, likesRadio, sharesRadio, retrieveCountField, sortOrderComboBox);
+        controls.getChildren().addAll(filterButton, usernameFilterField, postIdRadio, dateRadio, likesRadio, sharesRadio, retrieveCountField, sortOrderComboBox);
         postsListView = new ListView<>();
         setupPostsListView();
         layout.getChildren().addAll(controls, postsListView);
@@ -188,6 +191,10 @@ searchedPostImageView.setPreserveRatio(true);
 
     public RadioButton getDateRadio() {
         return dateRadio;
+    }
+
+    public TextField getUsernameFilterField() {
+        return usernameFilterField;
     }
 
     public RadioButton getLikesRadio() {

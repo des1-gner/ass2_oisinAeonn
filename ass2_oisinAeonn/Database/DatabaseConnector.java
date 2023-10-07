@@ -237,21 +237,26 @@ public static void deletePostById(int postId) {
     }
 }
 
-public static List<Post> getTrendingPosts(String columnName, boolean isAscending, int retrieveCount) {
+public static List<Post> getTrendingPosts(String columnName, boolean isAscending, int retrieveCount, String filterUsername) {
     List<Post> posts = new ArrayList<>();
 
     String sortOrder = isAscending ? "ASC" : "DESC";
-    String query = String.format("SELECT * FROM posts ORDER BY %s %s LIMIT ?", columnName, sortOrder);
+    String userFilter = (filterUsername != null && !filterUsername.trim().isEmpty()) ? " WHERE author = ?" : "";
+    String query = String.format("SELECT * FROM posts %s ORDER BY %s %s LIMIT ?", userFilter, columnName, sortOrder);
 
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(query)) {
-
-        stmt.setInt(1, retrieveCount);
+         
+        if (!userFilter.isEmpty()) {
+            stmt.setString(1, filterUsername);
+            stmt.setInt(2, retrieveCount);
+        } else {
+            stmt.setInt(1, retrieveCount);
+        }
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             Post post = new Post();
-            post.setPostId(rs.getInt("postId"));
             post.setAuthor(rs.getString("author"));
             post.setContent(rs.getString("content"));
             post.setLikes(rs.getInt("likes"));
@@ -266,6 +271,8 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
     }
     return posts;
 }
+
+
 
 // Assuming you have a 'User' model class already
 public static User getUserByUsername(String username) {
