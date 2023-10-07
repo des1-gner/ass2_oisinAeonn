@@ -14,6 +14,7 @@ import java.util.Map;
 
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
+import javafx.scene.control.Alert;
 
 public class DatabaseConnector {
 
@@ -163,6 +164,12 @@ public static Map<String, Integer> getPostsLikesDistribution() {
 
 
 public static void upgradeUserToVIP(String username) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+alert.setTitle("Upgrade Successful");
+alert.setHeaderText(null);
+alert.setContentText("Please re-login to gain VIP functionality.");
+alert.showAndWait();
+
     String sql = "UPDATE users SET userType = 'VIP' WHERE username = ?";
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
