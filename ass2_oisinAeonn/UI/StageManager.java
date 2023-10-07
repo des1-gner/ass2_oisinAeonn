@@ -37,7 +37,7 @@ public class StageManager {
             closeCurrentStage();
             String username = loginView.getUsernameField().getText(); // Get the username from the login view
         
-            if ("Admin".equals(userType)) {
+            if ("admin".equals(userType)) {
                 setupAdminStage(username);
             } else if ("VIP".equals(userType)) {
                 setupVIPStage(username);
@@ -101,16 +101,18 @@ public class StageManager {
     }
 
     public void setupAdminStage(String username) {
-        AdminView adminView = new AdminView(username); // Assuming you have this GUI.
+        AdminView adminView = new AdminView(username);
+        AdminController adminController = new AdminController(adminView, this, username); // Setup the AdminController
+    
         currentStage = new Stage();
-        Scene adminScene = new Scene(adminView.getPane(), 700, 450);
         setAppLogo();
-
+        Scene adminScene = new Scene(adminView.getPane(), 700, 450);
+    
         currentStage.setTitle("Data Analytics Hub - Admin Dashboard");
         currentStage.setScene(adminScene);
         currentStage.show();
     }
-
+    
     private void closeCurrentStage() {
         if (currentStage != null) {
             currentStage.close();

@@ -1,38 +1,56 @@
 package ass2_oisinAeonn.UI;
 
-import javafx.geometry.Insets;
+import javafx.scene.control.Tab;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 
 public class AdminView extends VIPView {
 
-    private Button vipFeatureButton;
-
     public AdminView(String username) {
-    
-        super(username); // Initialize the base dashboard
-        setupadminFeatures(); // Add additional VIP features
-    
+        super(username);
+
+        // Create and add the Users Tab
+        Tab usersTab = createUsersTab();
+        getTabPane().getTabs().add(usersTab);  // Using a getter for tabPane
     }
 
-    private void setupadminFeatures() {
+    private Tab createUsersTab() {
+        VBox layout = new VBox(10);
 
-        Button adminFeatureButton = new Button("Admin Feature");
+        // Generate bar chart for user distribution
+        BarChart<String, Number> userDistributionChart = generateUserDistributionChart();
         
-        // Add event handling or other functionalities for the VIP feature
-        
-        adminFeatureButton.setOnAction(e -> {
-        
-            // Handle VIP-specific action here
-    
-        });
+        // List of all users
+        ListView<String> usersListView = new ListView<>();
+        // Populate this list view with user data, e.g., usersListView.getItems().addAll(...);
 
-        VBox adminVbox = new VBox(vipFeatureButton);  // A container for all VIP specific features
-        
-        adminVbox.setPadding(new Insets(10, 0, 0, 0));
+        Button deleteUserBtn = new Button("Delete User");
+        // Add event handler to this button to delete the selected user
 
-        adminVbox.getChildren().add(adminVbox);  // Add the VIP box to the main container
-    
+        Button changeUserTypeBtn = new Button("Change User Type");
+        // Add event handler to this button to change user type
+
+        layout.getChildren().addAll(userDistributionChart, usersListView, deleteUserBtn, changeUserTypeBtn);
+
+        Tab usersTab = new Tab("Users", layout);
+        usersTab.setClosable(false);
+        return usersTab;
     }
+
+    private BarChart<String, Number> generateUserDistributionChart() {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+        barChart.getData().add(series);
+        return barChart;
+    }
+
 
 }
