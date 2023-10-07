@@ -3,12 +3,20 @@ package ass2_oisinAeonn.Controllers;
 import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.UI.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class ProfileController {
 
@@ -16,6 +24,8 @@ public class ProfileController {
     private String username;
     private DashboardView dashboardView;
     private StageManager stageManager;
+
+    private ListView<String> postListView;
     
     public ProfileController(ProfileView view, String username, DashboardView dashboardView, StageManager stageManager) {
         this.view = view;
@@ -28,6 +38,8 @@ public class ProfileController {
 
         view.getUpdateButton().setOnAction(e -> handleUpdate());
         view.getBackButton().setOnAction(e -> handleBack());
+        view.getDeleteButton().setOnAction(e -> handleDeleteAccount());
+    view.getExportButton().setOnAction(e -> handleExportPostToCSV());
     }
 
     private void loadExistingDetails(User user) {
@@ -61,7 +73,55 @@ public class ProfileController {
             handleBack();
         }
     }
+
+    private boolean confirmDeletion() {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle("Confirmation Dialog");
+    alert.setHeaderText(null);
+    alert.setContentText("Are you sure you want to delete your account? This action cannot be undone.");
+
+    Optional<ButtonType> result = alert.showAndWait();
+    return result.isPresent() && result.get() == ButtonType.OK;
+}
     
+private void handleLogout() {
+    // Close the current stage
+    Stage currentStage = (Stage) view.getPane().getScene().getWindow();
+    currentStage.close();
+    stageManager.setupLoginStage();
+}
+
+    private void handleDeleteAccount() {
+        if (confirmDeletion()) {
+            DatabaseConnector.deleteUser(username);
+            handleLogout();
+        }
+    }
+
+    private void handleExportPostToCSV() {
+        String selectedPost = postListView.getSelectionModel().getSelectedItem();
+        if (selectedPost != null) {
+            // Show a file dialog to choose the save location
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Post as CSV");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+            Stage stage = (Stage) view.getPane().getScene().getWindow();
+            java.io.File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                // Write the post content to the selected file
+                try {
+                    FileWriter writer = new FileWriter(file);
+                    // Retrieve post content from the database based on 'selectedPost'
+                    String postContent = DatabaseConnector.getPostContent(selectedPost);
+                    writer.write(postContent);
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     private void handleLogoutWithNewUsername(String newUsername) {
         // Close the current stage

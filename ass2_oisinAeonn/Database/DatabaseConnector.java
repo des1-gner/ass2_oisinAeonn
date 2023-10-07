@@ -272,7 +272,42 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
     return posts;
 }
 
+public static void deleteUser(String username) {
+    String deleteQuery = "DELETE FROM users WHERE username = ?";
 
+    try (Connection connection = getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+
+        preparedStatement.setString(1, username);
+        preparedStatement.executeUpdate();
+
+        System.out.println("User " + username + " has been deleted.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.err.println("Error deleting user " + username);
+    }
+}
+
+public static String getPostContent(int postId) {
+    String query = "SELECT content FROM posts WHERE postId = ?";
+    String postContent = "";
+
+    try (Connection connection = getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+        preparedStatement.setInt(1, postId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            postContent = resultSet.getString("content");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.err.println("Error retrieving post content.");
+    }
+
+    return postContent;
+}
 
 // Assuming you have a 'User' model class already
 public static User getUserByUsername(String username) {

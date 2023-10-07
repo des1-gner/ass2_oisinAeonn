@@ -15,6 +15,9 @@ public class ProfileView {
     private Button updateButton;
     private Button backButton;
     private Label errorLabel;
+    private Button deleteButton;
+    private ListView<String> postListView;
+    private Button exportButton;
 
     public ProfileView() {
         pane = new VBox(10);
@@ -38,7 +41,17 @@ public class ProfileView {
 
         errorLabel = new Label();
 
-        pane.getChildren().addAll(backButton, usernameField, firstNameField, lastNameField, passwordField, updateButton, errorLabel);
+        deleteButton = new Button("Delete Account");
+
+        postListView = new ListView<>();
+        postListView.setPrefHeight(200);
+
+        exportButton = new Button("Export Post to CSV");
+
+        pane.getChildren().addAll(
+            backButton, usernameField, firstNameField, lastNameField, passwordField, updateButton,
+            deleteButton, postListView, exportButton, errorLabel
+        );
     }
 
     public TextField getUsernameField() {
@@ -60,6 +73,15 @@ public class ProfileView {
     public Button getUpdateButton() {
         return updateButton;
     }
+
+    public Button getDeleteButton() {
+        return deleteButton;
+    }
+    
+    public Button getExportButton() {
+        return exportButton;
+    }
+    
 
     public Button getBackButton() {
         return backButton;
