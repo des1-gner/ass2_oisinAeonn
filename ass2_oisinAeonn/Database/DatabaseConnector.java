@@ -276,6 +276,24 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
     return posts;
 }
 
+public static Map<String, Integer> getUsersDistribution() {
+    Map<String, Integer> distribution = new HashMap<>();
+    String sql = "SELECT userType, COUNT(*) as count FROM users GROUP BY userType";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            distribution.put(rs.getString("userType"), rs.getInt("count"));
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return distribution;
+}
+
 
 public static void deleteUser(String username) {
     String deleteQuery = "DELETE FROM users WHERE username = ?";
