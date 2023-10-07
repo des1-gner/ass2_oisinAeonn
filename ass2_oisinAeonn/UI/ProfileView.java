@@ -4,6 +4,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import ass2_oisinAeonn.Model.Post; // Import your Post class
+
 
 public class ProfileView {
 
@@ -16,8 +18,9 @@ public class ProfileView {
     private Button backButton;
     private Label errorLabel;
     private Button deleteButton;
-    private ListView<String> postListView;
+    private ListView<Post> postListView;
     private Button exportButton;
+    private Label postLabel;
 
     public ProfileView() {
         pane = new VBox(10);
@@ -48,9 +51,11 @@ public class ProfileView {
 
         exportButton = new Button("Export Post to CSV");
 
+        postLabel = new Label("User's Posts:"); // Label for the list
+
         pane.getChildren().addAll(
             backButton, usernameField, firstNameField, lastNameField, passwordField, updateButton,
-            deleteButton, postListView, exportButton, errorLabel
+            deleteButton, postLabel, postListView, exportButton, errorLabel
         );
     }
 
@@ -97,6 +102,10 @@ public class ProfileView {
 
     public Parent getMainLayout() {
         return pane;
+    }
+
+    public ListView<Post> getPostListView() {
+        return postListView;
     }
     
 }

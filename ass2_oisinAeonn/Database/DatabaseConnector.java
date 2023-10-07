@@ -288,6 +288,67 @@ public static void deleteUser(String username) {
     }
 }
 
+public static List<Post> getPostsByUsername(String username) {
+    List<Post> userPosts = new ArrayList<>();
+
+    String sql = "SELECT * FROM posts WHERE author = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, username);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            int postId = rs.getInt("postId");
+            String postContent = rs.getString("content");
+            int likes = rs.getInt("likes");
+            int shares = rs.getInt("shares");
+            String dateTime = rs.getString("dateTime");
+            String image = rs.getString("image");
+            
+            // Create a Post object with the retrieved data
+            Post post = new Post(postId, postContent, username, likes, shares, dateTime, image);
+            
+            userPosts.add(post);
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return userPosts;
+}
+
+
+
+
+
+public static int getPostIdByContent(String postContent) {
+    int postId = -1; // Default value if post is not found
+
+    String sql = "SELECT postId FROM posts WHERE content = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, postContent);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            postId = rs.getInt("postId");
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return postId;
+}
+
+
 public static String getPostContent(int postId) {
     String query = "SELECT content FROM posts WHERE postId = ?";
     String postContent = "";

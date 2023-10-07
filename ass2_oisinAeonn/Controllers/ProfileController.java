@@ -2,12 +2,16 @@ package ass2_oisinAeonn.Controllers;
 
 import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.UI.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
@@ -16,6 +20,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Optional;
 
 public class ProfileController {
@@ -35,12 +40,26 @@ public class ProfileController {
         
         User existingUser = DatabaseConnector.getUserByUsername(username);
         loadExistingDetails(existingUser);
+        populatePostListView(); // Populate the post list view
 
         view.getUpdateButton().setOnAction(e -> handleUpdate());
         view.getBackButton().setOnAction(e -> handleBack());
         view.getDeleteButton().setOnAction(e -> handleDeleteAccount());
     view.getExportButton().setOnAction(e -> handleExportPostToCSV());
     }
+
+    private void populatePostListView() {
+        List<Post> userPosts = DatabaseConnector.getPostsByUsername(username);
+    
+        if (userPosts != null && !userPosts.isEmpty()) {
+            view.getPostListView().getItems().setAll(userPosts);
+        } else {
+            view.getPostListView().getItems().clear();
+        }
+    }
+    
+
+    
 
     private void loadExistingDetails(User user) {
         view.getUsernameField().setText(user.getUsername());
@@ -99,7 +118,8 @@ private void handleLogout() {
     }
 
     private void handleExportPostToCSV() {
-        String selectedPost = postListView.getSelectionModel().getSelectedItem();
+        Post selectedPost = view.getPostListView().getSelectionModel().getSelectedItem();
+    
         if (selectedPost != null) {
             // Show a file dialog to choose the save location
             FileChooser fileChooser = new FileChooser();
@@ -107,14 +127,21 @@ private void handleLogout() {
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
             Stage stage = (Stage) view.getPane().getScene().getWindow();
             java.io.File file = fileChooser.showSaveDialog(stage);
-
+    
             if (file != null) {
-                // Write the post content to the selected file
+                // Write the post attributes to the selected file
                 try {
                     FileWriter writer = new FileWriter(file);
-                    // Retrieve post content from the database based on 'selectedPost'
-                    String postContent = DatabaseConnector.getPostContent(selectedPost);
-                    writer.write(postContent);
+                    String csvHeader = "postId,content,author,likes,shares,dateTime,image\n";
+                    String postAttributes = selectedPost.getPostId() + ","
+                            + "\"" + selectedPost.getContent() + "\"" + ","
+                            + "\"" + selectedPost.getAuthor() + "\"" + ","
+                            + selectedPost.getLikes() + ","
+                            + selectedPost.getShares() + ","
+                            + "\"" + selectedPost.getDateTime() + "\"" + ","
+                            + "\"" + selectedPost.getImage() + "\"" + "\n";
+                    writer.write(csvHeader);
+                    writer.write(postAttributes);
                     writer.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -122,6 +149,11 @@ private void handleLogout() {
             }
         }
     }
+    
+    
+    
+    
+    
 
     private void handleLogoutWithNewUsername(String newUsername) {
         // Close the current stage
