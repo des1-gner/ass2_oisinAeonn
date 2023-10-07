@@ -242,7 +242,7 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
 
     String sortOrder = isAscending ? "ASC" : "DESC";
     String userFilter = (filterUsername != null && !filterUsername.trim().isEmpty()) ? " WHERE author = ?" : "";
-    String query = String.format("SELECT * FROM posts %s ORDER BY %s %s LIMIT ?", userFilter, columnName, sortOrder);
+    String query = String.format("SELECT postId, author, content, likes, shares, dateTime, image FROM posts %s ORDER BY %s %s LIMIT ?", userFilter, columnName, sortOrder);
 
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -256,13 +256,17 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
 
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            Post post = new Post();
-            post.setAuthor(rs.getString("author"));
-            post.setContent(rs.getString("content"));
-            post.setLikes(rs.getInt("likes"));
-            post.setShares(rs.getInt("shares"));
-            post.setDateTime(rs.getString("dateTime"));
-            post.setImage(rs.getString("image"));
+            int postId = rs.getInt("postId");
+            String author = rs.getString("author");
+            String content = rs.getString("content");
+            int likes = rs.getInt("likes");
+            int shares = rs.getInt("shares");
+            String dateTime = rs.getString("dateTime");
+            String image = rs.getString("image");
+            
+            // Create a Post object with the retrieved data
+            Post post = new Post(postId, content, author, likes, shares, dateTime, image);
+            
             posts.add(post);
         }
 
@@ -271,6 +275,7 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
     }
     return posts;
 }
+
 
 public static void deleteUser(String username) {
     String deleteQuery = "DELETE FROM users WHERE username = ?";
