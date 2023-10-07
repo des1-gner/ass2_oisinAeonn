@@ -138,7 +138,7 @@ public class DashboardController {
 
     public void showProfileScene() {
         ProfileView profileView = new ProfileView();  // Create an instance of the ProfileView
-        new ProfileController(profileView, username, this.view);  // This sets up the event handlers, etc.
+        new ProfileController(profileView, username, this.view, stageManager);  // This sets up the event handlers, etc.
     
         // Now swap the content
         Scene currentScene = view.getPane().getScene();
