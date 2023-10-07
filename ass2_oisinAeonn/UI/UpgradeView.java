@@ -19,9 +19,10 @@ public class UpgradeView {
         mainLayout = new VBox(10);
         mainLayout.setAlignment(Pos.CENTER);
 
-        Text vipDescription = new Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. ...");
+        Text vipDescription = new Text("VIP Users have access to in-depth analytics, and bulk Imports for $10 a month");
 
         RadioButton creditCardOption = new RadioButton("Credit Card");
+        creditCardOption.setSelected(true);
         RadioButton cashOption = new RadioButton("Cash");
         RadioButton cryptoOption = new RadioButton("Cryptocurrency");
         RadioButton payLaterOption = new RadioButton("Pay Later");
