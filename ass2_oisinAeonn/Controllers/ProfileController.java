@@ -1,70 +1,57 @@
 package ass2_oisinAeonn.Controllers;
 
+import ass2_oisinAeonn.UI.DashboardView;
 import ass2_oisinAeonn.UI.ProfileView;
+import javafx.scene.Scene;
+import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class ProfileController {
 
     private ProfileView view;
-
-    public ProfileController(ProfileView view) {
+    private String username;
+    private DashboardView dashboardView;
+    
+    public ProfileController(ProfileView view, String username, DashboardView dashboardView) {
         this.view = view;
-        initializeHandlers();
-    }
+        this.username = username;
+        this.dashboardView = dashboardView;
+        
+        User existingUser = DatabaseConnector.getUserByUsername(username);
+        loadExistingDetails(existingUser);
 
-    private void initializeHandlers() {
-        view.getUpdateButton().setOnAction(e -> handleProfileUpdate());
+        view.getUpdateButton().setOnAction(e -> handleUpdate());
         view.getBackButton().setOnAction(e -> handleBack());
     }
 
-    private void handleProfileUpdate() {
-        String username = view.getUsernameField().getText();
-        String currentPassword = view.getCurrentPasswordField().getText();
-        String newPassword = view.getNewPasswordField().getText();
-        String storedPasswordHash = null;
+    private void loadExistingDetails(User user) {
+        view.getUsernameField().setText(user.getUsername());
+        view.getFirstNameField().setText(user.getFirstName());
+        view.getLastNameField().setText(user.getLastName());
+    }
 
-        // Check current password
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            PreparedStatement stmt = connection.prepareStatement("SELECT password FROM users WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+    private void handleUpdate() {
+        String firstName = view.getFirstNameField().getText();
+        String lastName = view.getLastNameField().getText();
+        String newPassword = view.getPasswordField().getText();
 
-            if (rs.next()) {
-                storedPasswordHash = rs.getString("password");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            view.getErrorLabel().setText("Database error occurred.");
-        }
-
-        if (storedPasswordHash != null && storedPasswordHash.equals(hashPassword(currentPassword))) {
-            // Update with the new password
-            try (Connection connection = DatabaseConnector.getConnection()) {
-                PreparedStatement stmt = connection.prepareStatement("UPDATE users SET password = ? WHERE username = ?");
-                stmt.setString(1, hashPassword(newPassword));
-                stmt.setString(2, username);
-                stmt.executeUpdate();
-                view.getErrorLabel().setText("Profile updated successfully!");
-            } catch (SQLException e) {
-                e.printStackTrace();
-                view.getErrorLabel().setText("Error updating profile.");
-            }
+        if (!newPassword.isBlank()) {
+            newPassword = hashPassword(newPassword);
+            DatabaseConnector.updateUser(username, firstName, lastName, newPassword);
         } else {
-            view.getErrorLabel().setText("Current password is incorrect.");
+            DatabaseConnector.updateUserWithoutPassword(username, firstName, lastName);
         }
     }
 
     private void handleBack() {
-        // Navigate back to the Dashboard or wherever you'd like.
-        // This will depend on how you've set up your UI flow.
+        Scene currentScene = view.getPane().getScene();
+        currentScene.setRoot(dashboardView.getPane());
     }
+    
+
 
     private String hashPassword(String passwordToHash) {
         String generatedPassword = null;

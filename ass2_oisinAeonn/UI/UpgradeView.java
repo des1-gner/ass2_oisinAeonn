@@ -35,8 +35,9 @@ public class UpgradeView {
 
         payButton = new Button("Pay");
 
-        mainLayout.getChildren().addAll(vipDescription, creditCardOption, cashOption, cryptoOption, payLaterOption, payButton, backButton);
         backButton = new Button("Back");
+        mainLayout.getChildren().addAll(vipDescription, creditCardOption, cashOption, cryptoOption, payLaterOption, payButton, backButton);
+        
     }
 
     public VBox getMainLayout() {

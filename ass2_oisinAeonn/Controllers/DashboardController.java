@@ -137,16 +137,14 @@ public class DashboardController {
     }
 
     public void showProfileScene() {
+        ProfileView profileView = new ProfileView();  // Create an instance of the ProfileView
+        new ProfileController(profileView, username, this.view);  // This sets up the event handlers, etc.
+    
+        // Now swap the content
         Scene currentScene = view.getPane().getScene();
-        VBox profileView = view.getProfileView();
-        Button backButton = (Button) profileView.getChildren().stream()
-                                   .filter(node -> node instanceof Button)
-                                   .findFirst().orElse(null);
-        if (backButton != null) {
-            backButton.setOnAction(e -> currentScene.setRoot(view.getDashboardView()));
-        }
-        currentScene.setRoot(profileView);
+        currentScene.setRoot(profileView.getMainLayout());
     }
+    
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -188,4 +188,68 @@ public static List<Post> getTrendingPosts(String columnName, boolean isAscending
     return posts;
 }
 
+// Assuming you have a 'User' model class already
+public static User getUserByUsername(String username) {
+    User user = null;
+    String sql = "SELECT * FROM users WHERE username = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, username);
+        
+        ResultSet rs = stmt.executeQuery();
+        
+        if (rs.next()) {
+            // Assuming these are the fields you have in your User model and in your database
+            String firstName = rs.getString("firstName");
+            String lastName = rs.getString("lastName");
+            String password = rs.getString("password");
+            
+            user = new User(username, firstName, lastName, password);
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return user;
+}
+
+public static void updateUser(String username, String firstName, String lastName, String password) {
+    String sql = "UPDATE users SET firstName = ?, lastName = ?, password = ? WHERE username = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, firstName);
+        stmt.setString(2, lastName);
+        stmt.setString(3, password);
+        stmt.setString(4, username);
+
+        stmt.executeUpdate();
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+public static void updateUserWithoutPassword(String username, String firstName, String lastName) {
+    String sql = "UPDATE users SET firstName = ?, lastName = ? WHERE username = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, firstName);
+        stmt.setString(2, lastName);
+        stmt.setString(3, username);
+
+        stmt.executeUpdate();
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
+
 }

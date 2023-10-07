@@ -273,9 +273,10 @@ searchedPostImageView.setPreserveRatio(true);
         return upgradeVBox;
     }
 
-    private Object setDashboardContent() {
-        return dashboardVBox;
+    private void setDashboardContent() {
+        getPane().getScene().setRoot(dashboardVBox);
     }
+    
 
     public void setLikes(int likes) {
         this.likes = likes;

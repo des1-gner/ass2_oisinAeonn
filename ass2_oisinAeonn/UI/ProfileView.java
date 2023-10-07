@@ -2,49 +2,59 @@ package ass2_oisinAeonn.UI;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 public class ProfileView {
 
-    private VBox profileVBox;
+    private VBox pane;
+    private TextField usernameField;
+    private TextField firstNameField;
+    private TextField lastNameField;
+    private PasswordField passwordField;
     private Button updateButton;
     private Button backButton;
-    private TextField usernameField;
-    private PasswordField currentPasswordField;
-    private PasswordField newPasswordField;
+    private Label errorLabel;
 
-    public ProfileView(String username, Runnable onBackButtonPressed) {
-        profileVBox = new VBox(10);
-        Label profileInfo = new Label("Profile Info for: " + username);
-        
-        // Define the components
+    public ProfileView() {
+        pane = new VBox(10);
+        pane.setPadding(new Insets(20));
+
         usernameField = new TextField();
         usernameField.setPromptText("Username");
-        usernameField.setText(username);  // Set the username
-        usernameField.setEditable(false); // Typically, users shouldn't change their usernames.
-        
-        currentPasswordField = new PasswordField();
-        currentPasswordField.setPromptText("Current Password");
-        
-        newPasswordField = new PasswordField();
-        newPasswordField.setPromptText("New Password");
-        
-        updateButton = new Button("Update Profile");
-        backButton = new Button("Back to Dashboard");
-        backButton.setOnAction(e -> onBackButtonPressed.run());
 
-        profileVBox.getChildren().addAll(profileInfo, usernameField, currentPasswordField, newPasswordField, updateButton, backButton);
-        profileVBox.setPadding(new Insets(10));
-        profileVBox.setSpacing(10);
+        firstNameField = new TextField();
+        firstNameField.setPromptText("First Name");
+
+        lastNameField = new TextField();
+        lastNameField.setPromptText("Last Name");
+
+        passwordField = new PasswordField();
+        passwordField.setPromptText("New Password");
+
+        updateButton = new Button("Update");
+
+        backButton = new Button("Back");
+
+        errorLabel = new Label();
+
+        pane.getChildren().addAll(backButton, usernameField, firstNameField, lastNameField, passwordField, updateButton, errorLabel);
     }
 
-    public Parent getPane() {
-        return profileVBox;
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public TextField getFirstNameField() {
+        return firstNameField;
+    }
+
+    public TextField getLastNameField() {
+        return lastNameField;
+    }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
     }
 
     public Button getUpdateButton() {
@@ -55,19 +65,16 @@ public class ProfileView {
         return backButton;
     }
 
-    public TextField getUsernameField() {
-        return usernameField;
+    public Label getErrorLabel() {
+        return errorLabel;
     }
 
-    public PasswordField getCurrentPasswordField() {
-        return currentPasswordField;
+    public VBox getPane() {
+        return pane;
     }
 
-    public PasswordField getNewPasswordField() {
-        return newPasswordField;
+    public Parent getMainLayout() {
+        return pane;
     }
-
-    public Labeled getErrorLabel() {
-        return null;
-    }
+    
 }
