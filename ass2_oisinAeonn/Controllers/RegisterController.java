@@ -25,22 +25,18 @@ public class RegisterController {
         String firstName = view.getFirstNameField().getText();
         String lastName = view.getLastNameField().getText();
         String password = hashPassword(view.getPasswordField().getText());
-
+    
         User user = new User(username, firstName, lastName, password, null);
-
-        try {
-            if (DatabaseConnector.checkIfUserExists(username)) {
-                view.getErrorLabel().setText("Username already exists");
-                return;
-            }
-            DatabaseConnector.registerUser(user);
-            view.getErrorLabel().setText("Registration successful!");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            view.getErrorLabel().setText("Error occurred during registration.");
+    
+        if (DatabaseConnector.checkIfUserExists(username)) {
+            view.getErrorLabel().setText("Username already exists");
+            return;
         }
+    
+        DatabaseConnector.registerUser(user);
+        view.getErrorLabel().setText("Registration successful!");
     }
-
+    
     private void handleBack() {
         if (view.getOnBackEvent() != null) {
             view.getOnBackEvent().run();

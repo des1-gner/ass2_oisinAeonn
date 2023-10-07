@@ -75,19 +75,22 @@ public class DatabaseConnector {
         }
     }
 
-    public static boolean checkIfUserExists(String username) throws SQLException {
-    String sql = "SELECT username FROM users WHERE username = ?";
-    try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-         
-        stmt.setString(1, username);
-        ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return true;
+    public static boolean checkIfUserExists(String username) {
+        String sql = "SELECT username FROM users WHERE username = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return false;
     }
-    return false;
-}
+    
 
 
 public static void upgradeUserToVIP(String username) {
@@ -216,16 +219,17 @@ public static User getUserByUsername(String username) {
     return user;
 }
 
-public static void updateUser(String username, String firstName, String lastName, String password) {
-    String sql = "UPDATE users SET firstName = ?, lastName = ?, password = ? WHERE username = ?";
+public static void updateUser(String currentUsername, String newUsername, String firstName, String lastName, String password) {
+    String sql = "UPDATE users SET username = ?, firstName = ?, lastName = ?, password = ? WHERE username = ?";
     
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        stmt.setString(1, firstName);
-        stmt.setString(2, lastName);
-        stmt.setString(3, password);
-        stmt.setString(4, username);
+        stmt.setString(1, newUsername);
+        stmt.setString(2, firstName);
+        stmt.setString(3, lastName);
+        stmt.setString(4, password);
+        stmt.setString(5, currentUsername);
 
         stmt.executeUpdate();
         
@@ -234,15 +238,16 @@ public static void updateUser(String username, String firstName, String lastName
     }
 }
 
-public static void updateUserWithoutPassword(String username, String firstName, String lastName) {
-    String sql = "UPDATE users SET firstName = ?, lastName = ? WHERE username = ?";
+public static void updateUserWithoutPassword(String currentUsername, String newUsername, String firstName, String lastName) {
+    String sql = "UPDATE users SET username = ?, firstName = ?, lastName = ? WHERE username = ?";
     
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        stmt.setString(1, firstName);
-        stmt.setString(2, lastName);
-        stmt.setString(3, username);
+        stmt.setString(1, newUsername);
+        stmt.setString(2, firstName);
+        stmt.setString(3, lastName);
+        stmt.setString(4, currentUsername);
 
         stmt.executeUpdate();
         
@@ -250,6 +255,7 @@ public static void updateUserWithoutPassword(String username, String firstName, 
         e.printStackTrace();
     }
 }
+
 
 
 }

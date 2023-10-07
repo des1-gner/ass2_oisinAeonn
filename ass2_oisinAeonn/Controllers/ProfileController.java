@@ -5,7 +5,6 @@ import ass2_oisinAeonn.UI.ProfileView;
 import javafx.scene.Scene;
 import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Database.DatabaseConnector;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -34,24 +33,34 @@ public class ProfileController {
     }
 
     private void handleUpdate() {
+        String newUsername = view.getUsernameField().getText();
         String firstName = view.getFirstNameField().getText();
         String lastName = view.getLastNameField().getText();
         String newPassword = view.getPasswordField().getText();
 
+        // Check if username is being changed
+        if (!newUsername.equals(username)) {
+            // Check if new username is already in use
+            if (DatabaseConnector.checkIfUserExists(newUsername)) {
+                view.getErrorLabel().setText("Username already in use!");
+                return;
+            }
+        }
+
         if (!newPassword.isBlank()) {
             newPassword = hashPassword(newPassword);
-            DatabaseConnector.updateUser(username, firstName, lastName, newPassword);
+            DatabaseConnector.updateUser(username, newUsername, firstName, lastName, newPassword);
         } else {
-            DatabaseConnector.updateUserWithoutPassword(username, firstName, lastName);
+            DatabaseConnector.updateUserWithoutPassword(username, newUsername, firstName, lastName);
         }
+
+        username = newUsername;  // Update the controller's username to the new one
     }
 
     private void handleBack() {
         Scene currentScene = view.getPane().getScene();
         currentScene.setRoot(dashboardView.getPane());
     }
-    
-
 
     private String hashPassword(String passwordToHash) {
         String generatedPassword = null;
