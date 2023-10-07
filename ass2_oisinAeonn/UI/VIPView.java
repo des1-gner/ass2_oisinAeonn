@@ -1,38 +1,11 @@
 package ass2_oisinAeonn.UI;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-
 public class VIPView extends DashboardView {
 
-    private Button vipFeatureButton;
-
     public VIPView(String username) {
-    
         super(username); // Initialize the base dashboard
-        setupVIPFeatures(); // Add additional VIP features
-    
-    }
-
-    private void setupVIPFeatures() {
-
-        vipFeatureButton = new Button("VIP Feature");
-        
-        // Add event handling or other functionalities for the VIP feature
-        
-        vipFeatureButton.setOnAction(e -> {
-        
-            // Handle VIP-specific action here
-    
-        });
-
-        VBox vipBox = new VBox(vipFeatureButton);  // A container for all VIP specific features
-        
-        vipBox.setPadding(new Insets(10, 0, 0, 0));
-
-        vipBox.getChildren().add(vipBox);  // Add the VIP box to the main container
-    
+        // For now, the VIPView is the same as DashboardView. 
+        // When you have VIP specific features, add them here.
     }
 
 }

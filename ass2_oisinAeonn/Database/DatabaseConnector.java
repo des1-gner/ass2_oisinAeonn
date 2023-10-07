@@ -90,17 +90,18 @@ public class DatabaseConnector {
 }
 
 
-    public static void upgradeUserToVIP(String username) {
-        String sql = "UPDATE users SET userType = VIP WHERE username = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+public static void upgradeUserToVIP(String username) {
+    String sql = "UPDATE users SET userType = 'VIP' WHERE username = ?";
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, username);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        stmt.setString(1, username);
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
+
 
     public static void upgradeUserToAdmin(String username) {
         String sql = "UPDATE users SET userType = admin WHERE username = ?";

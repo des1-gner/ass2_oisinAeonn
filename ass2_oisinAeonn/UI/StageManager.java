@@ -7,6 +7,7 @@ import ass2_oisinAeonn.Controllers.DashboardController;
 import ass2_oisinAeonn.Controllers.RegisterController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class StageManager {
@@ -17,6 +18,11 @@ public class StageManager {
         this.currentStage = new Stage();
     }
 
+    private void setAppLogo() {
+        Image appIcon = new Image("assets/logo.jpg");
+        currentStage.getIcons().add(appIcon);
+    }
+
     public void setupLoginStage() {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginView);
@@ -24,6 +30,8 @@ public class StageManager {
         Scene loginScene = new Scene(loginView.getPane(), 400, 300);
         currentStage.setTitle("Data Analytics Hub - Login");
         currentStage.setScene(loginScene);
+
+        setAppLogo();
 
         loginController.setOnLoginSuccessEvent(userType -> { // Assuming userType is a String
             closeCurrentStage();
@@ -53,6 +61,7 @@ public class StageManager {
         Scene registerScene = new Scene(registerView.getPane(), 400, 300);
         currentStage.setTitle("Data Analytics Hub - Register");
         currentStage.setScene(registerScene);
+        setAppLogo();
 
         RegisterController registerController = new RegisterController(registerView);
             registerController.getView().setOnBackEvent(() -> {
@@ -68,6 +77,7 @@ public class StageManager {
         DashboardController dashboardController = new DashboardController(dashboardView, this, username); // Linking view with controller
     
         currentStage = new Stage();
+        setAppLogo();
         Scene dashboardScene = new Scene(dashboardView.getPane(), 800, 600);
     
         currentStage.setTitle("Data Analytics Hub - Dashboard");
@@ -79,7 +89,9 @@ public class StageManager {
     public void setupVIPStage(String username) {
         VIPView vipView = new VIPView(username);
         currentStage = new Stage();
+        setAppLogo();
         Scene vipScene = new Scene(vipView.getPane(), 700, 450);
+
 
         currentStage.setTitle("Data Analytics Hub - VIP Dashboard");
         currentStage.setScene(vipScene);
@@ -90,6 +102,7 @@ public class StageManager {
         AdminView adminView = new AdminView(username); // Assuming you have this GUI.
         currentStage = new Stage();
         Scene adminScene = new Scene(adminView.getPane(), 700, 450);
+        setAppLogo();
 
         currentStage.setTitle("Data Analytics Hub - Admin Dashboard");
         currentStage.setScene(adminScene);

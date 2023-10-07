@@ -158,16 +158,13 @@ public class DashboardController {
     
 
     public void showUpgradeScene() {
+        UpgradeView upgradeView = new UpgradeView(); // Create the view
+        new UpgradeController(upgradeView, username, this.view); // This will setup all the necessary handlers
+    
+        // Now swap the content
         Scene currentScene = view.getPane().getScene();
-        VBox upgradeView = view.getUpgradeView();
-        Button backButton = (Button) upgradeView.getChildren().stream()
-                                   .filter(node -> node instanceof Button)
-                                   .findFirst().orElse(null);
-        if (backButton != null) {
-            backButton.setOnAction(e -> currentScene.setRoot(view.getDashboardView()));
-        }
-        currentScene.setRoot(upgradeView);
-    }
+        currentScene.setRoot(upgradeView.getMainLayout());
+    }    
 
     private void handleLogoutAction() {
         try {
