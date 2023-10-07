@@ -88,6 +88,8 @@ public class StageManager {
 
     public void setupVIPStage(String username) {
         VIPView vipView = new VIPView(username);
+        VIPController vipController = new VIPController(vipView, this, username);
+
         currentStage = new Stage();
         setAppLogo();
         Scene vipScene = new Scene(vipView.getPane(), 700, 450);
