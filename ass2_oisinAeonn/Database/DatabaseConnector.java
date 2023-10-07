@@ -8,7 +8,9 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
@@ -91,6 +93,73 @@ public class DatabaseConnector {
         return false;
     }
     
+public static Map<String, Integer> getPostsSharesDistribution() {
+    Map<String, Integer> distribution = new HashMap<>();
+
+    try {
+        Connection connection = getConnection();
+        
+        // Fetch posts with shares between 0 and 99
+        PreparedStatement ps1 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE shares BETWEEN 0 AND 99");
+        ResultSet rs1 = ps1.executeQuery();
+        if (rs1.next()) {
+            distribution.put("0-99", rs1.getInt(1));
+        }
+
+        // Fetch posts with shares between 100 and 999
+        PreparedStatement ps2 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE shares BETWEEN 100 AND 999");
+        ResultSet rs2 = ps2.executeQuery();
+        if (rs2.next()) {
+            distribution.put("100-999", rs2.getInt(1));
+        }
+
+        // Fetch posts with 1000 or more shares
+        PreparedStatement ps3 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE shares >= 1000");
+        ResultSet rs3 = ps3.executeQuery();
+        if (rs3.next()) {
+            distribution.put("1000+", rs3.getInt(1));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return distribution;
+}
+
+public static Map<String, Integer> getPostsLikesDistribution() {
+    Map<String, Integer> distribution = new HashMap<>();
+
+    try {
+        Connection connection = getConnection();
+        
+        // Fetch posts with likes between 0 and 99
+        PreparedStatement ps1 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE likes BETWEEN 0 AND 99");
+        ResultSet rs1 = ps1.executeQuery();
+        if (rs1.next()) {
+            distribution.put("0-99", rs1.getInt(1));
+        }
+
+        // Fetch posts with likes between 100 and 999
+        PreparedStatement ps2 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE likes BETWEEN 100 AND 999");
+        ResultSet rs2 = ps2.executeQuery();
+        if (rs2.next()) {
+            distribution.put("100-999", rs2.getInt(1));
+        }
+
+        // Fetch posts with 1000 or more likes
+        PreparedStatement ps3 = connection.prepareStatement("SELECT COUNT(*) FROM posts WHERE likes >= 1000");
+        ResultSet rs3 = ps3.executeQuery();
+        if (rs3.next()) {
+            distribution.put("1000+", rs3.getInt(1));
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return distribution;
+}
 
 
 public static void upgradeUserToVIP(String username) {

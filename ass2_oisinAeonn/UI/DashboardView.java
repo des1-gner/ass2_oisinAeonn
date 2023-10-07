@@ -18,7 +18,7 @@ public class DashboardView {
     private VBox dashboardVBox;
     private HBox topHBox;
     private Label welcomeLabel;
-    private TabPane tabPane;
+    protected TabPane tabPane;
     private MenuButton menuButton;
     private TextArea postList, searchResultsArea;
     private DatePicker datePicker;
@@ -306,4 +306,9 @@ searchedPostImageView.setPreserveRatio(true);
         return searchedPostImageView;
     }
 
+    public TabPane getTabPane() {
+        return tabPane;
+    }
 }
+
+
