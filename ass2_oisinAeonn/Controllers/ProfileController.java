@@ -68,16 +68,24 @@ public class ProfileController {
     }
 
     private void handleUpdate() {
-        String newUsername = view.getUsernameField().getText();
-        String firstName = view.getFirstNameField().getText();
-        String lastName = view.getLastNameField().getText();
-        String newPassword = view.getPasswordField().getText();
+        String newUsername = view.getUsernameField().getText().trim();
+        String firstName = view.getFirstNameField().getText().trim();
+        String lastName = view.getLastNameField().getText().trim();
+        String newPassword = view.getPasswordField().getText().trim();
     
         if (!newUsername.equals(username) && DatabaseConnector.checkIfUserExists(newUsername)) {
             view.getErrorLabel().setText("New username already exists");
             return;
         }
     
+        // If the newUsername is different and valid, first retrieve and delete the user's posts.
+        List<Post> userPosts = null;
+        if (!newUsername.equals(username)) {
+            userPosts = DatabaseConnector.getPostsByUsername(username);
+            DatabaseConnector.deletePostsForUser(username);
+        }
+    
+        // Update the user's details.
         if (!newPassword.isBlank()) {
             newPassword = hashPassword(newPassword);
             DatabaseConnector.updateUser(username, newUsername, firstName, lastName, newPassword);
@@ -85,13 +93,23 @@ public class ProfileController {
             DatabaseConnector.updateUserWithoutPassword(username, newUsername, firstName, lastName);
         }
     
-        // If the username has changed, restart the stage
+        // If the username has changed, re-insert the previously deleted posts with the new username.
+        if (userPosts != null && !userPosts.isEmpty()) {
+            for (Post post : userPosts) {
+                post.setAuthor(newUsername); // Set the new username as the post's author
+                DatabaseConnector.insertPost(post);
+            }
+        }
+    
+        // If the username has changed, restart the stage.
         if (!newUsername.equals(username)) {
             handleLogoutWithNewUsername(newUsername);
         } else {
             handleBack();
         }
     }
+    
+    
 
     private boolean confirmDeletion() {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

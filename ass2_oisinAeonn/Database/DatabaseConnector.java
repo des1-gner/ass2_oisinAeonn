@@ -481,9 +481,27 @@ public static User getUserByUsername(String username) {
     return user;
 }
 
-public static void updateUser(String currentUsername, String newUsername, String firstName, String lastName, String password) {
+public static int updatePostAuthor(String currentUsername, String newUsername) {
+    String sql = "UPDATE posts SET author = ? WHERE author = ?";
+    int affectedRows = 0;
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, newUsername);
+        stmt.setString(2, currentUsername);
+
+        affectedRows = stmt.executeUpdate();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    System.out.println("Affected rows in updatePostAuthor: " + affectedRows);
+    return affectedRows;
+}
+
+public static int updateUser(String currentUsername, String newUsername, String firstName, String lastName, String password) {
     String sql = "UPDATE users SET username = ?, firstName = ?, lastName = ?, password = ? WHERE username = ?";
-    
+    int affectedRows = 0;
     try (Connection conn = getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -493,12 +511,15 @@ public static void updateUser(String currentUsername, String newUsername, String
         stmt.setString(4, password);
         stmt.setString(5, currentUsername);
 
-        stmt.executeUpdate();
+        affectedRows = stmt.executeUpdate();
         
     } catch (SQLException e) {
         e.printStackTrace();
     }
+    System.out.println("Affected rows in updateUser: " + affectedRows);
+    return affectedRows;
 }
+
 
 public static void updateUserWithoutPassword(String currentUsername, String newUsername, String firstName, String lastName) {
     String sql = "UPDATE users SET username = ?, firstName = ?, lastName = ? WHERE username = ?";
