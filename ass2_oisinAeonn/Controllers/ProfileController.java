@@ -97,7 +97,7 @@ public class ProfileController {
     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
     alert.setTitle("Confirmation Dialog");
     alert.setHeaderText(null);
-    alert.setContentText("Are you sure you want to delete your account? This action cannot be undone.");
+    alert.setContentText("Are you sure you want to delete your account, and all associated posts? This action cannot be undone.");
 
     Optional<ButtonType> result = alert.showAndWait();
     return result.isPresent() && result.get() == ButtonType.OK;
@@ -110,12 +110,24 @@ private void handleLogout() {
     stageManager.setupLoginStage();
 }
 
-    private void handleDeleteAccount() {
-        if (confirmDeletion()) {
-            DatabaseConnector.deleteUser(username);
-            handleLogout();
-        }
+private void handleDeleteAccount() {
+    if (confirmDeletion()) {
+        // First delete all posts of the user
+        DatabaseConnector.deletePostsForUser(username);
+        // Then delete the user
+        DatabaseConnector.deleteUser(username);
+        // Display a confirmation message
+        Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
+        confirmationAlert.setTitle("Account Deleted");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Your account and all associated posts have been deleted.");
+        confirmationAlert.showAndWait();
+        
+        handleLogout();
     }
+}
+
+
 
     private void handleExportPostToCSV() {
         Post selectedPost = view.getPostListView().getSelectionModel().getSelectedItem();

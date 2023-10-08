@@ -34,6 +34,66 @@ public class DatabaseConnector {
         System.out.println("Failed to establish connection.");
     }
 }
+public static List<User> getAllUsers() {
+    List<User> users = new ArrayList<>();
+    
+    String sql = "SELECT * FROM users";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+         
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            String username = rs.getString("username");
+            String firstName = rs.getString("firstName");
+            String lastName = rs.getString("lastName");
+            String password = rs.getString("password");
+            String userType = rs.getString("userType");
+            
+            // Create a User object with the retrieved data
+            User user = new User(username, firstName, lastName, password, userType);  // Assuming your User class has such a constructor
+            
+            users.add(user);
+        }
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    
+    return users;
+}
+
+public static void deletePostsForUser(String username) {
+    String deletePostsQuery = "DELETE FROM posts WHERE author = ?";
+
+    try (Connection connection = getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement(deletePostsQuery)) {
+
+        preparedStatement.setString(1, username);
+        preparedStatement.executeUpdate();
+
+        System.out.println("All posts for user " + username + " have been deleted.");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        System.err.println("Error deleting posts for user " + username);
+    }
+}
+
+
+public static void deleteUserByUsername(String username) {
+    String sql = "DELETE FROM users WHERE username = ?";
+    
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+         
+        stmt.setString(1, username);
+        stmt.executeUpdate();
+        
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
 
 
     public static void insertPost(Post post) {
