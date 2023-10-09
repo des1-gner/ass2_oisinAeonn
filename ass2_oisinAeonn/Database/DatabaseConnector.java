@@ -19,51 +19,76 @@ public class DatabaseConnector {
     private static final String DATABASE_PASS = "";
     
     // Singleton instance
+
     private static DatabaseConnector instance;
     private Connection connection;
 
     // Private constructor
+    
     private DatabaseConnector() {
+    
         try {
+    
             connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASS);
-        } catch (SQLException e) {
+    
+        } 
+        
+        catch (SQLException e) {
+        
             e.printStackTrace();
+        
             System.out.println("Failed to establish connection.");
+        
         }
+    
     }
 
     // Public method to access the Singleton instance
+    
     public static DatabaseConnector getInstance() {
+    
         if (instance == null) {
+    
             synchronized (DatabaseConnector.class) {
+    
                 if (instance == null) {
+    
                     instance = new DatabaseConnector();
+    
                 }
+    
             }
+    
         }
+    
         return instance;
+    
     }
 
     // Instead of opening a new connection every time, we use the singleton connection
+    
     public Connection getConnection() {
+    
         return this.connection;
+    
     }
     
     public static List<User> getAllUsers() {
+    
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM users";
-        
+        String sql = "SELECT * FROM users";    
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
+    
             conn = getInstance().getConnection();
-            stmt = conn.prepareStatement(sql);
-            
+            stmt = conn.prepareStatement(sql);        
             rs = stmt.executeQuery();
             
             while (rs.next()) {
+            
                 String username = rs.getString("username");
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
@@ -71,18 +96,27 @@ public class DatabaseConnector {
                 String userType = rs.getString("userType");
                 
                 // Create a User object with the retrieved data
+            
                 User user = new User(username, firstName, lastName, password, userType);  // Assuming your User class has such a constructor
                 
                 users.add(user);
+            
             }
             
-        } catch (SQLException e) {
+        } 
+        
+        catch (SQLException e) {
+        
             e.printStackTrace();
-        } finally {
-            // Close resources properly.
+        
+        } 
+        
+        finally {
+        
         }
         
         return users;
+    
     }
     
     public static void deletePostsForUser(String username) {
