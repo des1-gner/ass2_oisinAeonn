@@ -246,7 +246,7 @@ public class DashboardController {
     protected void handleLogoutAction() {
         try {
             ((Stage) view.getPane().getScene().getWindow()).close();
-            stageManager.setupLoginStage();
+            stageManager.setupLoginRegisterStage();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -159,7 +159,7 @@ private void handleLogout() {
     // Close the current stage
     Stage currentStage = (Stage) view.getPane().getScene().getWindow();
     currentStage.close();
-    stageManager.setupLoginStage();
+    stageManager.setupLoginRegisterStage();
 }
 
 private void handleDeleteAccount() {

@@ -28,20 +28,20 @@ public class StageManager {
         currentStage.getIcons().add(appIcon);
     }
 
-    public void setupLoginStage() {
+    public void setupLoginRegisterStage() {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginView);
-
+    
         Scene loginScene = new Scene(loginView.getPane(), 400, 300);
         currentStage.setTitle("Data Analytics Hub - Login");
         currentStage.setScene(loginScene);
-
+    
         setAppLogo();
-
-        loginController.setOnLoginSuccessEvent(userType -> { // Assuming userType is a String
+    
+        loginController.setOnLoginSuccessEvent(userType -> { 
             closeCurrentStage();
-            String username = loginView.getUsernameField().getText(); // Get the username from the login view
-        
+            String username = loginView.getUsernameField().getText();
+            
             if ("admin".equals(userType)) {
                 setupAdminStage(username);
             } else if ("VIP".equals(userType)) {
@@ -50,32 +50,26 @@ public class StageManager {
                 setupDashboardStage(username);
             }            
         });
-        
-
+    
         loginController.setOnRegisterEvent(() -> {
-            closeCurrentStage();
-            setupRegisterStage();
+            setupRegisterScene();  // changed this from setupRegisterStage to setupRegisterScene
         });
-
+    
         currentStage.show();
     }
-
-    public void setupRegisterStage() {
+    
+    public void setupRegisterScene() {
         RegisterView registerView = new RegisterView();
-        currentStage = new Stage();
         Scene registerScene = new Scene(registerView.getPane(), 400, 300);
         currentStage.setTitle("Data Analytics Hub - Register");
-        currentStage.setScene(registerScene);
+        currentStage.setScene(registerScene); // change the current stage's scene to the register scene
         setAppLogo();
-
+    
         RegisterController registerController = new RegisterController(registerView);
-            registerController.getView().setOnBackEvent(() -> {
-            closeCurrentStage();
-            setupLoginStage();
+        registerController.getView().setOnBackEvent(() -> {
+            setupLoginRegisterStage();
         });        
-
-        currentStage.show();
-    }
+    }    
 
     public void setupDashboardStage(String username) {
         DashboardView dashboardView = new DashboardView(username);
