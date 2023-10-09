@@ -1,6 +1,7 @@
 package ass2_oisinAeonn.Controllers;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class DashboardController {
@@ -33,6 +35,7 @@ public class DashboardController {
     private StageManager stageManager;
     private String username;
     private Post post;
+    private Post searchedPost;
 
     public DashboardController(DashboardView view, StageManager stageManager, String username) {
         this.view = view;
@@ -54,6 +57,7 @@ public class DashboardController {
         view.getRetrieveButton().setOnAction(e -> retrievePost());
         view.getDeleteButton().setOnAction(e -> deletePost());
         view.getFilterButton().setOnAction(e -> retrieveTrendingPosts());
+        view.getExportSearchedPostButton().setOnAction(e -> handleExportSearchedPostToCSV());
     }
 
     private void addPost() {
@@ -94,6 +98,37 @@ public class DashboardController {
             alert.showAndWait();
         }
     }
+
+    private void handleExportSearchedPostToCSV() {
+    if (searchedPost != null) {
+        // Show a file dialog to choose the save location
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Post as CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(view.getPane().getScene().getWindow());
+
+        if (file != null) {
+            // Write the post attributes to the selected file
+            try (FileWriter writer = new FileWriter(file)) {
+                String csvHeader = "postId,content,author,likes,shares,dateTime,image\n";
+                String postAttributes = searchedPost.getPostId() + ","
+                        + "\"" + searchedPost.getContent() + "\"" + ","
+                        + "\"" + searchedPost.getAuthor() + "\"" + ","
+                        + searchedPost.getLikes() + ","
+                        + searchedPost.getShares() + ","
+                        + "\"" + searchedPost.getDateTime() + "\"" + ","
+                        + "\"" + (searchedPost.getImage() != null ? searchedPost.getImage() : "") + "\"" + "\n";
+                writer.write(csvHeader);
+                writer.write(postAttributes);
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to export post to CSV.");
+            }
+        }
+    } else {
+        showAlert("Info", "Please retrieve a post before exporting.");
+    }
+}
 
     private void handleUploadImage() {
         try {
@@ -183,6 +218,7 @@ public class DashboardController {
         }
     
         Post post = DatabaseConnector.getPostById(postId);
+        searchedPost = DatabaseConnector.getPostById(postId); // Store the retrieved post
         if (post != null) {
             view.getSearchResultsArea().setText(
                 "Author: " + post.getAuthor() + "\n" +

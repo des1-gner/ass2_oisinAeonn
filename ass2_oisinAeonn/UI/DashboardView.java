@@ -36,6 +36,7 @@ public class DashboardView {
     private int shares;
     private ListView<Post> postsListView;
     private ImageView searchedPostImageView;
+    private Button exportSearchedPostButton;
 
     public DashboardView(String username) {
 
@@ -106,8 +107,9 @@ searchedPostImageView.setPreserveRatio(true);
         retrieveButton = new Button("Retrieve Post");
         searchResultsArea = new TextArea();
         searchResultsArea.setEditable(false);
+        exportSearchedPostButton = new Button("Export Searched Post to CSV");
         
-        VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, searchedPostImageView, searchResultsArea);
+        VBox searchVBox = new VBox(10, searchField, deleteButton, retrieveButton, exportSearchedPostButton, searchedPostImageView, searchResultsArea);
         Tab searchTab = new Tab("Search", searchVBox);
         searchTab.setClosable(false);
 
@@ -183,6 +185,10 @@ searchedPostImageView.setPreserveRatio(true);
 
     public RadioButton getPostIdRadio() {
         return postIdRadio;
+    }
+
+    public Button getExportSearchedPostButton() {
+        return exportSearchedPostButton;
     }
 
     public ToggleGroup getRadioGroup() {
