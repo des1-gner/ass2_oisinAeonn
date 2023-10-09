@@ -3,7 +3,9 @@ package ass2_oisinAeonn.Views;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -14,20 +16,32 @@ import java.util.Map;
 
 public class VIPView extends DashboardView {
     private Button exportFilteredPostsButton;
+    private Button importPostsButton;
 
     public VIPView(String username) {
         super(username);
         exportFilteredPostsButton = new Button("Export to CSV");
+        importPostsButton = new Button("Import from CSV");
         
         Tab trendingTab = getTrendingTab();  // Retrieve the trending tab using a getter we'll define
     VBox trendingLayout = (VBox) trendingTab.getContent();
     trendingLayout.getChildren().add(exportFilteredPostsButton);
+
+    allPostsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    Tab allTab = getAllTab();  // Retrieve the trending tab using a getter we'll define
+    VBox allLayout = (VBox) allTab.getContent();
+    allLayout.getChildren().add(importPostsButton);
+
 
         // Create and add the Visualisation Tab
         Tab visualisationTab = createVisualisationTab();
         getTabPane().getTabs().add(visualisationTab);  // Using a getter for tabPane
 
         getUpgradeMenuItem().setText("Downgrade Account");
+    }
+
+    private Tab getAllTab() {
+        return allTab;
     }
 
     private Tab createVisualisationTab() {
@@ -83,5 +97,9 @@ public class VIPView extends DashboardView {
             }
         }
         return null;  // Should never reach here unless tab name is changed
+    }
+
+    public ButtonBase getImportPostsButton() {
+        return importPostsButton;
     }
 }

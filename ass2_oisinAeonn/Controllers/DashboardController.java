@@ -44,6 +44,8 @@ public class DashboardController {
 
         this.post = new Post();
 
+        populateAllPostsListView();
+
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
 
         attachHandlers();
@@ -58,6 +60,48 @@ public class DashboardController {
         view.getDeleteButton().setOnAction(e -> deletePost());
         view.getFilterButton().setOnAction(e -> retrieveTrendingPosts());
         view.getExportSearchedPostButton().setOnAction(e -> handleExportSearchedPostToCSV());
+        view.getExportSelectedPostsButton().setOnAction(e -> handleExportSelectedPostsToCSV());
+
+    }
+
+    private void populateAllPostsListView() {
+        List<Post> allPosts = DatabaseConnector.getAllPosts();
+        view.getAllPostsListView().setItems(FXCollections.observableArrayList(allPosts));
+    }
+
+    protected void handleExportSelectedPostsToCSV() {
+        List<Post> selectedPosts = view.getAllPostsListView().getSelectionModel().getSelectedItems();
+        
+        if (selectedPosts.isEmpty()) {
+            showAlert("Info", "Please select posts before exporting.");
+            return;
+        }
+    
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export Selected Posts as CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(view.getPane().getScene().getWindow());
+    
+        if (file != null) {
+            try (FileWriter writer = new FileWriter(file)) {
+                String csvHeader = "postId,content,author,likes,shares,dateTime,image\n";
+                writer.write(csvHeader);
+                
+                for (Post post : selectedPosts) {
+                    String postAttributes = post.getPostId() + ","
+                        + "\"" + post.getContent() + "\"" + ","
+                        + "\"" + post.getAuthor() + "\"" + ","
+                        + post.getLikes() + ","
+                        + post.getShares() + ","
+                        + "\"" + post.getDateTime() + "\"" + ","
+                        + "\"" + (post.getImage() != null ? post.getImage() : "") + "\"" + "\n";
+                    writer.write(postAttributes);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to export posts to CSV.");
+            }
+        }
     }
 
     private void addPost() {

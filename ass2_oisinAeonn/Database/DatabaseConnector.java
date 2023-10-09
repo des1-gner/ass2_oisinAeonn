@@ -65,6 +65,56 @@ public class DatabaseConnector {
     
     }
 
+    public static List<Post> getAllPosts() {
+        List<Post> posts = new ArrayList<>();
+        String sql = "SELECT * FROM posts";    
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = getInstance().getConnection();
+            stmt = conn.prepareStatement(sql);        
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                int postId = rs.getInt("postId");
+                String content = rs.getString("content");
+                String author = rs.getString("author");
+                int likes = rs.getInt("likes");
+                int shares = rs.getInt("shares");
+                String dateTime = rs.getString("dateTime");
+                String image = rs.getString("image");
+    
+                Post post = new Post(postId, content, author, likes, shares, dateTime, image);  
+                posts.add(post);
+            }        
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the ResultSet
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+    
+            // Close the PreparedStatement
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            // No need to close the Connection as it's a singleton connection.
+        }
+        return posts;
+    }
+    
+
     // Instead of opening a new connection every time, we use the singleton connection
     
     public Connection getConnection() {
@@ -126,7 +176,7 @@ public class DatabaseConnector {
                 
                 // Create a User object with the retrieved data
             
-                User user = new User(username, firstName, lastName, password, userType);  // Assuming your User class has such a constructor
+                User user = new User(username, firstName, lastName, password, userType); 
                 
                 users.add(user);
             

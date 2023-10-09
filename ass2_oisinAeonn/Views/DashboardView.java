@@ -11,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.util.List;
+
 import ass2_oisinAeonn.Model.Post;
 
 public class DashboardView {
@@ -37,6 +39,10 @@ public class DashboardView {
     private ListView<Post> postsListView;
     private ImageView searchedPostImageView;
     private Button exportSearchedPostButton;
+
+    protected Tab allTab;
+protected ListView<Post> allPostsListView;
+private Button exportSelectedPostsButton;
 
     public DashboardView(String username) {
 
@@ -148,6 +154,19 @@ searchedPostImageView.setPreserveRatio(true);
         setupPostsListView();
         layout.getChildren().addAll(controls, postsListView);
         trendingTab.setContent(layout);
+
+        allTab = new Tab("All");
+allTab.setClosable(false);
+
+allPostsListView = new ListView<>();
+setupAllPostsListView();
+exportSelectedPostsButton = new Button("Export Selected Posts");
+
+VBox allTabLayout = new VBox(10, allPostsListView, exportSelectedPostsButton);
+allTab.setContent(allTabLayout);
+
+tabPane.getTabs().add(allTab);
+
     }
 
     private void setupPostsListView() {
@@ -170,6 +189,33 @@ searchedPostImageView.setPreserveRatio(true);
         });
     }
     
+    private void setupAllPostsListView() {
+        allPostsListView.setCellFactory(postsListView -> new ListCell<Post>() {
+            @Override
+            protected void updateItem(Post post, boolean empty) {
+                super.updateItem(post, empty);
+                if (post == null || empty) {
+                    setText(null);
+                } else {
+                    String displayText = "Post ID: " + post.getPostId() + "\n" + 
+                        "Author: " + post.getAuthor() + 
+                        "\nContent: " + post.getContent() +
+                        "\nLikes: " + post.getLikes() +
+                        "\nShares: " + post.getShares() + 
+                        "\nDateTime: " + post.getDateTime();
+                    setText(displayText);
+                }
+            }
+        });
+    }
+
+    public void populateAllPosts(List<Post> posts) {
+        allPostsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+}
+
+public ListView<Post> getAllPostsListView() {
+    return allPostsListView;
+}
 
     public void setPostImageView(Image img) {
         postImageView.setImage(img);
@@ -322,6 +368,12 @@ searchedPostImageView.setPreserveRatio(true);
     public TabPane getTabPane() {
         return tabPane;
     }
+
+    public ButtonBase getExportSelectedPostsButton() {
+        return exportSelectedPostsButton;
+    }
+
+    
 }
 
 
