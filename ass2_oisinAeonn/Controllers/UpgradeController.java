@@ -1,9 +1,9 @@
 package ass2_oisinAeonn.Controllers;
 
-import ass2_oisinAeonn.UI.DashboardView;
-import ass2_oisinAeonn.UI.UpgradeView;
 import javafx.scene.Scene;
 import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Views.DashboardView;
+import ass2_oisinAeonn.Views.UpgradeView;
 
 public class UpgradeController {
 

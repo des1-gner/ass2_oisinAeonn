@@ -1,7 +1,7 @@
 package ass2_oisinAeonn.Controllers;
 
-import ass2_oisinAeonn.UI.RegisterView;
 import ass2_oisinAeonn.Model.User;
+import ass2_oisinAeonn.Views.RegisterView;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 
 import java.security.MessageDigest;

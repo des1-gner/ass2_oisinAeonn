@@ -1,6 +1,5 @@
 package ass2_oisinAeonn;
 
-import ass2_oisinAeonn.UI.StageManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

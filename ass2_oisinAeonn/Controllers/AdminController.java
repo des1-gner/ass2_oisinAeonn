@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import ass2_oisinAeonn.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.User;
-import ass2_oisinAeonn.UI.AdminView;
-import ass2_oisinAeonn.UI.StageManager;
+import ass2_oisinAeonn.Views.AdminView;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;

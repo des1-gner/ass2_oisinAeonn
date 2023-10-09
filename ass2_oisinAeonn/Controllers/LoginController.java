@@ -1,7 +1,7 @@
 package ass2_oisinAeonn.Controllers;
 
-import ass2_oisinAeonn.UI.LoginView;
 import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Views.LoginView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

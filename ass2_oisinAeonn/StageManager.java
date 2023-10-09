@@ -1,8 +1,13 @@
-package ass2_oisinAeonn.UI;
+package ass2_oisinAeonn;
 
 import ass2_oisinAeonn.Controllers.LoginController;
 import ass2_oisinAeonn.Controllers.AdminController; 
 import ass2_oisinAeonn.Controllers.VIPController;
+import ass2_oisinAeonn.Views.AdminView;
+import ass2_oisinAeonn.Views.DashboardView;
+import ass2_oisinAeonn.Views.LoginView;
+import ass2_oisinAeonn.Views.RegisterView;
+import ass2_oisinAeonn.Views.VIPView;
 import ass2_oisinAeonn.Controllers.DashboardController;
 import ass2_oisinAeonn.Controllers.RegisterController;
 import javafx.scene.Parent;

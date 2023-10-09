@@ -1,7 +1,5 @@
 package ass2_oisinAeonn.Controllers;
 
-import ass2_oisinAeonn.UI.DashboardView;
-import ass2_oisinAeonn.UI.ProfileView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -13,7 +11,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
-import ass2_oisinAeonn.UI.StageManager;
+import ass2_oisinAeonn.Views.DashboardView;
+import ass2_oisinAeonn.Views.ProfileView;
+import ass2_oisinAeonn.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 
 import java.io.FileWriter;

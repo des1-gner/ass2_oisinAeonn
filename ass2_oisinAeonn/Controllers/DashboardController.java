@@ -13,12 +13,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import ass2_oisinAeonn.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
-import ass2_oisinAeonn.UI.DashboardView;
-import ass2_oisinAeonn.UI.ProfileView;
-import ass2_oisinAeonn.UI.UpgradeView;
-import ass2_oisinAeonn.UI.StageManager;
+import ass2_oisinAeonn.Views.DashboardView;
+import ass2_oisinAeonn.Views.ProfileView;
+import ass2_oisinAeonn.Views.UpgradeView;
 import javafx.collections.FXCollections;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

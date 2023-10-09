@@ -5,10 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import ass2_oisinAeonn.StageManager;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
-import ass2_oisinAeonn.UI.StageManager;
-import ass2_oisinAeonn.UI.VIPView;
+import ass2_oisinAeonn.Views.VIPView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;

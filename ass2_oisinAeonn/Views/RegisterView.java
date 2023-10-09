@@ -1,4 +1,4 @@
-package ass2_oisinAeonn.UI;
+package ass2_oisinAeonn.Views;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
