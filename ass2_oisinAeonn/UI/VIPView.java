@@ -2,6 +2,7 @@ package ass2_oisinAeonn.UI;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
@@ -10,10 +11,17 @@ import javafx.scene.layout.VBox;
 
 import java.util.Map;
 
+
 public class VIPView extends DashboardView {
+    private Button exportFilteredPostsButton;
 
     public VIPView(String username) {
         super(username);
+        exportFilteredPostsButton = new Button("Export to CSV");
+        
+        Tab trendingTab = getTrendingTab();  // Retrieve the trending tab using a getter we'll define
+    VBox trendingLayout = (VBox) trendingTab.getContent();
+    trendingLayout.getChildren().add(exportFilteredPostsButton);
 
         // Create and add the Visualisation Tab
         Tab visualisationTab = createVisualisationTab();
@@ -60,5 +68,18 @@ public class VIPView extends DashboardView {
     // Getter for tabPane to access it in the subclass
     public TabPane getTabPane() {
         return tabPane;
+    }
+
+    public Button getExportFilteredPostsButton() {
+        return exportFilteredPostsButton;
+    }
+
+    public Tab getTrendingTab() {
+        for (Tab tab : getTabPane().getTabs()) {
+            if (tab.getText().equals("Trending")) {
+                return tab;
+            }
+        }
+        return null;  // Should never reach here unless tab name is changed
     }
 }

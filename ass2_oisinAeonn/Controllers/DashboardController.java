@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 
 public class DashboardController {
 
-    private DashboardView view;
+    public DashboardView view;
     private StageManager stageManager;
     private String username;
     private Post post;
@@ -181,7 +181,7 @@ public class DashboardController {
     }
     
 
-    private void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
