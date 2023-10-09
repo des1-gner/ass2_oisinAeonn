@@ -38,23 +38,11 @@ public class LoginController {
     private void handleLogin() {
         String username = view.getUsernameField().getText();
         String enteredPassword = view.getPasswordField().getText();
-        String storedPasswordHash = null;
-        String userType = null;  // Defaulted to null, to check later
-
-        // Fetch stored password hash and user type for the given username
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            PreparedStatement stmt = connection.prepareStatement("SELECT password, userType FROM users WHERE username = ?");
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                storedPasswordHash = rs.getString("password");
-                userType = rs.getString("userType"); // Fetch the user type
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();  // Handle in a more user-friendly way in a real application
-        }
-
+    
+        DatabaseConnector.UserPasswordAndType userInfo = DatabaseConnector.fetchPasswordAndUserTypeForUsername(username);
+        String storedPasswordHash = userInfo.passwordHash;
+        String userType = userInfo.userType;
+    
         if (storedPasswordHash != null && storedPasswordHash.equals(hashPassword(enteredPassword))) {
             if (onLoginSuccessEvent != null) {
                 onLoginSuccessEvent.accept(userType); // Pass the user type to the event
@@ -63,6 +51,7 @@ public class LoginController {
             view.getErrorLabel().setText("Invalid username or password.");
         }
     }
+    
 
     private void handleRegister() {
         if (onRegisterEvent != null) {
