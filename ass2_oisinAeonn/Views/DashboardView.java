@@ -308,6 +308,38 @@ public ListView<Post> getAllPostsListView() {
     public TextField getPostContentField() {
         return postContentField;
     }
+    public boolean isContentValid() {
+        String content = postContentField.getText();
+        return content != null && !content.trim().isEmpty();
+    }
+    
+    public boolean isLikesValid() {
+        String likesStr = likesField.getText();
+        try {
+            int likes = Integer.parseInt(likesStr);
+            return likes >= 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public boolean isSharesValid() {
+        String sharesStr = sharesField.getText();
+        try {
+            int shares = Integer.parseInt(sharesStr);
+            return shares >= 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    
+    public boolean isDateValid() {
+        return datePicker.getValue() != null;
+    }
+    
+    public boolean isImageUploaded() {
+        return postImageView.getImage() != null;
+    }
 
     public File showImageFileChooser() {
         FileChooser fileChooser = new FileChooser();

@@ -103,6 +103,31 @@ public class DashboardController {
     }
 
     private void addPost() {
+
+        if (!view.isContentValid()) {
+            showAlert("Error", "Please enter the post content.");
+            return;
+        }
+    
+        if (!view.isLikesValid()) {
+            showAlert("Error", "Please enter a valid positive integer for likes.");
+            return;
+        }
+    
+        if (!view.isSharesValid()) {
+            showAlert("Error", "Please enter a valid positive integer for shares.");
+            return;
+        }
+    
+        if (!view.isDateValid()) {
+            showAlert("Error", "Please select a date.");
+            return;
+        }
+    
+        if (!view.isImageUploaded()) {
+            showAlert("Error", "Please upload an image.");
+            return;
+        }
         boolean isError = false;
 
         String content = view.getPostContentField().getText();

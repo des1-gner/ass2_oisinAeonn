@@ -2,6 +2,7 @@ package ass2_oisinAeonn.Controllers;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Views.LoginView;
+import javafx.scene.control.Alert;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,21 +33,29 @@ public class LoginController {
     }
 
     private void handleLogin() {
-        String username = view.getUsernameField().getText();
-        String enteredPassword = view.getPasswordField().getText();
-    
-        DatabaseConnector.UserPasswordAndType userInfo = DatabaseConnector.fetchPasswordAndUserTypeForUsername(username);
-        String storedPasswordHash = userInfo.passwordHash;
-        String userType = userInfo.userType;
-    
-        if (storedPasswordHash != null && storedPasswordHash.equals(hashPassword(enteredPassword))) {
-            if (onLoginSuccessEvent != null) {
-                onLoginSuccessEvent.accept(userType); // Pass the user type to the event
-            }
-        } else {
-            view.getErrorLabel().setText("Invalid username or password.");
+    String username = view.getUsernameField().getText();
+    String enteredPassword = view.getPasswordField().getText();
+
+    DatabaseConnector.UserPasswordAndType userInfo = DatabaseConnector.fetchPasswordAndUserTypeForUsername(username);
+    String storedPasswordHash = userInfo.passwordHash;
+    String userType = userInfo.userType;
+
+    if (storedPasswordHash != null && storedPasswordHash.equals(hashPassword(enteredPassword))) {
+        // Display a welcome alert
+        Alert welcomeAlert = new Alert(Alert.AlertType.INFORMATION);
+        welcomeAlert.setTitle("Welcome");
+        welcomeAlert.setHeaderText(null);
+        welcomeAlert.setContentText("Welcome back, " + username + "!");
+        welcomeAlert.showAndWait();
+
+        if (onLoginSuccessEvent != null) {
+            onLoginSuccessEvent.accept(userType); // Pass the user type to the event
         }
+    } else {
+        view.getErrorLabel().setText("Invalid username or password.");
     }
+}
+
     
 
     private void handleRegister() {

@@ -104,19 +104,23 @@ public class ProfileController {
         String lastName = view.getLastNameField().getText().trim();
         String newPassword = view.getPasswordField().getText().trim();
     
+        String validationResult = ValidationHelper.validateFields(newUsername, firstName, lastName, newPassword);
+        if (validationResult != null) {
+            view.getErrorLabel().setText(validationResult);
+            return;
+        }
+    
         if (!newUsername.equals(username) && DatabaseConnector.checkIfUserExists(newUsername)) {
             view.getErrorLabel().setText("New username already exists");
             return;
         }
     
-        // If the newUsername is different and valid, first retrieve and delete the user's posts.
         List<Post> userPosts = null;
         if (!newUsername.equals(username)) {
             userPosts = DatabaseConnector.getPostsByUsername(username);
             DatabaseConnector.deletePostsForUser(username);
         }
     
-        // Update the user's details.
         if (!newPassword.isBlank()) {
             newPassword = hashPassword(newPassword);
             DatabaseConnector.updateUser(username, newUsername, firstName, lastName, newPassword);
@@ -124,21 +128,50 @@ public class ProfileController {
             DatabaseConnector.updateUserWithoutPassword(username, newUsername, firstName, lastName);
         }
     
-        // If the username has changed, re-insert the previously deleted posts with the new username.
         if (userPosts != null && !userPosts.isEmpty()) {
             for (Post post : userPosts) {
-                post.setAuthor(newUsername); // Set the new username as the post's author
+                post.setAuthor(newUsername);
                 DatabaseConnector.insertPost(post);
             }
         }
     
-        // If the username has changed, restart the stage.
         if (!newUsername.equals(username)) {
             handleLogoutWithNewUsername(newUsername);
         } else {
             handleBack();
         }
     }
+
+    private class ValidationHelper {
+
+        public static String validateFields(String username, String firstName, String lastName, String password) {
+            if (username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty()) {
+                return "All fields are required";
+            }
+    
+            if (!username.matches("[a-zA-Z0-9]+") || !firstName.matches("[a-zA-Z]+") || !lastName.matches("[a-zA-Z]+")) {
+                return "Username, First Name, and Last Name should be alphanumeric";
+            }
+    
+            if (password.length() < 8) {
+                return "Password must be at least 8 characters long";
+            }
+    
+            if (!password.matches(".*[A-Z].*")) {
+                return "Password must contain at least one uppercase letter";
+            }
+    
+            if (!password.matches(".*[0-9].*")) {
+                return "Password must contain at least one number";
+            }
+    
+            if (!password.matches(".*[@#$%^&+=].*")) {
+                return "Password must contain at least one special character (@, #, $, %, ^, &, +, =)";
+            }
+    
+            return null;  // No validation errors
+        }
+    }  
     
     
 

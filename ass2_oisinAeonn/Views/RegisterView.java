@@ -86,4 +86,19 @@ public void setOnBackEvent(Runnable onBackEvent) {
     this.onBackEvent = onBackEvent;
 }
 
+public boolean isUsernameValid() {
+    String username = usernameField.getText();
+    return username.length() >= 4;
+}
+
+public boolean isNameValid(String name) {
+    return (name != null && !name.trim().isEmpty());
+}
+
+public boolean isPasswordValid() {
+    String password = passwordField.getText();
+    return password.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$");
+}
+
+
 }
