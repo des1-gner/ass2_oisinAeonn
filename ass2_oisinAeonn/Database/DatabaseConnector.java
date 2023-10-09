@@ -506,6 +506,7 @@ public static Map<String, Integer> getPostsSharesDistribution() {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 Post post = new Post();
+                post.setPostId(rs.getInt("postId"));
                 post.setAuthor(rs.getString("author"));
                 post.setContent(rs.getString("content"));
                 post.setLikes(rs.getInt("likes"));

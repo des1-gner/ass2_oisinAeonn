@@ -288,11 +288,12 @@ public class DashboardController {
         searchedPost = DatabaseConnector.getPostById(postId); // Store the retrieved post
         if (post != null) {
             view.getSearchResultsArea().setText(
+                "postId: " +post.getPostId() + "\n" +
                 "Author: " + post.getAuthor() + "\n" +
                 "Content: " + post.getContent() + "\n" +
                 "Likes: " + post.getLikes() + "\n" +
                 "Shares: " + post.getShares() + "\n" +
-                "DateTime: " + post.getDateTime() + "\n" +
+                "dateTime: " + post.getDateTime() + "\n" +
                 "Image: " + post.getImage()
             );
     
