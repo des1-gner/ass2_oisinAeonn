@@ -6,7 +6,6 @@ import ass2_oisinAeonn.Database.DatabaseConnector;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 
 public class RegisterController {
 
