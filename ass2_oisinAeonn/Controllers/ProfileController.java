@@ -46,6 +46,7 @@ public class ProfileController {
         view.getBackButton().setOnAction(e -> handleBack());
         view.getDeleteButton().setOnAction(e -> handleDeleteAccount());
     view.getExportButton().setOnAction(e -> handleExportPostToCSV());
+    view.getExportAllPostsButton().setOnAction(e -> handleExportAllPostsToCSV());
     }
 
     private void populatePostListView() {
@@ -58,7 +59,40 @@ public class ProfileController {
         }
     }
     
+    private void handleExportAllPostsToCSV() {
+        List<Post> allPosts = DatabaseConnector.getPostsByUsername(username);
 
+        if (allPosts != null && !allPosts.isEmpty()) {
+            // Show a file dialog to choose the save location
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save All Posts as CSV");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+            Stage stage = (Stage) view.getPane().getScene().getWindow();
+            java.io.File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+                // Write the post attributes to the selected file
+                try {
+                    FileWriter writer = new FileWriter(file);
+                    String csvHeader = "postId,content,author,likes,shares,dateTime,image\n";
+                    writer.write(csvHeader);
+                    for (Post post : allPosts) {
+                        String postAttributes = post.getPostId() + ","
+                            + "\"" + post.getContent() + "\"" + ","
+                            + "\"" + post.getAuthor() + "\"" + ","
+                            + post.getLikes() + ","
+                            + post.getShares() + ","
+                            + "\"" + post.getDateTime() + "\"" + ","
+                            + "\"" + post.getImage() + "\"" + "\n";
+                        writer.write(postAttributes);
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
     
 
     private void loadExistingDetails(User user) {

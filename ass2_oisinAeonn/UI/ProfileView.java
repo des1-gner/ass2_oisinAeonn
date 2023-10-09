@@ -20,6 +20,7 @@ public class ProfileView {
     private Button deleteButton;
     private ListView<Post> postListView;
     private Button exportButton;
+    private Button exportAllPostsButton;
     private Label postLabel;
 
     public ProfileView() {
@@ -51,12 +52,18 @@ public class ProfileView {
 
         exportButton = new Button("Export Post to CSV");
 
+        exportAllPostsButton = new Button("Export All Posts to CSV");  
+
         postLabel = new Label("User's Posts:"); // Label for the list
 
         pane.getChildren().addAll(
             backButton, usernameField, firstNameField, lastNameField, passwordField, updateButton,
-            deleteButton, postLabel, postListView, exportButton, errorLabel
+            deleteButton, postLabel, postListView, exportButton, exportAllPostsButton, errorLabel
         );
+    }
+
+    public Button getExportAllPostsButton() {
+        return exportAllPostsButton;
     }
 
     public TextField getUsernameField() {
