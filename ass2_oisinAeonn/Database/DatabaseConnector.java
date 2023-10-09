@@ -73,6 +73,35 @@ public class DatabaseConnector {
     
     }
     
+    public static void updateUserType(String username, String newType) {
+        String sql = "UPDATE users SET userType = ? WHERE username = ?";
+        Connection conn = null;
+        PreparedStatement stmt = null;
+    
+        try {
+            conn = getInstance().getConnection();
+            stmt = conn.prepareStatement(sql);
+    
+            stmt.setString(1, newType);
+            stmt.setString(2, username);
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Error updating user type for user " + username);
+        } finally {
+            // Close the PreparedStatement. The connection shouldn't be closed since it's a singleton.
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+
     public static List<User> getAllUsers() {
     
         List<User> users = new ArrayList<>();

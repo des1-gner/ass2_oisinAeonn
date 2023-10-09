@@ -1,6 +1,8 @@
 package ass2_oisinAeonn.Controllers;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.User;
@@ -9,6 +11,7 @@ import ass2_oisinAeonn.UI.StageManager;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 
 public class AdminController extends VIPController {
     
@@ -23,13 +26,7 @@ public class AdminController extends VIPController {
 
     private void setupButtonEventHandlers() {
         adminView.deleteUserBtn.setOnAction(e -> handleDeleteUser());
-        adminView.changeUserTypeBtn.setOnAction(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information");
-            alert.setHeaderText(null);
-            alert.setContentText("Functionality for changing user type is not yet implemented.");
-            alert.showAndWait();
-        });
+        adminView.changeUserTypeBtn.setOnAction(e -> handleChangeUserType());
     }
 
     private void handleDeleteUser() {
@@ -64,6 +61,46 @@ public class AdminController extends VIPController {
         adminView.userDistributionBarChart.getData().add(series);
     }
 
+    private void handleChangeUserType() {
+    User selectedUser = adminView.getUsersListView().getSelectionModel().getSelectedItem();
+    if (selectedUser != null) {
+        List<String> choices = List.of("standard", "VIP", "admin");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(selectedUser.getUserType(), choices);
+        dialog.setTitle("Change User Type");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Choose new user type:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(chosenType -> {
+            // TODO: Implement the logic to update the user type in the database
+            DatabaseConnector.updateUserType(selectedUser.getUsername(), chosenType);
+            selectedUser.setUserType(chosenType); // Update the model (consider refreshing the ListView if needed)
+            Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
+            infoAlert.setTitle("Information");
+            infoAlert.setHeaderText(null);
+            infoAlert.setContentText("User type has been changed to " + chosenType + ".");
+            infoAlert.showAndWait();
+        });
+    } else {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(null);
+        alert.setContentText("Please select a user to change its type.");
+        alert.showAndWait();}
+
+        // Refresh the ListView to reflect the changes
+    refreshUsersListView();
+    }
+
+    private void refreshUsersListView() {
+        // Fetch the updated list of users
+        List<User> updatedUsers = DatabaseConnector.getAllUsers();
+    
+        // Clear the current users and update the ListView
+        adminView.getUsersListView().getItems().clear();
+        adminView.getUsersListView().getItems().addAll(updatedUsers);
+    }
+    
 
     private void setupUserDistributionChart() {
         // Fetch data from the database
