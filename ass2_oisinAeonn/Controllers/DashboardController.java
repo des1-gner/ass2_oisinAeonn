@@ -33,7 +33,7 @@ public class DashboardController {
 
     public DashboardView view;
     private StageManager stageManager;
-    private String username;
+    protected String username;
     private Post post;
     private Post searchedPost;
 
@@ -199,7 +199,7 @@ public class DashboardController {
         currentScene.setRoot(upgradeView.getMainLayout());
     }    
 
-    private void handleLogoutAction() {
+    protected void handleLogoutAction() {
         try {
             ((Stage) view.getPane().getScene().getWindow()).close();
             stageManager.setupLoginStage();

@@ -26,6 +26,8 @@ public class VIPView extends DashboardView {
         // Create and add the Visualisation Tab
         Tab visualisationTab = createVisualisationTab();
         getTabPane().getTabs().add(visualisationTab);  // Using a getter for tabPane
+
+        getUpgradeMenuItem().setText("Downgrade Account");
     }
 
     private Tab createVisualisationTab() {

@@ -5,9 +5,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.UI.StageManager;
 import ass2_oisinAeonn.UI.VIPView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 
 public class VIPController extends DashboardController {
@@ -17,7 +20,26 @@ public class VIPController extends DashboardController {
         //TODO Auto-generated constructor stub
         // Inside VIPController's constructor
 view.getExportFilteredPostsButton().setOnAction(e -> handleExportFilteredPostsToCSV());
+view.getUpgradeMenuItem().setOnAction(e -> handleDowngrade());
 
+    }
+
+    private void handleDowngrade() {
+        // Prompt the user to ensure they really want to downgrade
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Downgrade Confirmation");
+        alert.setHeaderText("Are you sure you want to downgrade your account to 'standard'?");
+        alert.setContentText("This action cannot be undone.");
+
+        // Show the dialog and wait for user's response
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                // Downgrade the account in the database
+                DatabaseConnector.updateUserType(username, "standard");
+                // Log out the user
+                handleLogoutAction();
+            }
+        });
     }
 
     private void handleExportFilteredPostsToCSV() {

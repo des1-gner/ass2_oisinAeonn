@@ -72,7 +72,6 @@ public class AdminController extends VIPController {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(chosenType -> {
-            // TODO: Implement the logic to update the user type in the database
             DatabaseConnector.updateUserType(selectedUser.getUsername(), chosenType);
             selectedUser.setUserType(chosenType); // Update the model (consider refreshing the ListView if needed)
             Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
