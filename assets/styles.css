@@ -28,3 +28,10 @@
     -fx-highlight-fill: #444444;
     -fx-border-color: white;
 }
+
+.bar-chart .default-color0.chart-bar {
+    -fx-bar-fill: #6b4c9a; /* This is a muted shade of purple. Adjust as needed. */
+}
+
+
+

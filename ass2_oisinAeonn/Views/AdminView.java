@@ -47,6 +47,7 @@ public class AdminView extends VIPView {
         BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         barChart.getData().add(series);
+        barChart.getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
         return barChart;
     }
 
