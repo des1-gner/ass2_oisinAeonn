@@ -1,0 +1,30 @@
+/* The root style for the application */
+.root {
+    -fx-base: #2e2e2e;
+    -fx-background: #2e2e2e;
+    -fx-text-fill: white;
+    -fx-text-background-color: white;
+}
+
+/* Style for buttons */
+.button {
+    -fx-background-color: #3e3e3e;
+    -fx-text-fill: white;
+    -fx-border-color: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+.button:hover {
+    -fx-background-color: #555555;
+}
+
+/* Style for text fields, password fields, etc. */
+.text-field, .password-field {
+    -fx-background-color: #3e3e3e;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #555555;
+    -fx-highlight-text-fill: white;
+    -fx-highlight-fill: #444444;
+    -fx-border-color: white;
+}
