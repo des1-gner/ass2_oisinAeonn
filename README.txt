@@ -188,7 +188,26 @@ References:
 
 2023 March https://www.linkedin.com/learning/certificates/16b99e7b85b2c311f63c7133e20b7fec6eb27afa445aed181428ff153ba8a36c?u=2104756 Kathryn Hodge 
 
+NEW:
 
+Assumptions:
+
+References: plantUML, Visual Paradigm, Oracle, JavaFX, 
+
+Please see my user stories (use case diagrams, domain diagram, as well as my class diagram, and sequence diagrams)
+
+Problems:
+
+Swing to JavaFX
+DAO in Database
+Ensuring small methods
+keeping clean code
+MVC
+Singleton Database
+exceptions
+alerts
+styles
+JUnit with GUI
 
 
 
