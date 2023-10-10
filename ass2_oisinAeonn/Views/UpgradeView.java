@@ -4,18 +4,40 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class UpgradeView {
 
-    private VBox mainLayout;
+    private BorderPane mainFrame;  // Main frame
+    private VBox mainLayout;       // Inner layout for main content
+    private VBox radioFrame;       // Frame for the radio buttons
     private ToggleGroup paymentGroup;
     private Button payButton;
     private Button backButton;
 
     public UpgradeView() {
+        // Create the main frame and set padding/margins if needed
+        mainFrame = new BorderPane();
+
+        // Logo at the top
+        Image logo = new Image(getClass().getResource("/assets/logo.jpg").toString());
+
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitWidth(100);  // Adjust width as needed
+        logoView.setPreserveRatio(true); // Preserve aspect ratio
+        
+        // Wrapping the ImageView in an HBox to center it
+        HBox logoBox = new HBox(logoView);
+        logoBox.setAlignment(Pos.CENTER);
+        
+        mainFrame.setTop(logoBox);  // This line is now valid
+
         mainLayout = new VBox(10);
         mainLayout.setAlignment(Pos.CENTER);
 
@@ -35,14 +57,22 @@ public class UpgradeView {
         payLaterOption.setToggleGroup(paymentGroup);
 
         payButton = new Button("Pay");
-
         backButton = new Button("Back");
-        mainLayout.getChildren().addAll(vipDescription, creditCardOption, cashOption, cryptoOption, payLaterOption, payButton, backButton);
-        
+
+        // Create a VBox for the radio buttons and set some padding/margins if needed
+        radioFrame = new VBox(5, creditCardOption, cashOption, cryptoOption, payLaterOption);
+        radioFrame.setPadding(new javafx.geometry.Insets(10, 0, 10, 0));
+        radioFrame.setAlignment(Pos.CENTER);
+
+        mainLayout.getChildren().addAll(vipDescription, radioFrame, payButton, backButton);
+
+        // Add the logo to the top and the mainLayout to the center of the main frame
+        mainFrame.setTop(logoBox);
+        mainFrame.setCenter(mainLayout);
     }
 
-    public VBox getMainLayout() {
-        return mainLayout;
+    public BorderPane getMainFrame() {
+        return mainFrame;
     }
 
     public Button getPayButton() {
@@ -54,7 +84,10 @@ public class UpgradeView {
     }
 
     public Pane getPane() {
-    return mainLayout; // Replace 'mainLayout' with the name of your main layout/container if different.
-}
+        return mainFrame; // Return the main frame as the root
+    }
 
+    public VBox getMainLayout() {
+        return mainLayout;
+    }
 }

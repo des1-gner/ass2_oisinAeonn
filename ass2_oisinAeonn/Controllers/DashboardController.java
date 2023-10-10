@@ -266,8 +266,9 @@ public class DashboardController {
     
         // Now swap the content
         Scene currentScene = view.getPane().getScene();
-        currentScene.setRoot(upgradeView.getMainLayout());
-    }    
+        currentScene.setRoot(upgradeView.getMainFrame());
+    }
+      
 
     protected void handleLogoutAction() {
         try {

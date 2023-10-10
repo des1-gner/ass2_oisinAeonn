@@ -6,6 +6,11 @@
     -fx-text-background-color: white;
 }
 
+Text {
+    -fx-fill: white;
+}
+
+
 /* Ensure that all text-based components have white text */
 .label, .text, .button, .menu-item, .checkbox, .radio-button, .tab, .titled-pane > .title, .tooltip {
     -fx-text-fill: white;
