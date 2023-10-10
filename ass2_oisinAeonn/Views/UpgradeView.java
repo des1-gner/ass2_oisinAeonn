@@ -29,7 +29,7 @@ public class UpgradeView {
         Image logo = new Image(getClass().getResource("/assets/logo.jpg").toString());
 
         ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(100);  // Adjust width as needed
+        logoView.setFitWidth(500);  // Adjust width as needed
         logoView.setPreserveRatio(true); // Preserve aspect ratio
         
         // Wrapping the ImageView in an HBox to center it
