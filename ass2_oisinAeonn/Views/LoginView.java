@@ -45,7 +45,6 @@ public class LoginView {
         errorLabel = new Label();
         errorLabel.setTextFill(Color.RED);
 
-        // Add the logoView at the top of your VBox
         pane.getChildren().addAll(logoView, usernameField, passwordField, loginButton, registerButton, errorLabel);
 
         rootPane = new StackPane(pane);

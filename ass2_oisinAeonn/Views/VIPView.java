@@ -49,7 +49,7 @@ public class VIPView extends DashboardView {
 
         // Fetch data
         Map<String, Integer> likesDistribution = DatabaseConnector.getPostsLikesDistribution();
-        Map<String, Integer> sharesDistribution = DatabaseConnector.getPostsSharesDistribution();  // Assuming you've created this method
+        Map<String, Integer> sharesDistribution = DatabaseConnector.getPostsSharesDistribution(); 
 
         // Generate charts
         PieChart likesPieChart = generatePieChart(likesDistribution, "Likes Distribution");

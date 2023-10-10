@@ -466,8 +466,6 @@ public static Map<String, Integer> getPostsSharesDistribution() {
                 }
             }
     
-            // No need to close the Connection as it's a singleton connection.
-            // If you ever switch to creating a new connection per request, then you'd close it here.
         }
     
         return new UserPasswordAndType(storedPasswordHash, userType);
@@ -705,8 +703,6 @@ public static String getPostContent(int postId) {
     return postContent;
 }
 
-
-// Assuming you have a 'User' model class already
 public static User getUserByUsername(String username) {
     User user = null;
     Connection conn = null;

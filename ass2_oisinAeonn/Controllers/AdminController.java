@@ -105,7 +105,6 @@ public class AdminController extends VIPController {
         // Fetch data from the database
         Map<String, Integer> usersDistribution = DatabaseConnector.getUsersDistribution();
 
-        // Use the adminView to update the chart (you'll need methods in AdminView to do this)
         updateUserDistributionChart(usersDistribution);
     }
 

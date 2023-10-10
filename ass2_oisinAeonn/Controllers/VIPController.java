@@ -119,36 +119,41 @@ protected void handleExportSelectedPostsToCSV() {
     
     
     private void handleImportPostsFromCSV() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Import Posts from CSV");
-    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-    File file = fileChooser.showOpenDialog(view.getPane().getScene().getWindow());
-
-    if (file != null) {
-        try {
-            List<String> lines = Files.readAllLines(file.toPath());
-
-            // Skipping the header and parsing posts
-            for (int i = 1; i < lines.size(); i++) {
-                String line = lines.get(i);
-                String[] attributes = line.split(",");
-
-                // Assuming you have a method in DatabaseConnector to insert posts
-                Post post = new Post(Integer.parseInt(attributes[0].replace("\"", "")), attributes[1].replace("\"", ""), attributes[2].replace("\"", ""),
-    Integer.parseInt(attributes[3]), Integer.parseInt(attributes[4]), attributes[5].replace("\"", ""), attributes[6].replace("\"", ""));
-
-                DatabaseConnector.insertPost(post);
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import Posts from CSV");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showOpenDialog(view.getPane().getScene().getWindow());
+    
+        if (file != null) {
+            try {
+                List<String> lines = Files.readAllLines(file.toPath());
+    
+                // Skipping the header and parsing posts
+                for (int i = 1; i < lines.size(); i++) {
+                    String line = lines.get(i);
+                    String[] attributes = line.split(",");
+    
+                    try {
+                        Post post = new Post(Integer.parseInt(attributes[0].replace("\"", "")), attributes[1].replace("\"", ""), attributes[2].replace("\"", ""),
+                            Integer.parseInt(attributes[3]), Integer.parseInt(attributes[4]), attributes[5].replace("\"", ""), attributes[6].replace("\"", ""));
+    
+                        DatabaseConnector.insertPost(post);
+                    } catch (NumberFormatException nfe) {
+                        // If there's an issue with the parsing, show an alert and continue to the next line
+                        showAlert("Error", "Issue parsing data on line " + i + ". Skipping this entry.");
+                    }
+                }
+                showAlert("Success", "Posts imported successfully!");
+    
+                // Refresh the ListView after successfully importing posts
+                populateAllPostsListView();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to import posts from CSV.");
             }
-            showAlert("Success", "Posts imported successfully.");
-
-            // Refresh the ListView after successfully importing posts
-            populateAllPostsListView();
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to import posts from CSV.");
         }
     }
-}
+    
 
 private void populateAllPostsListView() {
     List<Post> allPosts = DatabaseConnector.getAllPosts();

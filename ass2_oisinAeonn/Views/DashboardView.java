@@ -23,7 +23,7 @@ public class DashboardView {
     private Label welcomeLabel;
     protected TabPane tabPane;
     private MenuButton menuButton;
-    private TextArea postList, searchResultsArea;
+    private TextArea searchResultsArea;
     private DatePicker datePicker;
     private ImageView postImageView;
     private TextField postContentField, searchField, likesField, sharesField;
@@ -46,16 +46,29 @@ protected ListView<Post> allPostsListView;
 private Button exportSelectedPostsButton;
 
     public DashboardView(String username) {
-
         searchedPostImageView = new ImageView();
 searchedPostImageView.setFitHeight(100);
 searchedPostImageView.setFitWidth(100);
 searchedPostImageView.setPreserveRatio(true);
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
+
+        // Load the logo just like before
+Image logo = new Image(getClass().getResource("../../assets/logo.jpg").toString());
+ImageView logoView = new ImageView(logo);
+logoView.setFitWidth(50);
+logoView.setPreserveRatio(true);
+
+// Create a HBox for the logo
+HBox logoBox = new HBox(logoView);
+logoBox.setAlignment(Pos.TOP_LEFT);  // Align to top left
+logoBox.setPadding(new Insets(0, 0, 0, 0));  // Add some padding (top, right, bottom, left)
+
+// Add the logoBox to the very beginning of dashboardVBox
+dashboardVBox.getChildren().add(0, logoBox);
+
         postContentField = new TextField();
         postButton = new Button("Post");
-        postList = new TextArea();
         datePicker = new DatePicker();
 
         welcomeLabel = new Label("Welcome, " + username + "!");
@@ -94,13 +107,10 @@ searchedPostImageView.setPreserveRatio(true);
             datePicker,
             uploadImageButton,
             postImageView,
-            postButton,
-            postList
+            postButton
         );
         addPostVBox.setPadding(new Insets(15));
 
-        postList.setEditable(false);
-        postList.setPromptText("Posts will be displayed here...");
         postContentField.setPromptText("Content");
         datePicker.setPromptText("Date of Post");
         datePicker.setEditable(false);
