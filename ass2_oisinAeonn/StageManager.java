@@ -32,7 +32,7 @@ public class StageManager {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginView);
     
-        Scene loginScene = new Scene(loginView.getPane(), 400, 300);
+        Scene loginScene = new Scene(loginView.getPane(), 350, 300);
         loginScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
         currentStage.setTitle("Data Analytics Hub - Login");
         currentStage.setScene(loginScene);
@@ -61,7 +61,7 @@ public class StageManager {
     
     public void setupRegisterScene() {
         RegisterView registerView = new RegisterView();
-        Scene registerScene = new Scene(registerView.getPane(), 400, 300);
+        Scene registerScene = new Scene(registerView.getPane(), 350, 300);
         registerScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
         currentStage.setTitle("Data Analytics Hub - Register");
         currentStage.setScene(registerScene); // change the current stage's scene to the register scene

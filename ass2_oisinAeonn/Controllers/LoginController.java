@@ -3,6 +3,7 @@ package ass2_oisinAeonn.Controllers;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Views.LoginView;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -46,6 +47,7 @@ public class LoginController {
         welcomeAlert.setTitle("Welcome");
         welcomeAlert.setHeaderText(null);
         welcomeAlert.setContentText("Welcome back, " + username + "!");
+welcomeAlert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
         welcomeAlert.showAndWait();
 
         if (onLoginSuccessEvent != null) {

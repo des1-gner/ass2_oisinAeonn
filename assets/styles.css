@@ -1,37 +1,37 @@
 /* The root style for the application */
 .root {
-    -fx-base: #2e2e2e;
-    -fx-background: #2e2e2e;
+    -fx-base: #001c3c;
+    -fx-background: #001c3c;
     -fx-text-fill: white;
     -fx-text-background-color: white;
 }
 
+/* Ensure that all text-based components have white text */
+.label, .text, .button, .menu-item, .checkbox, .radio-button, .tab, .titled-pane > .title, .tooltip {
+    -fx-text-fill: white;
+}
+
 /* Style for buttons */
 .button {
-    -fx-background-color: #3e3e3e;
-    -fx-text-fill: white;
+    -fx-background-color: #2a3a4c;
     -fx-border-color: white;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
 }
 
 .button:hover {
-    -fx-background-color: #555555;
+    -fx-background-color: #3a4a6c;
 }
 
 /* Style for text fields, password fields, etc. */
 .text-field, .password-field {
-    -fx-background-color: #3e3e3e;
-    -fx-text-fill: white;
-    -fx-prompt-text-fill: #555555;
-    -fx-highlight-text-fill: white;
-    -fx-highlight-fill: #444444;
+    -fx-background-color: #2a3a4c;
+    -fx-prompt-text-fill: white; /* Placeholder text */
+    -fx-highlight-text-fill: white; /* Text highlight when selected */
+    -fx-highlight-fill: #3a4a6c; /* Background highlight when text is selected */
     -fx-border-color: white;
 }
 
 .bar-chart .default-color0.chart-bar {
-    -fx-bar-fill: #6b4c9a; /* This is a muted shade of purple. Adjust as needed. */
+    -fx-bar-fill: #6b4c9a;
 }
-
-
-

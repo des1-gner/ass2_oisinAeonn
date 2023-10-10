@@ -1,44 +1,59 @@
 package ass2_oisinAeonn.Views;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 public class RegisterView {
 
-    private Pane pane;
+    private StackPane rootPane;
+    private VBox pane;
     private TextField usernameField;
     private TextField firstNameField;
     private TextField lastNameField;
     private PasswordField passwordField;
     private Button registerButton;
     private Button backButton;
-    private Label errorLabel;
 
     public RegisterView() {
         pane = new VBox(10);
         pane.setPadding(new Insets(20));
-
+        pane.setAlignment(Pos.CENTER);
+    
+        // Load the logo image
+        Image logoImage = new Image(getClass().getResourceAsStream("../../assets/logo.jpg"));
+        ImageView logoView = new ImageView(logoImage);
+        logoView.setFitWidth(100);  // Adjust width as needed
+        logoView.setPreserveRatio(true); // Preserve aspect ratio
+    
         usernameField = new TextField();
         usernameField.setPromptText("Username");
-
+        usernameField.setMaxWidth(200);
+    
         firstNameField = new TextField();
         firstNameField.setPromptText("First Name");
-
+        firstNameField.setMaxWidth(200);
+    
         lastNameField = new TextField();
         lastNameField.setPromptText("Last Name");
-
+        lastNameField.setMaxWidth(200);
+    
         passwordField = new PasswordField();
         passwordField.setPromptText("Password");
-
-        registerButton = new Button("Register");
-
+        passwordField.setMaxWidth(200);
+    
         backButton = new Button("Back");
-
-        errorLabel = new Label();
-        
-        pane.getChildren().addAll(backButton, usernameField, firstNameField, lastNameField, passwordField, registerButton, errorLabel);
+        registerButton = new Button("Register");
+    
+        HBox buttonBox = new HBox(10); // 10 is the spacing between buttons
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.getChildren().addAll(backButton, registerButton);
+    
+        pane.getChildren().addAll(logoView, usernameField, firstNameField, lastNameField, passwordField, buttonBox);
     }
 
     // Getters for fields and buttons
@@ -66,13 +81,11 @@ public class RegisterView {
         return backButton;
     }
 
-    public Label getErrorLabel() {
-        return errorLabel;
+    public Parent getPane() {
+        return pane;  // Return the StackPane as the root
     }
 
-    public Parent getPane() {
-        return pane;
-    }
+
 
     public Runnable getOnBackEvent() {
         return onBackEvent;

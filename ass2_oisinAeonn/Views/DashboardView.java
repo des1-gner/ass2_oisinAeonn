@@ -3,6 +3,7 @@ package ass2_oisinAeonn.Views;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -144,8 +145,10 @@ searchedPostImageView.setPreserveRatio(true);
         sharesRadio.setToggleGroup(radioGroup);
         usernameFilterField = new TextField();
         usernameFilterField.setPromptText("Filter by Username (optional)");
+        usernameFilterField.setPrefWidth(200);  // Example width; adjust as needed
         retrieveCountField = new TextField();
         retrieveCountField.setPromptText("Number of posts (up to 100)");
+        retrieveCountField.setPrefWidth(200);    // Example width; adjust as needed
         sortOrderComboBox = new ComboBox<>();
         sortOrderComboBox.setItems(FXCollections.observableArrayList("Ascending", "Descending"));
         sortOrderComboBox.setValue("Descending");
@@ -154,6 +157,10 @@ searchedPostImageView.setPreserveRatio(true);
         setupPostsListView();
         layout.getChildren().addAll(controls, postsListView);
         trendingTab.setContent(layout);
+        for (Node node : controls.getChildren()) {
+            HBox.setMargin(node, new Insets(0, 5, 0, 5));  // Add margin of 5 pixels to left and right of each control
+        }
+        
 
         allTab = new Tab("All");
 allTab.setClosable(false);

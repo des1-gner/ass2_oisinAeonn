@@ -159,6 +159,7 @@ public class DashboardController {
             DatabaseConnector.insertPost(post);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
             alert.setTitle("Post Added");
             alert.setHeaderText(null);
             alert.setContentText("\nContent: " + content);
@@ -211,6 +212,7 @@ public class DashboardController {
         } catch (Exception e) {
             e.printStackTrace();
             Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
             errorAlert.setTitle("Error");
             errorAlert.setHeaderText("Failed to upload the image.");
             errorAlert.setContentText(e.getMessage());
@@ -250,6 +252,7 @@ public class DashboardController {
 
     public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);

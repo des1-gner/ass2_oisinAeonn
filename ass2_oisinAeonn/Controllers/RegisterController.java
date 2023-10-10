@@ -3,6 +3,7 @@ package ass2_oisinAeonn.Controllers;
 import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Views.RegisterView;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import ass2_oisinAeonn.Database.DatabaseConnector;
 
 import java.security.MessageDigest;
@@ -21,46 +22,62 @@ public class RegisterController {
     }
 
     private void handleRegister() {
-    if (!view.isUsernameValid()) {
-        view.getErrorLabel().setText("Username should be at least 4 characters.");
-        return;
+        if (!view.isUsernameValid()) {
+            showErrorAlert("Error", "Username should be at least 4 characters.");
+            return;
+        }
+    
+        if (!view.isNameValid(view.getFirstNameField().getText()) ||
+            !view.isNameValid(view.getLastNameField().getText())) {
+            showErrorAlert("Error", "First name and Last name cannot be empty.");
+            return;
+        }
+    
+        if (!view.isPasswordValid()) {
+            showErrorAlert("Error", "Password must be at least 8 characters, include a capital letter, a number, and a special character.");
+            return;
+        }
+    
+        String username = view.getUsernameField().getText();
+        String firstName = view.getFirstNameField().getText();
+        String lastName = view.getLastNameField().getText();
+        String password = hashPassword(view.getPasswordField().getText());
+    
+        User user = new User(username, firstName, lastName, password, null);
+    
+        if (DatabaseConnector.checkIfUserExists(username)) {
+            showErrorAlert("Error", "Username already exists");
+            return;
+        }
+    
+        DatabaseConnector.registerUser(user);
+    
+        // Display a success alert
+        Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
+        confirmationAlert.setTitle("Registration Successful");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("You have successfully registered!");
+        styleAlert(confirmationAlert);
+        confirmationAlert.showAndWait();
+    
+        // Redirect to login page
+        handleBack();
     }
-
-    if (!view.isNameValid(view.getFirstNameField().getText()) ||
-        !view.isNameValid(view.getLastNameField().getText())) {
-        view.getErrorLabel().setText("First name and Last name cannot be empty.");
-        return;
+    
+    private void showErrorAlert(String title, String message) {
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setTitle(title);
+        errorAlert.setHeaderText(null);
+        errorAlert.setContentText(message);
+        styleAlert(errorAlert);
+        errorAlert.showAndWait();
     }
-
-    if (!view.isPasswordValid()) {
-        view.getErrorLabel().setText("Password must be at least 8 characters, include a capital letter, a number, and a special character.");
-        return;
+    
+    private void styleAlert(Alert alert) {
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
     }
-
-    String username = view.getUsernameField().getText();
-    String firstName = view.getFirstNameField().getText();
-    String lastName = view.getLastNameField().getText();
-    String password = hashPassword(view.getPasswordField().getText());
-
-    User user = new User(username, firstName, lastName, password, null);
-
-    if (DatabaseConnector.checkIfUserExists(username)) {
-        view.getErrorLabel().setText("Username already exists");
-        return;
-    }
-
-    DatabaseConnector.registerUser(user);
-
-    // Display a success alert
-    Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
-    confirmationAlert.setTitle("Registration Successful");
-    confirmationAlert.setHeaderText(null);
-    confirmationAlert.setContentText("You have successfully registered!");
-    confirmationAlert.showAndWait();
-
-    // Redirect to login page
-    handleBack();
-}
+    
 
     
     private void handleBack() {
