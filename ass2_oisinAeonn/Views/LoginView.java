@@ -32,15 +32,21 @@ public class LoginView {
         logoView.setPreserveRatio(true); // Preserve aspect ratio
 
         usernameField = new TextField();
-        usernameField.setPromptText("Username");
-        usernameField.setMaxWidth(200);
+usernameField.setPromptText("Username");
+usernameField.setMaxWidth(200);
+usernameField.setId("usernameField");
 
-        passwordField = new PasswordField();
-        passwordField.setPromptText("Password");
-        passwordField.setMaxWidth(200);
+passwordField = new PasswordField();
+passwordField.setPromptText("Password");
+passwordField.setMaxWidth(200);
+passwordField.setId("passwordField");
 
-        loginButton = new Button("Login");
-        registerButton = new Button("Register");
+loginButton = new Button("Login");
+loginButton.setId("loginButton");
+
+registerButton = new Button("Register");
+registerButton.setId("registerButton");
+
 
         errorLabel = new Label();
         errorLabel.setTextFill(Color.RED);

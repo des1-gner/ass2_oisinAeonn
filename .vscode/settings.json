@@ -4,5 +4,6 @@
     ],
     "java.project.sourcePaths": [
         "."
-    ]
+    ],
+    "java.debug.settings.onBuildFailureProceed": true
 }
