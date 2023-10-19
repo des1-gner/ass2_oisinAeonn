@@ -77,10 +77,11 @@ public class UserDAO {
                 String lastName = rs.getString("lastName");
                 String password = rs.getString("password");
                 String userType = rs.getString("userType");
+                String profilePicture = rs.getString("profilePicture");
                 
                 // Create a User object with the retrieved data
             
-                User user = new User(username, firstName, lastName, password, userType); 
+                User user = new User(username, firstName, lastName, password, userType, profilePicture); 
                 
                 users.add(user);
             
@@ -101,6 +102,33 @@ public class UserDAO {
         return users;
     
     }
+
+    public static void updateProfileImagePath(String username, String path) {
+        String sql = "UPDATE users SET profilePicture = ? WHERE username = ?";
+        Connection conn = DatabaseConnector.getInstance().getConnection();
+        PreparedStatement stmt = null;
+    
+        try {
+            stmt = conn.prepareStatement(sql);
+    
+            stmt.setString(1, path);
+            stmt.setString(2, username);
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Error updating profile image path for user " + username);
+        } finally {
+            // Close the PreparedStatement. The connection shouldn't be closed since it's a singleton.
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }       
     
     public static void deletePostsForUser(String username) {
         String deletePostsQuery = "DELETE FROM posts WHERE author = ?";
@@ -355,7 +383,9 @@ public static User getUserByUsername(String username) {
             String firstName = rs.getString("firstName");
             String lastName = rs.getString("lastName");
             String password = rs.getString("password");
-            user = new User(username, firstName, lastName, password);
+            String userType = rs.getString("userType");
+            String profilePicture = rs.getString("profilePicture");
+            user = new User(username, firstName, lastName, password, userType, profilePicture);
         }
     } catch (SQLException e) {
         e.printStackTrace();

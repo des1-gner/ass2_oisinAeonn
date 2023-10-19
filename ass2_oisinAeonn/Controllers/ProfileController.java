@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import ass2_oisinAeonn.Model.Post;
@@ -14,8 +15,13 @@ import ass2_oisinAeonn.StageManager;
 import ass2_oisinAeonn.Database.PostDAO;
 import ass2_oisinAeonn.Database.UserDAO;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -39,6 +45,12 @@ public class ProfileController {
         User existingUser = UserDAO.getUserByUsername(username);
         loadExistingDetails(existingUser);
         populatePostListView(); // Populate the post list view
+
+            // In the constructor, after loading the user details:
+Image currentProfileImage = new Image(existingUser.getProfilePicture());
+view.getProfileImageView().setImage(currentProfileImage);
+
+view.getChangeProfileImageButton().setOnAction(e -> handleUploadProfilePicture());
 
         view.getUpdateButton().setOnAction(e -> handleUpdate());
         view.getBackButton().setOnAction(e -> handleBack());
@@ -174,6 +186,55 @@ public class ProfileController {
         }
     }  
     
+
+
+private void handleUploadProfilePicture() {
+    try {
+        File chosenFile = view.showProfileImageFileChooser();
+        if (chosenFile != null) {
+            Path copiedPath = copyFileToAssets(chosenFile);
+            if (copiedPath != null) {
+                // Update the ImageView in your ProfileView
+                Image image = new Image(copiedPath.toUri().toString());
+                view.getProfileImageView().setImage(image);
+
+                // Update the database with the new profile picture path
+                UserDAO.updateProfileImagePath(username, copiedPath.toString());
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
+        errorAlert.setTitle("Error");
+        errorAlert.setHeaderText("Failed to upload the profile picture.");
+        errorAlert.setContentText(e.getMessage());
+        errorAlert.showAndWait();
+    }
+}
+
+private Path copyFileToAssets(File chosenFile) {
+    Path destDir = Paths.get("assets");
+    if (!Files.exists(destDir)) {
+        try {
+            Files.createDirectory(destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    Path dest = destDir.resolve(chosenFile.getName());
+    try {
+        Files.copy(chosenFile.toPath(), dest, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+        e.printStackTrace();
+        return null;
+    }
+    return dest;
+}
+
+
+
     
 
     private boolean confirmDeletion() {

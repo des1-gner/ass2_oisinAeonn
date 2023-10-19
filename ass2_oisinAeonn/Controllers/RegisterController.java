@@ -43,7 +43,7 @@ public class RegisterController {
         String lastName = view.getLastNameField().getText();
         String password = hashPassword(view.getPasswordField().getText());
     
-        User user = new User(username, firstName, lastName, password, null);
+        User user = new User(username, firstName, lastName, password, null, null);
     
         if (UserDAO.checkIfUserExists(username)) {
             showErrorAlert("Error", "Username already exists");

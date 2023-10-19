@@ -7,14 +7,16 @@ public class User {
     private String lastName;
     private String password;
     private String userType;
+    private String profilePicture;
 
     // Constructors
-    public User(String username, String firstName, String lastName, String password, String userType) {
+    public User(String username, String firstName, String lastName, String password, String userType, String profilePicture) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.userType = userType;
+        this.profilePicture = profilePicture;
     }
 
     public User(String username2, String firstName2, String lastName2, String password2) {
@@ -41,6 +43,10 @@ public class User {
         return userType;
     }
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
     // Setters
     public void setUsername(String username) {
         this.username = username;
@@ -62,8 +68,12 @@ public class User {
         this.userType = userType;
     }
 
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     @Override
     public String toString() {
-        return String.join(",", username, firstName, lastName, password, userType);
+        return String.join(",", username, firstName, lastName, password, userType, profilePicture);
     }
 }

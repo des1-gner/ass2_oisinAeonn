@@ -50,7 +50,7 @@ public class DAHTest {
 
     @Test
     public void testRegisterAndDeleteUser() {
-        User user = new User("testUsername", "Test", "User", "testPass", "Regular");
+        User user = new User("testUsername", "Test", "User", "testPass", "Regular", null);
         UserDAO.registerUser(user);
 
         boolean exists = UserDAO.checkIfUserExists("testUsername");
@@ -61,7 +61,7 @@ public class DAHTest {
 
     @Test
     public void testUpgradeUser() {
-        User user = new User("testVIP", "Test", "VIP", "testPass", "standard");
+        User user = new User("testVIP", "Test", "VIP", "testPass", "standard", null);
         UserDAO.registerUser(user);
         UserDAO.upgradeUserToVIP("testVIP");
 

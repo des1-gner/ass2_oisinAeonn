@@ -1,7 +1,6 @@
 package ass2_oisinAeonn.Controllers;
 
 import javafx.scene.Scene;
-import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Views.DashboardView;
 import ass2_oisinAeonn.Views.UpgradeView;
