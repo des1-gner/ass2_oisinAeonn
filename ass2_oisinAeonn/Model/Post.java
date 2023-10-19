@@ -80,40 +80,55 @@ public int getPostId () {
   }
 
   public void setImage(String image) {
+  
     this.image = image;
-}
+
+  }
 
   // ToString Output of the Object Post.
  
   @Override
   
   public String toString() {
+
     return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
-}
 
-public void setAuthor(String username) {
-  this.author = username;
-}
+  }
 
-public void setLikes(int likes) {
-  this.likes = likes;
-}
+  public void setAuthor(String username) {
 
-public void setShares(int shares) {
-  this.shares = shares;
-}
+    this.author = username;
 
-public void setDateTime(String dateTime) {
-  this.dateTime = dateTime;
-}
+  }
 
-public void setContent(String content) {
+  public void setLikes(int likes) {
+
+    this.likes = likes;
+
+  }
+
+  public void setShares(int shares) {
+
+    this.shares = shares;
+
+  }
+
+  public void setDateTime(String dateTime) {
+
+    this.dateTime = dateTime;
+
+  }
+
+  public void setContent(String content) {
+
     this.content = content;
-}
 
-public void setPostId(int postId) {
-  this.postId = postId;
-}
+  }
 
+  public void setPostId(int postId) {
+
+    this.postId = postId;
+
+  }
   
 }

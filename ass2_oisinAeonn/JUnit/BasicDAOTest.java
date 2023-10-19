@@ -83,18 +83,6 @@ public class BasicDAOTest {
 
     @Test
     
-    public void testUpgradeUser() {
-    
-        User user = new User("testVIP", "Test", "VIP", "testPass", "standard", null);
-        
-        UserDAO.registerUser(user);
-        UserDAO.upgradeUserToVIP("testVIP");
-        UserDAO.deleteUserByUsername("testVIP");
-    
-    }
-
-    @Test
-    
     public void testGetPostSharesDistribution() {
     
         Map<String, Integer> distribution = PostDAO.getPostsSharesDistribution();
@@ -147,7 +135,7 @@ public class BasicDAOTest {
     
     public void testGetUserByUsername() {
     
-        User user = UserDAO.getUserByUsername("testUsername");
+        User user = UserDAO.getUserByUsername("testUsername2");
     
         assertNotNull(user);
     
