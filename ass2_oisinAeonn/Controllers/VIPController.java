@@ -83,7 +83,7 @@ view.getExportFilteredPostsButton().setOnAction(e -> handleExportFilteredPostsTo
         }
     @Override
 protected void handleExportSelectedPostsToCSV() {
-    List<Post> selectedPosts = ((VIPView) view).getAllPostsListView().getSelectionModel().getSelectedItems();
+    List<Post> selectedPosts = ((VIPView) view).getAllPostsTableView().getSelectionModel().getSelectedItems();
     
     if (!selectedPosts.isEmpty()) {
             // Show a file dialog to choose the save location
@@ -158,7 +158,7 @@ protected void handleExportSelectedPostsToCSV() {
 
 private void populateAllPostsListView() {
     List<Post> allPosts = PostDAO.getAllPosts();
-    view.getAllPostsListView().setItems(FXCollections.observableArrayList(allPosts));
+    view.getAllPostsTableView().setItems(FXCollections.observableArrayList(allPosts));
 }
 
 

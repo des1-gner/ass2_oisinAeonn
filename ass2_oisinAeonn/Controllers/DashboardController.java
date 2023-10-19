@@ -42,7 +42,7 @@ public class DashboardController {
 
         this.post = new Post();
 
-        populateAllPostsListView();
+        populateAllPostsTableView();
 
         view.getUploadImageButton().setOnAction(e -> handleUploadImage());
 
@@ -62,13 +62,13 @@ public class DashboardController {
 
     }
 
-    private void populateAllPostsListView() {
+    private void populateAllPostsTableView() {
         List<Post> allPosts = PostDAO.getAllPosts();
-        view.getAllPostsListView().setItems(FXCollections.observableArrayList(allPosts));
+        view.getAllPostsTableView().setItems(FXCollections.observableArrayList(allPosts));
     }
 
     protected void handleExportSelectedPostsToCSV() {
-        List<Post> selectedPosts = view.getAllPostsListView().getSelectionModel().getSelectedItems();
+        List<Post> selectedPosts = view.getAllPostsTableView().getSelectionModel().getSelectedItems();
         
         if (selectedPosts.isEmpty()) {
             showAlert("Info", "Please select posts before exporting.");

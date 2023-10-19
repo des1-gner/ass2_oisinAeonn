@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -25,12 +26,13 @@ public class ProfileView {
     private Button backButton;
     private Label errorLabel;
     private Button deleteButton;
-    private ListView<Post> postListView;
+    private TableView<Post> postTableView;
     private Button exportButton;
     private Button exportAllPostsButton;
     private Label postLabel;
     private ImageView profileImageView;
     private Button changeProfileImageButton;
+    private BorderPane mainContainer;
 
     public ProfileView() {
         pane = new VBox(10);
@@ -90,20 +92,62 @@ public class ProfileView {
         mainLayout.setAlignment(Pos.CENTER);
         mainLayout.getChildren().addAll(profileBox, userInfoBox);
         backButton = new Button("Back");
-userInfoBox.getChildren().add(backButton);
+
+        mainContainer = new BorderPane();
+mainContainer.setTop(backButton);
+mainContainer.setCenter(pane);
+backButton.setPadding(new Insets(10, 10, 10, 10));
+
+
+    
 
         postLabel = new Label("User's Posts:");
-        postListView = new ListView<>();
-        postListView.setPrefHeight(200);
+        postTableView = new TableView<>();
+postTableView.setPrefHeight(300);
+TableColumn<Post, Integer> postIdColumn = new TableColumn<>("Post ID");
+postIdColumn.setCellValueFactory(new PropertyValueFactory<>("postId"));
+postIdColumn.setMaxWidth(Double.MAX_VALUE); 
+        postIdColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, String> contentColumn = new TableColumn<>("Content");
+contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+contentColumn.setMaxWidth(Double.MAX_VALUE); 
+        contentColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, String> authorColumn = new TableColumn<>("Author");
+authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+authorColumn.setMaxWidth(Double.MAX_VALUE); 
+        authorColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, Integer> likesColumn = new TableColumn<>("Likes");
+likesColumn.setCellValueFactory(new PropertyValueFactory<>("likes"));
+likesColumn.setMaxWidth(Double.MAX_VALUE); 
+        likesColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, Integer> sharesColumn = new TableColumn<>("Shares");
+sharesColumn.setCellValueFactory(new PropertyValueFactory<>("shares"));
+sharesColumn.setMaxWidth(Double.MAX_VALUE); 
+        sharesColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, String> dateTimeColumn = new TableColumn<>("Date & Time");
+dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+dateTimeColumn.setMaxWidth(Double.MAX_VALUE); 
+        dateTimeColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+TableColumn<Post, String> imageColumn = new TableColumn<>("Image");
+imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+imageColumn.setMaxWidth(Double.MAX_VALUE); 
+        imageColumn.prefWidthProperty().bind(postTableView.widthProperty().multiply(0.1428)); 
+
+postTableView.getColumns().addAll(postIdColumn, contentColumn, authorColumn, likesColumn, sharesColumn, dateTimeColumn, imageColumn);
+
+
         exportButton = new Button("Export Post to CSV");
         exportAllPostsButton = new Button("Export All Posts to CSV");
         errorLabel = new Label();
 
         pane.getChildren().add(mainLayout);
-        pane.getChildren().addAll(
-            postLabel, postListView, 
-            exportButton, exportAllPostsButton, errorLabel
-        );
+        pane.getChildren().addAll(postLabel, postTableView, exportButton, exportAllPostsButton, errorLabel);
     }
 
     public File showProfileImageFileChooser() {
@@ -161,11 +205,12 @@ userInfoBox.getChildren().add(backButton);
     }
 
     public Parent getMainLayout() {
-        return pane;
-    }
+    return mainContainer;
+}
 
-    public ListView<Post> getPostListView() {
-        return postListView;
+
+    public TableView<Post> getPostTableView() {
+        return postTableView;
     }
 
     public Image getProfileImage() {

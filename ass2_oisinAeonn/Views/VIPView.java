@@ -27,7 +27,7 @@ public class VIPView extends DashboardView {
     VBox trendingLayout = (VBox) trendingTab.getContent();
     trendingLayout.getChildren().add(exportFilteredPostsButton);
 
-    allPostsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    allPostsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     Tab allTab = getAllTab();  // Retrieve the trending tab using a getter we'll define
     VBox allLayout = (VBox) allTab.getContent();
     allLayout.getChildren().add(importPostsButton);

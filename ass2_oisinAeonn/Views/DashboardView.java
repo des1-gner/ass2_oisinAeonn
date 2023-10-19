@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -42,7 +43,7 @@ public class DashboardView {
     private Button exportSearchedPostButton;
 
     protected Tab allTab;
-protected ListView<Post> allPostsListView;
+protected TableView<Post> allPostsTableView;
 private Button exportSelectedPostsButton;
 
     public DashboardView(String username) {
@@ -175,11 +176,11 @@ dashboardVBox.getChildren().add(0, logoBox);
         allTab = new Tab("All");
 allTab.setClosable(false);
 
-allPostsListView = new ListView<>();
-setupAllPostsListView();
+allPostsTableView = new TableView<>();
+setupallPostsTableView();
 exportSelectedPostsButton = new Button("Export Selected Posts");
 
-VBox allTabLayout = new VBox(10, allPostsListView, exportSelectedPostsButton);
+VBox allTabLayout = new VBox(10, allPostsTableView, exportSelectedPostsButton);
 allTab.setContent(allTabLayout);
 
 tabPane.getTabs().add(allTab);
@@ -206,32 +207,38 @@ tabPane.getTabs().add(allTab);
         });
     }
     
-    private void setupAllPostsListView() {
-        allPostsListView.setCellFactory(postsListView -> new ListCell<Post>() {
-            @Override
-            protected void updateItem(Post post, boolean empty) {
-                super.updateItem(post, empty);
-                if (post == null || empty) {
-                    setText(null);
-                } else {
-                    String displayText = "Post ID: " + post.getPostId() + "\n" + 
-                        "Author: " + post.getAuthor() + 
-                        "\nContent: " + post.getContent() +
-                        "\nLikes: " + post.getLikes() +
-                        "\nShares: " + post.getShares() + 
-                        "\nDateTime: " + post.getDateTime();
-                    setText(displayText);
-                }
-            }
-        });
-    }
+    private void setupallPostsTableView() {
+    TableColumn<Post, Integer> postIdColumn = new TableColumn<>("Post ID");
+    postIdColumn.setCellValueFactory(new PropertyValueFactory<>("postId"));
 
-    public void populateAllPosts(List<Post> posts) {
-        allPostsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    TableColumn<Post, String> contentColumn = new TableColumn<>("Content");
+    contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+
+    TableColumn<Post, String> authorColumn = new TableColumn<>("Author");
+    authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+
+    TableColumn<Post, Integer> likesColumn = new TableColumn<>("Likes");
+    likesColumn.setCellValueFactory(new PropertyValueFactory<>("likes"));
+
+    TableColumn<Post, Integer> sharesColumn = new TableColumn<>("Shares");
+    sharesColumn.setCellValueFactory(new PropertyValueFactory<>("shares"));
+
+    TableColumn<Post, String> dateTimeColumn = new TableColumn<>("Date & Time");
+    dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+
+    TableColumn<Post, String> imageColumn = new TableColumn<>("Image");
+    imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+
+    allPostsTableView.getColumns().addAll(postIdColumn, contentColumn, authorColumn, likesColumn, sharesColumn, dateTimeColumn, imageColumn);
 }
 
-public ListView<Post> getAllPostsListView() {
-    return allPostsListView;
+
+    public void populateAllPosts(List<Post> posts) {
+        allPostsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+}
+
+public TableView<Post> getAllPostsTableView() {
+    return allPostsTableView;
 }
 
     public void setPostImageView(Image img) {

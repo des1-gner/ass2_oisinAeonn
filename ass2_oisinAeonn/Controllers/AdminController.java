@@ -30,7 +30,7 @@ public class AdminController extends VIPController {
     }
 
     private void handleDeleteUser() {
-        User selectedUser = adminView.getUsersListView().getSelectionModel().getSelectedItem();
+        User selectedUser = adminView.getUsersTableView().getSelectionModel().getSelectedItem();
         if (selectedUser != null) {
             Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
             confirmAlert.setTitle("Confirmation");
@@ -39,7 +39,7 @@ public class AdminController extends VIPController {
             if (confirmAlert.showAndWait().get() == ButtonType.OK) {
                 UserDAO.deletePostsForUser(selectedUser.getUsername());
                 UserDAO.deleteUserByUsername(selectedUser.getUsername());
-                adminView.getUsersListView().getItems().remove(selectedUser);
+                adminView.getUsersTableView().getItems().remove(selectedUser);
             }
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -62,7 +62,7 @@ public class AdminController extends VIPController {
     }
 
     private void handleChangeUserType() {
-    User selectedUser = adminView.getUsersListView().getSelectionModel().getSelectedItem();
+    User selectedUser = adminView.getUsersTableView().getSelectionModel().getSelectedItem();
     if (selectedUser != null) {
         List<String> choices = List.of("standard", "VIP", "admin");
         ChoiceDialog<String> dialog = new ChoiceDialog<>(selectedUser.getUserType(), choices);
@@ -96,8 +96,8 @@ public class AdminController extends VIPController {
         List<User> updatedUsers = UserDAO.getAllUsers();
     
         // Clear the current users and update the ListView
-        adminView.getUsersListView().getItems().clear();
-        adminView.getUsersListView().getItems().addAll(updatedUsers);
+        adminView.getUsersTableView().getItems().clear();
+        adminView.getUsersTableView().getItems().addAll(updatedUsers);
     }
     
 

@@ -1,23 +1,23 @@
 package ass2_oisinAeonn.Views;
 
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-
-import java.util.List;
-
-import ass2_oisinAeonn.Database.DatabaseConnector;
-import ass2_oisinAeonn.Database.UserDAO;
-import ass2_oisinAeonn.Model.User;
-import javafx.collections.FXCollections;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.collections.FXCollections;
+
+import ass2_oisinAeonn.Database.UserDAO;
+import ass2_oisinAeonn.Model.User;
+
+import java.util.List;
 
 public class AdminView extends VIPView {
     
     public BarChart<String, Number> userDistributionBarChart;
-    public ListView<User> usersListView;
+    protected TableView<User> usersTableView;
     public Button deleteUserBtn;
     public Button changeUserTypeBtn;
 
@@ -30,12 +30,42 @@ public class AdminView extends VIPView {
     private Tab createUsersTab() {
         VBox layout = new VBox(10);
         userDistributionBarChart = generateUserDistributionChart();
-        usersListView = new ListView<>();
+        
+        usersTableView = new TableView<>();
+        
+
+        TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        usernameColumn.setMaxWidth(Double.MAX_VALUE); 
+        usernameColumn.prefWidthProperty().bind(usersTableView.widthProperty().multiply(0.25)); 
+        
+        TableColumn<User, String> firstNameColumn = new TableColumn<>("First Name");
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        firstNameColumn.setMaxWidth(Double.MAX_VALUE); 
+    firstNameColumn.prefWidthProperty().bind(usersTableView.widthProperty().multiply(0.25)); 
+    
+
+        TableColumn<User, String> lastNameColumn = new TableColumn<>("Last Name");
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        lastNameColumn.setMaxWidth(Double.MAX_VALUE); 
+        lastNameColumn.prefWidthProperty().bind(usersTableView.widthProperty().multiply(0.25)); 
+        
+
+        TableColumn<User, String> userTypeColumn = new TableColumn<>("User Type");
+        userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
+        userTypeColumn.setMaxWidth(Double.MAX_VALUE); 
+        userTypeColumn.prefWidthProperty().bind(usersTableView.widthProperty().multiply(0.25)); 
+        
+
+        usersTableView.getColumns().addAll(usernameColumn, firstNameColumn, lastNameColumn, userTypeColumn);
+        
         List<User> allUsers = UserDAO.getAllUsers();
-        usersListView.getItems().addAll(allUsers);
+        usersTableView.getItems().addAll(allUsers);
+        
         deleteUserBtn = new Button("Delete User");
         changeUserTypeBtn = new Button("Change User Type");
-        layout.getChildren().addAll(userDistributionBarChart, usersListView, deleteUserBtn, changeUserTypeBtn);
+        layout.getChildren().addAll(userDistributionBarChart, usersTableView, deleteUserBtn, changeUserTypeBtn);
+
         Tab usersTab = new Tab("Users", layout);
         usersTab.setClosable(false);
         return usersTab;
@@ -53,7 +83,7 @@ public class AdminView extends VIPView {
         return barChart;
     }
 
-    public ListView<User> getUsersListView() {
-        return usersListView;
+    public TableView<User> getUsersTableView() {
+        return usersTableView;
     }
 }

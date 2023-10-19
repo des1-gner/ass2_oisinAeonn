@@ -44,7 +44,7 @@ public class ProfileController {
         
         User existingUser = UserDAO.getUserByUsername(username);
         loadExistingDetails(existingUser);
-        populatePostListView(); // Populate the post list view
+        populatePostTableView(); // Populate the post list view
 
             // In the constructor, after loading the user details:
 Image currentProfileImage = new Image(existingUser.getProfilePicture());
@@ -59,13 +59,13 @@ view.getChangeProfileImageButton().setOnAction(e -> handleUploadProfilePicture()
     view.getExportAllPostsButton().setOnAction(e -> handleExportAllPostsToCSV());
     }
 
-    private void populatePostListView() {
+    private void populatePostTableView() {
         List<Post> userPosts = PostDAO.getPostsByUsername(username);
     
         if (userPosts != null && !userPosts.isEmpty()) {
-            view.getPostListView().getItems().setAll(userPosts);
+            view.getPostTableView().getItems().setAll(userPosts);
         } else {
-            view.getPostListView().getItems().clear();
+            view.getPostTableView().getItems().clear();
         }
     }
     
@@ -274,7 +274,7 @@ private void handleDeleteAccount() {
 
 
     private void handleExportPostToCSV() {
-        Post selectedPost = view.getPostListView().getSelectionModel().getSelectedItem();
+        Post selectedPost = view.getPostTableView().getSelectionModel().getSelectedItem();
     
         if (selectedPost != null) {
             // Show a file dialog to choose the save location

@@ -79,7 +79,7 @@ public class StageManager {
     
         currentStage = new Stage();
         setAppLogo();
-        Scene dashboardScene = new Scene(dashboardView.getPane(), 1368, 768);
+        Scene dashboardScene = new Scene(dashboardView.getPane(), 1368, 892);
         dashboardScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
     
         currentStage.setTitle("Data Analytics Hub - Dashboard");
@@ -94,7 +94,7 @@ public class StageManager {
 
         currentStage = new Stage();
         setAppLogo();
-        Scene vipScene = new Scene(vipView.getPane(), 1368, 768);
+        Scene vipScene = new Scene(vipView.getPane(), 1368, 892);
         vipScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
 
         currentStage.setTitle("Data Analytics Hub - VIP Dashboard");
@@ -108,7 +108,7 @@ public class StageManager {
     
         currentStage = new Stage();
         setAppLogo();
-        Scene adminScene = new Scene(adminView.getPane(), 1368, 768);
+        Scene adminScene = new Scene(adminView.getPane(), 1368, 892);
         adminScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
     
         currentStage.setTitle("Data Analytics Hub - Admin Dashboard");
