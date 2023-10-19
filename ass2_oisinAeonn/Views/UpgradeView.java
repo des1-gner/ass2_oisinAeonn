@@ -36,8 +36,12 @@ public class UpgradeView {
         HBox logoBox = new HBox(logoView);
         logoBox.setAlignment(Pos.CENTER);
         
-        mainFrame.setTop(logoBox);  // This line is now valid
-
+        backButton = new Button("Back");
+        
+        VBox topSection = new VBox();
+        topSection.getChildren().addAll(backButton, logoBox);
+        mainFrame.setTop(topSection);
+        
         mainLayout = new VBox(10);
         mainLayout.setAlignment(Pos.CENTER);
 
@@ -57,17 +61,15 @@ public class UpgradeView {
         payLaterOption.setToggleGroup(paymentGroup);
 
         payButton = new Button("Pay");
-        backButton = new Button("Back");
 
         // Create a VBox for the radio buttons and set some padding/margins if needed
         radioFrame = new VBox(5, creditCardOption, cashOption, cryptoOption, payLaterOption);
-        radioFrame.setPadding(new javafx.geometry.Insets(10, 0, 10, 0));
+        radioFrame.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         radioFrame.setAlignment(Pos.CENTER);
 
-        mainLayout.getChildren().addAll(vipDescription, radioFrame, payButton, backButton);
+        mainLayout.getChildren().addAll(vipDescription, radioFrame, payButton);
 
-        // Add the logo to the top and the mainLayout to the center of the main frame
-        mainFrame.setTop(logoBox);
+        // Set the mainLayout to the center of the main frame
         mainFrame.setCenter(mainLayout);
     }
 

@@ -42,7 +42,7 @@ public class ProfileView {
         // Logo at the top
         Image logo = new Image(getClass().getResource("../../assets/logo.jpg").toString());
         ImageView logoView = new ImageView(logo);
-        logoView.setFitWidth(200);
+        logoView.setFitWidth(100);
         logoView.setPreserveRatio(true);
         
         HBox logoBox = new HBox(logoView);
@@ -51,12 +51,17 @@ public class ProfileView {
         pane.getChildren().add(logoBox);
 
         profileImageView = new ImageView(new Image("assets/profile.png"));
-        profileImageView.setFitWidth(300);  // Making the profile picture much bigger
+        profileImageView.setFitWidth(200);  // Making the profile picture much bigger
         profileImageView.setPreserveRatio(true);
         changeProfileImageButton = new Button("Change Profile Image");
 
         VBox profileBox = new VBox(10);
         profileBox.getChildren().addAll(profileImageView, changeProfileImageButton);
+
+        Label usernameLabel = new Label("Username:");
+Label firstNameLabel = new Label("First Name:");
+Label lastNameLabel = new Label("Last Name:");
+
 
         usernameField = new TextField();
         usernameField.setPromptText("Username");
@@ -80,8 +85,11 @@ public class ProfileView {
         VBox userInfoBox = new VBox(10);
         userInfoBox.setAlignment(Pos.CENTER);
         userInfoBox.getChildren().addAll(
-            usernameField,
+        usernameLabel,    
+        usernameField,
+        firstNameLabel,
             firstNameField,
+            lastNameLabel,
             lastNameField,
             passwordField,
             updateButton,
