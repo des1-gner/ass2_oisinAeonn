@@ -477,13 +477,13 @@ public class DashboardController {
     }
     
     private void deletePost() {
-    
+
         int postId;
-    
+        
         try {
-    
+        
             postId = Integer.parseInt(view.getSearchField().getText());
-    
+        
         } 
         
         catch (NumberFormatException e) {
@@ -494,12 +494,40 @@ public class DashboardController {
         
         }
     
-        PostDAO.deletePostById(postId);
+        // Check if the post exists before attempting deletion
         
-        view.getSearchResultsArea().setText("Post successfully deleted.");
+        Post postBeforeDeletion = PostDAO.getPostById(postId);
+        
+        if (postBeforeDeletion == null) {
+        
+            showAlert("Info", "No post found for the given ID.");
+        
+            return;
+        
+        }
+    
+        // Attempt deletion
+        
+        PostDAO.deletePostById(postId);
+    
+        // Check if the post still exists after the attempted deletion
+        
+        Post postAfterDeletion = PostDAO.getPostById(postId);
+        
+        if (postAfterDeletion == null) {
+        
+            view.getSearchResultsArea().setText("Post successfully deleted.");
+        
+        } 
+        
+        else {
+        
+            showAlert("Error", "Failed to delete post.");
+        
+        }
     
     }
-
+    
     private void retrieveTrendingPosts() {
     
         // Extract user's choice for column to sort by
