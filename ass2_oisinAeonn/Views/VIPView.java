@@ -1,6 +1,5 @@
 package ass2_oisinAeonn.Views;
 
-import ass2_oisinAeonn.Database.DatabaseConnector;
 import ass2_oisinAeonn.Database.PostDAO;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
