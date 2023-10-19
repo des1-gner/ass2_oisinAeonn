@@ -48,8 +48,8 @@ private Button exportSelectedPostsButton;
 
     public DashboardView(String username) {
         searchedPostImageView = new ImageView();
-searchedPostImageView.setFitHeight(100);
-searchedPostImageView.setFitWidth(100);
+searchedPostImageView.setFitHeight(300);
+searchedPostImageView.setFitWidth(300);
 searchedPostImageView.setPreserveRatio(true);
         dashboardVBox = new VBox(10);
         dashboardVBox.setPadding(new Insets(20));
@@ -89,6 +89,7 @@ dashboardVBox.getChildren().add(0, logoBox);
 
         tabPane = new TabPane();
         postImageView = new ImageView();
+
         uploadImageButton = new Button("Upload Image");
 
         Label likesLabel = new Label("Likes:");
@@ -136,8 +137,8 @@ dashboardVBox.getChildren().add(0, logoBox);
         tabPane.getTabs().addAll(addPostTab, searchTab, trendingTab);
         dashboardVBox.getChildren().addAll(topHBox, tabPane);
 
-        postImageView.setFitHeight(100);
-        postImageView.setFitWidth(100);
+        postImageView.setFitHeight(300);
+        postImageView.setFitWidth(300);
         postImageView.setPreserveRatio(true);
 
         VBox layout = new VBox();
@@ -208,28 +209,42 @@ tabPane.getTabs().add(allTab);
     }
     
     private void setupallPostsTableView() {
-    TableColumn<Post, Integer> postIdColumn = new TableColumn<>("Post ID");
-    postIdColumn.setCellValueFactory(new PropertyValueFactory<>("postId"));
-
-    TableColumn<Post, String> contentColumn = new TableColumn<>("Content");
-    contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
-
-    TableColumn<Post, String> authorColumn = new TableColumn<>("Author");
-    authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-
-    TableColumn<Post, Integer> likesColumn = new TableColumn<>("Likes");
-    likesColumn.setCellValueFactory(new PropertyValueFactory<>("likes"));
-
-    TableColumn<Post, Integer> sharesColumn = new TableColumn<>("Shares");
-    sharesColumn.setCellValueFactory(new PropertyValueFactory<>("shares"));
-
-    TableColumn<Post, String> dateTimeColumn = new TableColumn<>("Date & Time");
-    dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-
-    TableColumn<Post, String> imageColumn = new TableColumn<>("Image");
-    imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
-
-    allPostsTableView.getColumns().addAll(postIdColumn, contentColumn, authorColumn, likesColumn, sharesColumn, dateTimeColumn, imageColumn);
+        TableColumn<Post, Integer> postIdColumn = new TableColumn<>("Post ID");
+        postIdColumn.setCellValueFactory(new PropertyValueFactory<>("postId"));
+        postIdColumn.setMaxWidth(Double.MAX_VALUE); 
+                postIdColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, String> contentColumn = new TableColumn<>("Content");
+        contentColumn.setCellValueFactory(new PropertyValueFactory<>("content"));
+        contentColumn.setMaxWidth(Double.MAX_VALUE); 
+                contentColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, String> authorColumn = new TableColumn<>("Author");
+        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
+        authorColumn.setMaxWidth(Double.MAX_VALUE); 
+                authorColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, Integer> likesColumn = new TableColumn<>("Likes");
+        likesColumn.setCellValueFactory(new PropertyValueFactory<>("likes"));
+        likesColumn.setMaxWidth(Double.MAX_VALUE); 
+                likesColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, Integer> sharesColumn = new TableColumn<>("Shares");
+        sharesColumn.setCellValueFactory(new PropertyValueFactory<>("shares"));
+        sharesColumn.setMaxWidth(Double.MAX_VALUE); 
+                sharesColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, String> dateTimeColumn = new TableColumn<>("Date & Time");
+        dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
+        dateTimeColumn.setMaxWidth(Double.MAX_VALUE); 
+                dateTimeColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        TableColumn<Post, String> imageColumn = new TableColumn<>("Image");
+        imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+        imageColumn.setMaxWidth(Double.MAX_VALUE); 
+                imageColumn.prefWidthProperty().bind(allPostsTableView.widthProperty().multiply(0.1428)); 
+        
+        allPostsTableView.getColumns().addAll(postIdColumn, contentColumn, authorColumn, likesColumn, sharesColumn, dateTimeColumn, imageColumn);
 }
 
 

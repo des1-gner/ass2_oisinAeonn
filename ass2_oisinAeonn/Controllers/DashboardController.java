@@ -353,6 +353,13 @@ public class DashboardController {
         int retrieveCount;
         try {
             retrieveCount = Integer.parseInt(view.getRetrieveCountField().getText());
+    
+            // Check if the value is a non-positive integer (i.e., <= 0)
+            if (retrieveCount <= 0) {
+                showAlert("Error", "Please enter a natural number for posts to retrieve.");
+                return;
+            }
+    
             if (retrieveCount > 100) retrieveCount = 100;  // Cap at 100 as per the placeholder
         } catch (NumberFormatException e) {
             showAlert("Error", "Please enter a valid number for posts to retrieve.");
