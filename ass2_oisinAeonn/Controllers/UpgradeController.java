@@ -2,6 +2,7 @@ package ass2_oisinAeonn.Controllers;
 
 import javafx.scene.Scene;
 import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Views.DashboardView;
 import ass2_oisinAeonn.Views.UpgradeView;
 
@@ -20,7 +21,7 @@ public class UpgradeController {
     }
 
     private void setupHandlers() {
-        view.getPayButton().setOnAction(e -> DatabaseConnector.upgradeUserToVIP(username));
+        view.getPayButton().setOnAction(e -> UserDAO.upgradeUserToVIP(username));
         view.getBackButton().setOnAction(e -> switchBackToDashboard());
           
         }

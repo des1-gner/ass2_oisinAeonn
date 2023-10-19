@@ -1,6 +1,7 @@
 package ass2_oisinAeonn.Views;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.PostDAO;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
@@ -48,8 +49,8 @@ public class VIPView extends DashboardView {
         SplitPane splitPane = new SplitPane();
 
         // Fetch data
-        Map<String, Integer> likesDistribution = DatabaseConnector.getPostsLikesDistribution();
-        Map<String, Integer> sharesDistribution = DatabaseConnector.getPostsSharesDistribution(); 
+        Map<String, Integer> likesDistribution = PostDAO.getPostsLikesDistribution();
+        Map<String, Integer> sharesDistribution = PostDAO.getPostsSharesDistribution(); 
 
         // Generate charts
         PieChart likesPieChart = generatePieChart(likesDistribution, "Likes Distribution");

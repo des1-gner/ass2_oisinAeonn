@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Model.User;
 import javafx.collections.FXCollections;
 import javafx.scene.chart.BarChart;
@@ -30,7 +31,7 @@ public class AdminView extends VIPView {
         VBox layout = new VBox(10);
         userDistributionBarChart = generateUserDistributionChart();
         usersListView = new ListView<>();
-        List<User> allUsers = DatabaseConnector.getAllUsers();
+        List<User> allUsers = UserDAO.getAllUsers();
         usersListView.getItems().addAll(allUsers);
         deleteUserBtn = new Button("Delete User");
         changeUserTypeBtn = new Button("Change User Type");

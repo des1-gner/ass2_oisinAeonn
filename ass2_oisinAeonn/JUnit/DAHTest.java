@@ -1,6 +1,7 @@
 package ass2_oisinAeonn.JUnit;
 
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.PostDAO;
+import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Model.User;
 import org.junit.*;
@@ -24,84 +25,82 @@ public class DAHTest {
 
     @Test
     public void testGetAllPosts() {
-        List<Post> posts = DatabaseConnector.getAllPosts();
+        List<Post> posts = PostDAO.getAllPosts();
         assertNotNull(posts);
     }
 
     @Test
     public void testGetAllUsers() {
-        List<User> users = DatabaseConnector.getAllUsers();
+        List<User> users = UserDAO.getAllUsers();
         assertNotNull(users);
     }
 
     @Test
     public void testInsertAndDeletePost() {
         Post post = new Post(-1, "Test Content", "TestAuthor", 0, 0, "01/01/2022 10:10", "testImage.jpg");
-        DatabaseConnector.insertPost(post);
+        PostDAO.insertPost(post);
 
-        List<Post> authorPosts = DatabaseConnector.getPostsByUsername("TestAuthor");
+        List<Post> authorPosts = PostDAO.getPostsByUsername("TestAuthor");
         assertTrue(!authorPosts.isEmpty());
 
         for (Post p : authorPosts) {
-            DatabaseConnector.deletePostById(p.getPostId());
+            PostDAO.deletePostById(p.getPostId());
         }
     }
 
     @Test
     public void testRegisterAndDeleteUser() {
         User user = new User("testUsername", "Test", "User", "testPass", "Regular");
-        DatabaseConnector.registerUser(user);
+        UserDAO.registerUser(user);
 
-        boolean exists = DatabaseConnector.checkIfUserExists("testUsername");
+        boolean exists = UserDAO.checkIfUserExists("testUsername");
         assertTrue(exists);
 
-        DatabaseConnector.deleteUserByUsername("testUsername");
+        UserDAO.deleteUserByUsername("testUsername");
     }
 
     @Test
     public void testUpgradeUser() {
         User user = new User("testVIP", "Test", "VIP", "testPass", "standard");
-        DatabaseConnector.registerUser(user);
-        DatabaseConnector.upgradeUserToVIP("testVIP");
+        UserDAO.registerUser(user);
+        UserDAO.upgradeUserToVIP("testVIP");
 
-        DatabaseConnector.deleteUserByUsername("testVIP");
+        UserDAO.deleteUserByUsername("testVIP");
     }
 
     @Test
     public void testGetPostSharesDistribution() {
-        Map<String, Integer> distribution = DatabaseConnector.getPostsSharesDistribution();
+        Map<String, Integer> distribution = PostDAO.getPostsSharesDistribution();
         assertNotNull(distribution);
     }
 
     @Test
     public void testGetPostLikesDistribution() {
-        Map<String, Integer> distribution = DatabaseConnector.getPostsLikesDistribution();
+        Map<String, Integer> distribution = PostDAO.getPostsLikesDistribution();
         assertNotNull(distribution);
     }
 
     @Test
     public void testUsersDistribution() {
-        Map<String, Integer> distribution = DatabaseConnector.getUsersDistribution();
+        Map<String, Integer> distribution = UserDAO.getUsersDistribution();
         assertNotNull(distribution);
     }
 
     @Test
     public void testGetPostById() {
-        Post post = DatabaseConnector.getPostById(1);
+        Post post = PostDAO.getPostById(1);
         assertNotNull(post);
     }
 
     @Test
     public void testGetPostContent() {
-        String content = DatabaseConnector.getPostContent(1);
+        String content = PostDAO.getPostContent(1);
         assertNotNull(content);
     }
 
     @Test
     public void testGetUserByUsername() {
-        User user = DatabaseConnector.getUserByUsername("testUsername");
+        User user = UserDAO.getUserByUsername("testUsername");
         assertNotNull(user);
     }
-
-    // Add more tests as needed based on the methods you have.
 }

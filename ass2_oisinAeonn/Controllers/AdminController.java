@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import ass2_oisinAeonn.StageManager;
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Views.AdminView;
 import javafx.scene.chart.XYChart;
@@ -37,8 +37,8 @@ public class AdminController extends VIPController {
             confirmAlert.setHeaderText(null);
             confirmAlert.setContentText("You are about to delete the user and all of its posts. Do you want to continue?");
             if (confirmAlert.showAndWait().get() == ButtonType.OK) {
-                DatabaseConnector.deletePostsForUser(selectedUser.getUsername());
-                DatabaseConnector.deleteUserByUsername(selectedUser.getUsername());
+                UserDAO.deletePostsForUser(selectedUser.getUsername());
+                UserDAO.deleteUserByUsername(selectedUser.getUsername());
                 adminView.getUsersListView().getItems().remove(selectedUser);
             }
         } else {
@@ -72,7 +72,7 @@ public class AdminController extends VIPController {
 
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(chosenType -> {
-            DatabaseConnector.updateUserType(selectedUser.getUsername(), chosenType);
+            UserDAO.updateUserType(selectedUser.getUsername(), chosenType);
             selectedUser.setUserType(chosenType); // Update the model (consider refreshing the ListView if needed)
             Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
             infoAlert.setTitle("Information");
@@ -93,7 +93,7 @@ public class AdminController extends VIPController {
 
     private void refreshUsersListView() {
         // Fetch the updated list of users
-        List<User> updatedUsers = DatabaseConnector.getAllUsers();
+        List<User> updatedUsers = UserDAO.getAllUsers();
     
         // Clear the current users and update the ListView
         adminView.getUsersListView().getItems().clear();
@@ -103,7 +103,7 @@ public class AdminController extends VIPController {
 
     private void setupUserDistributionChart() {
         // Fetch data from the database
-        Map<String, Integer> usersDistribution = DatabaseConnector.getUsersDistribution();
+        Map<String, Integer> usersDistribution = UserDAO.getUsersDistribution();
 
         updateUserDistributionChart(usersDistribution);
     }

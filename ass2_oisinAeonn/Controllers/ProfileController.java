@@ -11,7 +11,8 @@ import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Views.DashboardView;
 import ass2_oisinAeonn.Views.ProfileView;
 import ass2_oisinAeonn.StageManager;
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.PostDAO;
+import ass2_oisinAeonn.Database.UserDAO;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class ProfileController {
         this.dashboardView = dashboardView;
         this.stageManager = stageManager;
         
-        User existingUser = DatabaseConnector.getUserByUsername(username);
+        User existingUser = UserDAO.getUserByUsername(username);
         loadExistingDetails(existingUser);
         populatePostListView(); // Populate the post list view
 
@@ -47,7 +48,7 @@ public class ProfileController {
     }
 
     private void populatePostListView() {
-        List<Post> userPosts = DatabaseConnector.getPostsByUsername(username);
+        List<Post> userPosts = PostDAO.getPostsByUsername(username);
     
         if (userPosts != null && !userPosts.isEmpty()) {
             view.getPostListView().getItems().setAll(userPosts);
@@ -57,7 +58,7 @@ public class ProfileController {
     }
     
     private void handleExportAllPostsToCSV() {
-        List<Post> allPosts = DatabaseConnector.getPostsByUsername(username);
+        List<Post> allPosts = PostDAO.getPostsByUsername(username);
 
         if (allPosts != null && !allPosts.isEmpty()) {
             // Show a file dialog to choose the save location
@@ -110,28 +111,28 @@ public class ProfileController {
             return;
         }
     
-        if (!newUsername.equals(username) && DatabaseConnector.checkIfUserExists(newUsername)) {
+        if (!newUsername.equals(username) && UserDAO.checkIfUserExists(newUsername)) {
             view.getErrorLabel().setText("New username already exists");
             return;
         }
     
         List<Post> userPosts = null;
         if (!newUsername.equals(username)) {
-            userPosts = DatabaseConnector.getPostsByUsername(username);
-            DatabaseConnector.deletePostsForUser(username);
+            userPosts = PostDAO.getPostsByUsername(username);
+            UserDAO.deletePostsForUser(username);
         }
     
         if (!newPassword.isBlank()) {
             newPassword = hashPassword(newPassword);
-            DatabaseConnector.updateUser(username, newUsername, firstName, lastName, newPassword);
+            UserDAO.updateUser(username, newUsername, firstName, lastName, newPassword);
         } else {
-            DatabaseConnector.updateUserWithoutPassword(username, newUsername, firstName, lastName);
+            UserDAO.updateUserWithoutPassword(username, newUsername, firstName, lastName);
         }
     
         if (userPosts != null && !userPosts.isEmpty()) {
             for (Post post : userPosts) {
                 post.setAuthor(newUsername);
-                DatabaseConnector.insertPost(post);
+                PostDAO.insertPost(post);
             }
         }
     
@@ -195,9 +196,9 @@ private void handleLogout() {
 private void handleDeleteAccount() {
     if (confirmDeletion()) {
         // First delete all posts of the user
-        DatabaseConnector.deletePostsForUser(username);
+        UserDAO.deletePostsForUser(username);
         // Then delete the user
-        DatabaseConnector.deleteUser(username);
+        UserDAO.deleteUser(username);
         // Display a confirmation message
         Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
         confirmationAlert.setTitle("Account Deleted");

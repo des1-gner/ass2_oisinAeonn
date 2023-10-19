@@ -1,6 +1,6 @@
 package ass2_oisinAeonn.Controllers;
 
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.UserDAO;
 import ass2_oisinAeonn.Views.LoginView;
 import javafx.scene.control.Alert;
 import java.security.MessageDigest;
@@ -35,7 +35,7 @@ public class LoginController {
     String username = view.getUsernameField().getText();
     String enteredPassword = view.getPasswordField().getText();
 
-    DatabaseConnector.UserPasswordAndType userInfo = DatabaseConnector.fetchPasswordAndUserTypeForUsername(username);
+    UserDAO.UserPasswordAndType userInfo = UserDAO.fetchPasswordAndUserTypeForUsername(username);
     String storedPasswordHash = userInfo.passwordHash;
     String userType = userInfo.userType;
 

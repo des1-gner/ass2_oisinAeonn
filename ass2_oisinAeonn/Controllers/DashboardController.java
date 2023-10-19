@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import ass2_oisinAeonn.StageManager;
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.PostDAO;
 import ass2_oisinAeonn.Model.Post;
 import ass2_oisinAeonn.Views.DashboardView;
 import ass2_oisinAeonn.Views.ProfileView;
@@ -63,7 +63,7 @@ public class DashboardController {
     }
 
     private void populateAllPostsListView() {
-        List<Post> allPosts = DatabaseConnector.getAllPosts();
+        List<Post> allPosts = PostDAO.getAllPosts();
         view.getAllPostsListView().setItems(FXCollections.observableArrayList(allPosts));
     }
 
@@ -156,7 +156,7 @@ public class DashboardController {
         }
 
         if (!isError) {
-            DatabaseConnector.insertPost(post);
+            PostDAO.insertPost(post);
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
@@ -288,8 +288,8 @@ public class DashboardController {
             return;
         }
     
-        Post post = DatabaseConnector.getPostById(postId);
-        searchedPost = DatabaseConnector.getPostById(postId); // Store the retrieved post
+        Post post = PostDAO.getPostById(postId);
+        searchedPost = PostDAO.getPostById(postId); // Store the retrieved post
         if (post != null) {
             view.getSearchResultsArea().setText(
                 "postId: " +post.getPostId() + "\n" +
@@ -328,7 +328,7 @@ public class DashboardController {
             return;
         }
     
-        DatabaseConnector.deletePostById(postId);
+        PostDAO.deletePostById(postId);
         view.getSearchResultsArea().setText("Post successfully deleted.");
     }
 
@@ -360,7 +360,7 @@ public class DashboardController {
         }
         String usernameFilter = view.getUsernameFilterField().getText();
 
-        List<Post> trendingPosts = DatabaseConnector.getTrendingPosts(selectedColumn, isAscending, retrieveCount, usernameFilter);
+        List<Post> trendingPosts = PostDAO.getTrendingPosts(selectedColumn, isAscending, retrieveCount, usernameFilter);
 
         // Update the UI with the retrieved posts
         view.getPostsListView().setItems(FXCollections.observableArrayList(trendingPosts));

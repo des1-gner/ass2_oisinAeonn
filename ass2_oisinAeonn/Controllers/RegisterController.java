@@ -4,7 +4,7 @@ import ass2_oisinAeonn.Model.User;
 import ass2_oisinAeonn.Views.RegisterView;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
-import ass2_oisinAeonn.Database.DatabaseConnector;
+import ass2_oisinAeonn.Database.UserDAO;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,12 +45,12 @@ public class RegisterController {
     
         User user = new User(username, firstName, lastName, password, null);
     
-        if (DatabaseConnector.checkIfUserExists(username)) {
+        if (UserDAO.checkIfUserExists(username)) {
             showErrorAlert("Error", "Username already exists");
             return;
         }
     
-        DatabaseConnector.registerUser(user);
+        UserDAO.registerUser(user);
     
         // Display a success alert
         Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
