@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.assertions.api.Assertions.assertThat;
 
-public class BasicUITest extends ApplicationTest {
+public class BasicTestFX extends ApplicationTest {
     
     private StageManager stageManager;
 
