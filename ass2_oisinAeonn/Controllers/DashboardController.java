@@ -162,7 +162,7 @@ public class DashboardController {
             alert.getDialogPane().getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
             alert.setTitle("Post Added");
             alert.setHeaderText(null);
-            alert.setContentText("\nContent: " + content);
+            alert.setContentText("\nPost added successfully!");
             alert.showAndWait();
         }
     }

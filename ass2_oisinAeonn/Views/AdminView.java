@@ -63,6 +63,7 @@ public class AdminView extends VIPView {
         usersTableView.getItems().addAll(allUsers);
         
         deleteUserBtn = new Button("Delete User");
+        deleteUserBtn.getStyleClass().add("red-button");
         changeUserTypeBtn = new Button("Change User Type");
         layout.getChildren().addAll(userDistributionBarChart, usersTableView, deleteUserBtn, changeUserTypeBtn);
 

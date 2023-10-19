@@ -37,6 +37,11 @@ Text {
     -fx-border-color: white;
 }
 
+.red-button {
+    -fx-background-color: red;
+    -fx-text-fill: white;
+}
+
 .bar-chart .default-color0.chart-bar {
     -fx-bar-fill: #6b4c9a;
 }

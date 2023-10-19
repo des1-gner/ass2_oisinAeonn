@@ -57,11 +57,13 @@ searchedPostImageView.setPreserveRatio(true);
         // Load the logo just like before
 Image logo = new Image(getClass().getResource("../../assets/logo.jpg").toString());
 ImageView logoView = new ImageView(logo);
+Label titleLabel = new Label("Data Analytics Hub made by Oisin Aeonn s3952320");
+titleLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
 logoView.setFitWidth(50);
 logoView.setPreserveRatio(true);
 
 // Create a HBox for the logo
-HBox logoBox = new HBox(logoView);
+HBox logoBox = new HBox(10, logoView, titleLabel);
 logoBox.setAlignment(Pos.TOP_LEFT);  // Align to top left
 logoBox.setPadding(new Insets(0, 0, 0, 0));  // Add some padding (top, right, bottom, left)
 

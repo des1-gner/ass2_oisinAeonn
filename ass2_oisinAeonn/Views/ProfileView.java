@@ -61,6 +61,7 @@ public class ProfileView {
         Label usernameLabel = new Label("Username:");
 Label firstNameLabel = new Label("First Name:");
 Label lastNameLabel = new Label("Last Name:");
+Label passwordLabel = new Label("New Password:");
 
 
         usernameField = new TextField();
@@ -81,6 +82,7 @@ Label lastNameLabel = new Label("Last Name:");
 
         updateButton = new Button("Update");
         deleteButton = new Button("Delete Account");
+        deleteButton.getStyleClass().add("red-button");
 
         VBox userInfoBox = new VBox(10);
         userInfoBox.setAlignment(Pos.CENTER);
@@ -91,6 +93,7 @@ Label lastNameLabel = new Label("Last Name:");
             firstNameField,
             lastNameLabel,
             lastNameField,
+            passwordLabel,
             passwordField,
             updateButton,
             deleteButton
