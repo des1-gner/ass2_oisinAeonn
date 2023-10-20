@@ -1,5 +1,7 @@
 package ass2_oisinAeonn.Model;
 
+// Model for the user entity in DAH app, capturing core attributes of the user 
+
 public class User {
 
     private String username;
@@ -9,7 +11,8 @@ public class User {
     private String userType;
     private String profilePicture;
 
-    // Constructors
+    // Constructor with all attributes
+
     public User(String username, String firstName, String lastName, String password, String userType, String profilePicture) {
         
         this.username = username;
@@ -20,6 +23,8 @@ public class User {
         this.profilePicture = profilePicture;
     
     }
+
+    // Secondary constructor for test class
 
     public User(String username2, String firstName2, String lastName2, String password2) {
     
@@ -100,6 +105,8 @@ public class User {
         this.profilePicture = profilePicture;
     
     }
+
+    // Tostring csv format with all attributes
 
     @Override
     

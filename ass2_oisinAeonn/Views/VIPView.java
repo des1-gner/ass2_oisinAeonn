@@ -12,36 +12,51 @@ import javafx.scene.layout.VBox;
 
 import java.util.Map;
 
+// Represents the graphical interface for the user VIP Extension of the dashboard screen
+
 public class VIPView extends DashboardView {
     
+    // Buttons for VIP features
+
     private Button exportFilteredPostsButton;
     private Button importPostsButton;
 
+    // Default Constructor
+
     public VIPView(String username) {
     
-        super(username);
+        super(username); // call parent constructor
     
+        // Initialize export/import buttons
+
         exportFilteredPostsButton = new Button("Export to CSV");
         importPostsButton = new Button("Import from CSV");
         
+        // Enhance trending tab with export functionality
+
         Tab trendingTab = getTrendingTab();  // Retrieve the trending tab using a getter we'll define
         VBox trendingLayout = (VBox) trendingTab.getContent();
 
         trendingLayout.getChildren().add(exportFilteredPostsButton);
 
+        // Enable multi-row selection in posts table view
+
         allPostsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        // Enhance all posts tab with import functionality
 
         Tab allTab = getAllTab();  // Retrieve the trending tab using a getter we'll define
         VBox allLayout = (VBox) allTab.getContent();
 
         allLayout.getChildren().add(importPostsButton);
 
-
-        // Create and add the Visualisation Tab
+        // Create a new visualisation tab and add it to the tab pane
 
         Tab visualisationTab = createVisualisationTab();
 
         getTabPane().getTabs().add(visualisationTab);  // Using a getter for tabPane
+
+        // Change upgrade menu item to indicate downgrade
 
         getUpgradeMenuItem().setText("Downgrade Account");
 
@@ -87,6 +102,8 @@ public class VIPView extends DashboardView {
 
     }
 
+    // create a pie chart for the distribution of shares, and likes
+
     private PieChart generatePieChart(Map<String, Integer> distribution, String title) {
 
         PieChart pieChart = new PieChart();
@@ -112,6 +129,8 @@ public class VIPView extends DashboardView {
 
     }
 
+    // Various other getter methods
+
     public Button getExportFilteredPostsButton() {
 
         return exportFilteredPostsButton;
@@ -130,7 +149,7 @@ public class VIPView extends DashboardView {
 
         }
 
-        return null;  // Should never reach here unless tab name is changed
+        return null;  // Should never reach here 
 
     }
 

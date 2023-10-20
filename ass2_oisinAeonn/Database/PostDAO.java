@@ -10,16 +10,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+// Class including methods to insert, alter, and delete entries in the database to do with the posts table
+
 public class PostDAO {
     
+    // Singleton pattern to ensure a single instance of PostDAO
+
     private static PostDAO instance = null;
     private Connection conn;
+
+    // Private constructor to prevent external instantiation
 
     public PostDAO() {
     
         this.conn = DatabaseConnector.getInstance().getConnection();
     
     }
+
+    // getInstance() - Singleton pattern method
 
     public static PostDAO getInstance() {
     
@@ -32,6 +40,8 @@ public class PostDAO {
         return instance;
     
     }
+
+    // getAllPosts() - Fetches all the posts from the database
 
     public static List<Post> getAllPosts() {
     
@@ -116,6 +126,8 @@ public class PostDAO {
     
     }
 
+    // insertPost() - Inserts a new post into the database
+
     public static void insertPost(Post post) {
     
         String sql = "INSERT INTO posts (author, content, likes, shares, dateTime, image) VALUES (?, ?, ?, ?, ?, ?)";
@@ -143,11 +155,11 @@ public class PostDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // getPostsSharesDistribution() - Gets distribution of shares for posts
 
     public static Map<String, Integer> getPostsSharesDistribution() {
     
@@ -195,13 +207,13 @@ public class PostDAO {
         
         finally {
         
-            // Close all resources properly.
-        
         }
         
         return distribution;
     
     }
+
+    // getPostsLikesDistribution() - Gets distribution of likes for posts
     
     public static Map<String, Integer> getPostsLikesDistribution() {
     
@@ -249,13 +261,13 @@ public class PostDAO {
         
         finally {
         
-            // Close all resources properly.
-        
         }
             
         return distribution;
         
     }
+
+    // getPostById() - Fetches a specific post from the database using the post's ID
 
     public static Post getPostById(int postId) {
     
@@ -296,13 +308,13 @@ public class PostDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
         
         return null;
         
     }
+
+    // deletePostById() - Deletes a specific post from the database using the post's ID
         
     public static void deletePostById(int postId) {
     
@@ -327,12 +339,11 @@ public class PostDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
         
     }
-        
+       
+    // getTrendingPosts() - Retrieves trending posts based on specific criteria
     
     public static List<Post> getTrendingPosts(String columnName, boolean isAscending, int retrieveCount, String filterUsername) {
     
@@ -390,13 +401,13 @@ public class PostDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
     
         return posts;
     
     }
+
+    // getPostsByUsername() - Fetches all posts by a specific user from the database
 
     public static List<Post> getPostsByUsername(String username) {
     
@@ -438,13 +449,13 @@ public class PostDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
     
         return userPosts;
     
     }
+
+    // getPostIdByContent() - Fetches the ID of a post based on its content
     
     public static int getPostIdByContent(String postContent) {
     
@@ -477,13 +488,13 @@ public class PostDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
     
         return postId;
     
     }
+
+    // getPostContent() - Fetches the content of a post based on its ID
     
     public static String getPostContent(int postId) {
     
@@ -517,8 +528,6 @@ public class PostDAO {
         } 
         
         finally {
-        
-            // Close resources here, if necessary.
         
         }
     

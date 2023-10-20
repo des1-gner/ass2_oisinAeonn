@@ -15,24 +15,39 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+// StageManager as the title implies is responsible for managing and switching between stages of my JavaFX Project
+
 public class StageManager {
 
     private Stage currentStage;
 
+    // Default constructor, initializes a new Stage
+
     public StageManager() {
+    
         this.currentStage = new Stage();
+    
     }
+
+    // Set the application logo
 
     private void setAppLogo() {
+    
         Image appIcon = new Image("assets/logo.jpg");
+    
         currentStage.getIcons().add(appIcon);
+    
     }
 
+    // Configures and displays the Login and Register Stage 
+
     public void setupLoginRegisterStage() {
+    
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginView);
     
         Scene loginScene = new Scene(loginView.getPane(), 350, 300);
+    
         loginScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
         currentStage.setTitle("Data Analytics Hub - Login");
         currentStage.setScene(loginScene);
@@ -40,94 +55,154 @@ public class StageManager {
         setAppLogo();
     
         loginController.setOnLoginSuccessEvent(userType -> { 
+    
             closeCurrentStage();
+    
             String username = loginView.getUsernameField().getText();
             
             if ("admin".equals(userType)) {
+    
                 setupAdminStage(username);
-            } else if ("VIP".equals(userType)) {
+    
+            } 
+            
+            else if ("VIP".equals(userType)) {
+            
                 setupVIPStage(username);
-            } else {
+            
+            } 
+            
+            else {
+            
                 setupDashboardStage(username);
+            
             }            
+        
         });
     
         loginController.setOnRegisterEvent(() -> {
-            setupRegisterScene();  // changed this from setupRegisterStage to setupRegisterScene
+        
+            setupRegisterScene(); 
+        
         });
     
         currentStage.show();
+    
     }
+
+    // Configure and swap to Register Scene
     
     public void setupRegisterScene() {
+    
         RegisterView registerView = new RegisterView();
         Scene registerScene = new Scene(registerView.getPane(), 350, 300);
+    
         registerScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
         currentStage.setTitle("Data Analytics Hub - Register");
-        currentStage.setScene(registerScene); // change the current stage's scene to the register scene
+        currentStage.setScene(registerScene); 
+    
         setAppLogo();
     
         RegisterController registerController = new RegisterController(registerView);
+    
         registerController.getView().setOnBackEvent(() -> {
+    
             setupLoginRegisterStage();
+    
         });        
+    
     }    
 
+    // Configure and display the dashboard for standard users
+
     public void setupDashboardStage(String username) {
+    
         DashboardView dashboardView = new DashboardView(username);
         DashboardController dashboardController = new DashboardController(dashboardView, this, username); // Linking view with controller
     
         currentStage = new Stage();
+    
         setAppLogo();
+    
         Scene dashboardScene = new Scene(dashboardView.getPane(), 1368, 892);
+    
         dashboardScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
     
         currentStage.setTitle("Data Analytics Hub - Dashboard");
         currentStage.setScene(dashboardScene);
         currentStage.show();
-    }
     
+    }
 
+    // Configure and display the dashboard for VIP users
+    
     public void setupVIPStage(String username) {
+    
         VIPView vipView = new VIPView(username);
         VIPController vipController = new VIPController(vipView, this, username);
 
         currentStage = new Stage();
+    
         setAppLogo();
+    
         Scene vipScene = new Scene(vipView.getPane(), 1368, 892);
+    
         vipScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
 
         currentStage.setTitle("Data Analytics Hub - VIP Dashboard");
         currentStage.setScene(vipScene);
         currentStage.show();
+    
     }
 
+    // Configure and display the dashboard for admin users
+
     public void setupAdminStage(String username) {
+    
         AdminView adminView = new AdminView(username);
-        AdminController adminController = new AdminController(adminView, this, username); // Setup the AdminController
+
+        // Setup the AdminController
+
+        AdminController adminController = new AdminController(adminView, this, username); 
     
         currentStage = new Stage();
+    
         setAppLogo();
+    
         Scene adminScene = new Scene(adminView.getPane(), 1368, 892);
+    
         adminScene.getStylesheets().add(getClass().getResource("../assets/styles.css").toExternalForm());
     
         currentStage.setTitle("Data Analytics Hub - Admin Dashboard");
         currentStage.setScene(adminScene);
         currentStage.show();
-    }
     
-    private void closeCurrentStage() {
-        if (currentStage != null) {
-            currentStage.close();
-        }
     }
 
-    public void swapSceneContent(Parent newContent) {
-        if (currentStage != null) {
-            Scene newScene = new Scene(newContent, currentStage.getScene().getWidth(), currentStage.getScene().getHeight());
-            currentStage.setScene(newScene);
-        }
-    }
+    // Closes the current stage if its open
     
+    private void closeCurrentStage() {
+    
+        if (currentStage != null) {
+    
+            currentStage.close();
+    
+        }
+    
+    }
+
+    // Update the current stage scene with new content (Refresh)
+
+    public void swapSceneContent(Parent newContent) {
+    
+        if (currentStage != null) {
+    
+            Scene newScene = new Scene(newContent, currentStage.getScene().getWidth(), currentStage.getScene().getHeight());
+    
+            currentStage.setScene(newScene);
+    
+        }
+    
+    }
     
 }

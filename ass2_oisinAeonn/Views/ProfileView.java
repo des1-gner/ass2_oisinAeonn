@@ -15,8 +15,12 @@ import java.io.File;
 
 import ass2_oisinAeonn.Model.Post;
 
+// Represents the graphical interface for the user Profile screen
+
 public class ProfileView {
 
+    // Member declarations
+    
     private VBox pane;
     private TextField usernameField;
     private TextField firstNameField;
@@ -33,6 +37,8 @@ public class ProfileView {
     private ImageView profileImageView;
     private Button changeProfileImageButton;
     private BorderPane mainContainer;
+
+    // Initializing the layout elements
 
     public ProfileView() {
         
@@ -51,13 +57,19 @@ public class ProfileView {
         logoBox.setPadding(new Insets(10, 0, 20, 0));
         pane.getChildren().add(logoBox);
 
+        // Set up the profile image view and change button
+
         profileImageView = new ImageView(new Image("assets/profile.png"));
         profileImageView.setFitWidth(200);  // Making the profile picture much bigger
         profileImageView.setPreserveRatio(true);
         changeProfileImageButton = new Button("Change Profile Image");
 
+        // Grouping profile image components into a VBox
+
         VBox profileBox = new VBox(10);
         profileBox.getChildren().addAll(profileImageView, changeProfileImageButton);
+
+        // Setting up user information fields
 
         Label usernameLabel = new Label("Username:");
         Label firstNameLabel = new Label("First Name:");
@@ -80,14 +92,20 @@ public class ProfileView {
         passwordField.setPromptText("New Password");
         passwordField.setMaxWidth(200);
 
+        // Setting up user action buttons
+
         updateButton = new Button("Update");
         deleteButton = new Button("Delete Account");
         deleteButton.getStyleClass().add("red-button");
+
+        // Grouping user information components into a VBox
 
         VBox userInfoBox = new VBox(10);
         
         userInfoBox.setAlignment(Pos.CENTER);
         userInfoBox.getChildren().addAll(usernameLabel, usernameField, firstNameLabel, firstNameField, lastNameLabel, lastNameField, passwordLabel, passwordField, updateButton, deleteButton);
+
+        // Merging the main profile layout
 
         HBox mainLayout = new HBox(50);
         
@@ -99,6 +117,8 @@ public class ProfileView {
         mainContainer.setTop(backButton);
         mainContainer.setCenter(pane);
         backButton.setPadding(new Insets(10, 10, 10, 10));
+
+        // Setting up the table for user's posts
 
         postLabel = new Label("User's Posts:");
         postTableView = new TableView<>();
@@ -150,6 +170,8 @@ public class ProfileView {
     
     }
 
+    // Method to open file explorer for user to pick a new profile picture
+
     public File showProfileImageFileChooser() {
     
         FileChooser fileChooser = new FileChooser();
@@ -163,6 +185,7 @@ public class ProfileView {
     
     }
     
+    // Getters
 
     public Button getExportAllPostsButton() {
     

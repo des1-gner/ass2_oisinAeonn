@@ -85,16 +85,6 @@ public int getPostId () {
 
   }
 
-  // ToString Output of the Object Post.
- 
-  @Override
-  
-  public String toString() {
-
-    return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
-
-  }
-
   public void setAuthor(String username) {
 
     this.author = username;
@@ -130,5 +120,15 @@ public int getPostId () {
     this.postId = postId;
 
   }
+
+  // ToString Output of the Object Post.
+ 
+  @Override
   
+  public String toString() {
+
+    return String.join(",", Integer.toString(postId), content, author, Integer.toString(likes), Integer.toString(shares), dateTime, image);
+
+  }
+
 }

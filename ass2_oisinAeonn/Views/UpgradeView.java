@@ -1,5 +1,7 @@
 package ass2_oisinAeonn.Views;
 
+// Import necessary JavaFX classes
+
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -12,7 +14,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+// Represents the graphical interface for the user Upgrade screen
+
 public class UpgradeView {
+
+    // Main UI components declarations
 
     private BorderPane mainFrame;  // Main frame
     private VBox mainLayout;       // Inner layout for main content
@@ -33,7 +39,7 @@ public class UpgradeView {
 
         ImageView logoView = new ImageView(logo);
         
-        logoView.setFitWidth(500);  // Adjust width as needed
+        logoView.setFitWidth(500); 
         logoView.setPreserveRatio(true); // Preserve aspect ratio
         
         // Wrapping the ImageView in an HBox to center it
@@ -42,17 +48,27 @@ public class UpgradeView {
         
         logoBox.setAlignment(Pos.CENTER);
         
+        // Initialize the back button
+
         backButton = new Button("Back");
         
+        // Combine back button and logo in a vertical layout
+
         VBox topSection = new VBox();
         
         topSection.getChildren().addAll(backButton, logoBox);
         mainFrame.setTop(topSection);
         
+        // Main content layout initialization
+
         mainLayout = new VBox(10);
         mainLayout.setAlignment(Pos.CENTER);
 
+        // VIP description text
+
         Text vipDescription = new Text("VIP Users have access to in-depth analytics, and bulk Imports for $10 a month");
+
+        // Setting up the payment radio buttons
 
         RadioButton creditCardOption = new RadioButton("Credit Card");
         
@@ -69,6 +85,8 @@ public class UpgradeView {
         cryptoOption.setToggleGroup(paymentGroup);
         payLaterOption.setToggleGroup(paymentGroup);
 
+        // Pay button initialization
+
         payButton = new Button("Pay");
 
         // Create a VBox for the radio buttons and set some padding/margins if needed
@@ -77,6 +95,8 @@ public class UpgradeView {
         radioFrame.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         radioFrame.setAlignment(Pos.CENTER);
 
+        // Add components to the main layout
+
         mainLayout.getChildren().addAll(vipDescription, radioFrame, payButton);
 
         // Set the mainLayout to the center of the main frame
@@ -84,6 +104,8 @@ public class UpgradeView {
         mainFrame.setCenter(mainLayout);
     
     }
+
+    // Getter methods for various UI components
 
     public BorderPane getMainFrame() {
     

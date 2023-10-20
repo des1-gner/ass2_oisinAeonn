@@ -11,7 +11,11 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
+// This class provides JUnit test cases for the database access objects (DAOs)
+
 public class BasicDAOTest {
+
+    // This method is executed before each test
 
     @Before
 
@@ -19,11 +23,15 @@ public class BasicDAOTest {
     
     }
 
+    // This method is executed after each test
+
     @After
     
     public void tearDown() {
     
     }
+
+    // Test that all posts can be fetched from the database
 
     @Test
     
@@ -35,6 +43,8 @@ public class BasicDAOTest {
     
     }
 
+    // Test that all users can be fetched from the database
+
     @Test
     
     public void testGetAllUsers() {
@@ -44,6 +54,8 @@ public class BasicDAOTest {
         assertNotNull(users);
     
     }
+
+    // Test that a post can be inserted and then deleted
 
     @Test
     
@@ -65,6 +77,8 @@ public class BasicDAOTest {
     
     }
 
+    // Test that a user can be registered and then deleted
+
     @Test
     
     public void testRegisterAndDeleteUser() {
@@ -81,6 +95,8 @@ public class BasicDAOTest {
     
     }
 
+    // Test that a distribution of post shares can be fetched
+
     @Test
     
     public void testGetPostSharesDistribution() {
@@ -90,6 +106,8 @@ public class BasicDAOTest {
         assertNotNull(distribution);
     
     }
+
+    // Test that a distribution of post likes can be fetched
 
     @Test
     
@@ -101,6 +119,8 @@ public class BasicDAOTest {
     
     }
 
+    // Test that a distribution of users can be fetched
+
     @Test
     
     public void testUsersDistribution() {
@@ -110,6 +130,8 @@ public class BasicDAOTest {
         assertNotNull(distribution);
     
     }
+
+    // Test that a post by a specific ID can be fetched
 
     @Test
     
@@ -121,6 +143,8 @@ public class BasicDAOTest {
     
     }
 
+    // Test that content of a post by a specific ID can be fetched
+
     @Test
     
     public void testGetPostContent() {
@@ -130,6 +154,8 @@ public class BasicDAOTest {
         assertNotNull(content);
     
     }
+
+    // Test that a user by a specific username can be fetched
 
     @Test
     

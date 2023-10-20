@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
+// Represents the graphical interface for the user login screen
+
 public class LoginView {
 
     private StackPane rootPane;
@@ -18,6 +20,8 @@ public class LoginView {
     private Button loginButton;
     private Button registerButton;
     private Label errorLabel;
+
+    // Constructor initializing the login view components
 
     public LoginView() {
     
@@ -32,6 +36,8 @@ public class LoginView {
     
         logoView.setFitWidth(100);  
         logoView.setPreserveRatio(true); 
+
+        // Setup and configuration of text fields and buttons
 
         usernameField = new TextField();
         usernameField.setPromptText("Username");
@@ -52,11 +58,15 @@ public class LoginView {
         errorLabel = new Label();
         errorLabel.setTextFill(Color.RED);
 
+        // Adding the components to the VBox container
+        
         pane.getChildren().addAll(logoView, usernameField, passwordField, loginButton, registerButton, errorLabel);
 
         rootPane = new StackPane(pane);
     
     }
+
+    // Getters
 
     public TextField getUsernameField() {
     

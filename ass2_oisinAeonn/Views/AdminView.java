@@ -14,12 +14,17 @@ import ass2_oisinAeonn.Model.User;
 
 import java.util.List;
 
+// Represents the administrative dashboard view in the Data Analytics Hub application
+// Extends from VIPView and adds additional administrative capabilities such as user management
+
 public class AdminView extends VIPView {
     
     public BarChart<String, Number> userDistributionBarChart;
     protected TableView<User> usersTableView;
     public Button deleteUserBtn;
     public Button changeUserTypeBtn;
+
+    // Constructor to initialize and setup the Admin View
 
     public AdminView(String username) {
     
@@ -31,6 +36,8 @@ public class AdminView extends VIPView {
     
     }
 
+    // Creates and returns the "Users" tab
+
     private Tab createUsersTab() {
     
         VBox layout = new VBox(10);
@@ -39,7 +46,6 @@ public class AdminView extends VIPView {
         
         usersTableView = new TableView<>();
         
-
         TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
     
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
@@ -58,7 +64,6 @@ public class AdminView extends VIPView {
         lastNameColumn.setMaxWidth(Double.MAX_VALUE); 
         lastNameColumn.prefWidthProperty().bind(usersTableView.widthProperty().multiply(0.25)); 
         
-
         TableColumn<User, String> userTypeColumn = new TableColumn<>("User Type");
     
         userTypeColumn.setCellValueFactory(new PropertyValueFactory<>("userType"));
@@ -84,6 +89,8 @@ public class AdminView extends VIPView {
     
     }
 
+    // Generates and returns a bar chart showing the distribution of user types
+
     private BarChart<String, Number> generateUserDistributionChart() {
     
         CategoryAxis xAxis = new CategoryAxis();
@@ -101,6 +108,8 @@ public class AdminView extends VIPView {
         return barChart;
     
     }
+
+    // Getter for usersTableView
 
     public TableView<User> getUsersTableView() {
     

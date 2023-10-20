@@ -17,6 +17,8 @@ import java.util.List;
 
 import ass2_oisinAeonn.Model.Post;
 
+// Represents the primary dashboard view for users to interact with the Data Analytics Hub application
+
 public class DashboardView {
 
     private VBox dashboardVBox;
@@ -44,6 +46,8 @@ public class DashboardView {
     protected Tab allTab;
     protected TableView<Post> allPostsTableView;
     private Button exportSelectedPostsButton;
+
+    // Constructor initializing the dashboard view with a given username
 
     public DashboardView(String username) {
         
@@ -168,7 +172,6 @@ public class DashboardView {
         
         }
         
-
         allTab = new Tab("All");
         allTab.setClosable(false);
 
@@ -182,6 +185,8 @@ public class DashboardView {
         tabPane.getTabs().add(allTab);
 
     }
+
+    // Sets up the posts list view
 
     private void setupPostsListView() {
     
@@ -216,6 +221,8 @@ public class DashboardView {
         
         });
     }
+
+    // Sets up the all posts table view
     
     private void setupallPostsTableView() {
     
@@ -259,12 +266,135 @@ public class DashboardView {
 
     }
 
+    // Populates the all posts table with a list of posts
+
 
     public void populateAllPosts(List<Post> posts) {
     
         allPostsTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
+
+    // Validates whether the content is present and not empty
+    
+    public boolean isContentValid() {
+    
+        String content = postContentField.getText();
+    
+        return content != null && !content.trim().isEmpty();
+    
+    }
+
+    // Validates whether the likes input is valid
+    
+    public boolean isLikesValid() {
+    
+        String likesStr = likesField.getText();
+    
+        try {
+    
+            int likes = Integer.parseInt(likesStr);
+    
+            return likes >= 0;
+    
+        } 
+        
+        catch (NumberFormatException e) {
+        
+            return false;
+        
+        }
+    
+    }
+
+    // Validates whether the shares input is valid
+    
+    public boolean isSharesValid() {
+    
+        String sharesStr = sharesField.getText();
+    
+        try {
+    
+            int shares = Integer.parseInt(sharesStr);
+    
+            return shares >= 0;
+    
+        } 
+        
+        catch (NumberFormatException e) {
+        
+            return false;
+        
+        }
+    
+    }
+
+    // Validates whether the dates input is valid
+    
+    public boolean isDateValid() {
+    
+        return datePicker.getValue() != null;
+    
+    }
+    
+    // Validates whether an image has been uploaded
+
+    public boolean isImageUploaded() {
+    
+        return postImageView.getImage() != null;
+    
+    }
+
+    // Opens a File Chooser dialog to allow the user to select an image
+
+    public File showImageFileChooser() {
+    
+        FileChooser fileChooser = new FileChooser();
+    
+        fileChooser.setTitle("Select an Image");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
+    
+        return fileChooser.showOpenDialog(null);
+    
+    }
+
+    // Constructs and returns the Profile View
+
+    public VBox getProfileView() {
+    
+        VBox profileVBox = new VBox(new Label("Profile View"));
+        Button backButton = new Button("Back to Dashboard");
+    
+        backButton.setOnAction(e -> setDashboardContent());
+        profileVBox.getChildren().add(backButton);
+    
+        return profileVBox;
+    
+    }
+
+    // Constructs and returns the Upgrade Account View
+
+    public VBox getUpgradeView() {
+    
+        VBox upgradeVBox = new VBox(new Label("Upgrade Account View"));
+        Button backButton = new Button("Back to Dashboard");
+    
+        backButton.setOnAction(e -> setDashboardContent());
+        upgradeVBox.getChildren().add(backButton);
+    
+        return upgradeVBox;
+    
+    }
+
+    // Sets the scene's root to the main dashboard
+
+    private void setDashboardContent() {
+    
+        getPane().getScene().setRoot(dashboardVBox);
+    
+    }
+
+    // Getters and setters for various properties
 
     public TableView<Post> getAllPostsTableView() {
 
@@ -407,107 +537,6 @@ public class DashboardView {
     public TextField getPostContentField() {
     
         return postContentField;
-    
-    }
-    
-    public boolean isContentValid() {
-    
-        String content = postContentField.getText();
-    
-        return content != null && !content.trim().isEmpty();
-    
-    }
-    
-    public boolean isLikesValid() {
-    
-        String likesStr = likesField.getText();
-    
-        try {
-    
-            int likes = Integer.parseInt(likesStr);
-    
-            return likes >= 0;
-    
-        } 
-        
-        catch (NumberFormatException e) {
-        
-            return false;
-        
-        }
-    
-    }
-    
-    public boolean isSharesValid() {
-    
-        String sharesStr = sharesField.getText();
-    
-        try {
-    
-            int shares = Integer.parseInt(sharesStr);
-    
-            return shares >= 0;
-    
-        } 
-        
-        catch (NumberFormatException e) {
-        
-            return false;
-        
-        }
-    
-    }
-    
-    public boolean isDateValid() {
-    
-        return datePicker.getValue() != null;
-    
-    }
-    
-    public boolean isImageUploaded() {
-    
-        return postImageView.getImage() != null;
-    
-    }
-
-    public File showImageFileChooser() {
-    
-        FileChooser fileChooser = new FileChooser();
-    
-        fileChooser.setTitle("Select an Image");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.bmp"));
-    
-        return fileChooser.showOpenDialog(null);
-    
-    }
-
-    public VBox getProfileView() {
-    
-        VBox profileVBox = new VBox(new Label("Profile View"));
-        Button backButton = new Button("Back to Dashboard");
-    
-        backButton.setOnAction(e -> setDashboardContent());
-        profileVBox.getChildren().add(backButton);
-    
-        return profileVBox;
-    
-    }
-
-    public VBox getUpgradeView() {
-    
-        VBox upgradeVBox = new VBox(new Label("Upgrade Account View"));
-        Button backButton = new Button("Back to Dashboard");
-    
-        backButton.setOnAction(e -> setDashboardContent());
-        upgradeVBox.getChildren().add(backButton);
-    
-        return upgradeVBox;
-    
-    }
-
-    private void setDashboardContent() {
-    
-        getPane().getScene().setRoot(dashboardVBox);
     
     }
     

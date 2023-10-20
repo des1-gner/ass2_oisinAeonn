@@ -14,16 +14,24 @@ import java.util.Map;
 
 import javafx.scene.control.Alert;
 
+// Class including methods to insert, alter, and delete entries in the database to do with the users table
+
 public class UserDAO {
+
+    // Singleton pattern to ensure a single instance of UserDAO
 
     private static UserDAO instance = null;
     private Connection conn;
+
+    // Private constructor to prevent external instantiation
 
     public UserDAO() {
     
         this.conn = DatabaseConnector.getInstance().getConnection();
     
     }
+
+    // getInstance() - Singleton pattern method
 
     public static UserDAO getInstance() {
     
@@ -36,6 +44,8 @@ public class UserDAO {
         return instance;
     
     }
+
+    // updateUserType() - Update the user type in the database for a given username
 
     public static void updateUserType(String username, String newType) {
     
@@ -83,6 +93,8 @@ public class UserDAO {
         }
     
     }
+
+    // getAllUsers() - Fetches all the users from the database
     
     public static List<User> getAllUsers() {
     
@@ -130,6 +142,8 @@ public class UserDAO {
     
     }
 
+    // updateProfileImagePath() - Update the profile image path for a user in the database
+
     public static void updateProfileImagePath(String username, String path) {
     
         String sql = "UPDATE users SET profilePicture = ? WHERE username = ?";
@@ -175,7 +189,9 @@ public class UserDAO {
         
         }
     
-    }       
+    }
+    
+    // deletePostsForUser() - Deletes all the posts for a user from the database
     
     public static void deletePostsForUser(String username) {
     
@@ -203,11 +219,11 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // deleteUserByUsername() - Deletes a user by their username from the database
     
     public static void deleteUserByUsername(String username) {
     
@@ -232,11 +248,11 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // registerUser() - Registers a new user in the database
 
     public static void registerUser(User user) {
 
@@ -264,11 +280,11 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // checkIfUserExists() - Checks if a user with a given username exists in the database
     
     public static boolean checkIfUserExists(String username) {
     
@@ -299,13 +315,13 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
         
         return false;
     
     }
+
+    // upgradeUserToVIP() - Upgrades a user to a VIP status in the database
 
     public static void upgradeUserToVIP(String username) {
     
@@ -337,11 +353,11 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // upgradeUserToAdmin() - Upgrades a user to an admin status in the database
     
     public static void upgradeUserToAdmin(String username) {
     
@@ -366,11 +382,11 @@ public class UserDAO {
         
         finally {
         
-            // Close resources properly.
-        
         }
     
     }
+
+    // fetchPasswordAndUserTypeForUsername() - Fetches the hashed password and user type for a given username
     
     public static UserPasswordAndType fetchPasswordAndUserTypeForUsername(String username) {
     
@@ -444,6 +460,8 @@ public class UserDAO {
         return new UserPasswordAndType(storedPasswordHash, userType);
     
     }
+
+    // Inner static class - Holds password hash and user type for a user
     
     public static class UserPasswordAndType {
     
@@ -459,6 +477,8 @@ public class UserDAO {
     
     }
 
+    // formatDateTime() - Helper method to format date time strings
+
     private static String formatDateTime(String string) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -467,6 +487,8 @@ public class UserDAO {
         return dateTime.format(formatter);
 
     }
+
+    // getUsersDistribution() - Fetches the distribution of user types in the database
 
     public static Map<String, Integer> getUsersDistribution() {
 
@@ -497,14 +519,14 @@ public class UserDAO {
         } 
         
         finally {
-        
-            // Close resources here, if necessary.
     
         }
 
         return distribution;
 
     }
+
+    // deleteUser() - Deletes a user by their username from the database
 
     public static void deleteUser(String username) {
     
@@ -532,12 +554,12 @@ public class UserDAO {
         } 
         
         finally {
-        
-            // Close resources here, if necessary.
     
         }
 
     }
+
+    // getUserByUsername() - Fetches a User object for a given username
 
     public static User getUserByUsername(String username) {
     
@@ -575,13 +597,13 @@ public class UserDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
 
         return user;
 
     }
+
+    // updatePostAuthor() - Updates the author name for all posts of a user
 
     public static int updatePostAuthor(String currentUsername, String newUsername) {
     
@@ -607,14 +629,14 @@ public class UserDAO {
         } 
         
         finally {
-        
-            // Close resources here, if necessary.
     
         }
 
         return affectedRows;
 
     }
+
+    // updateUser() - Updates user details for a given username
 
     public static int updateUser(String currentUsername, String newUsername, String firstName, String lastName, String password) {
         
@@ -643,13 +665,13 @@ public class UserDAO {
         
         finally {
         
-            // Close resources here, if necessary.
-        
         }
 
         return affectedRows;
     
     }
+
+    // updateUserWithoutPassword() - Updates user details excluding password for a given username
 
     public static void updateUserWithoutPassword(String currentUsername, String newUsername, String firstName, String lastName) {
     
@@ -675,8 +697,6 @@ public class UserDAO {
         } 
         
         finally {
-        
-            // Close resources here, if necessary.
         
         }
     

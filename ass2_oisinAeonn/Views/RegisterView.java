@@ -20,14 +20,17 @@ public class RegisterView {
     private Button backButton;
 
     public RegisterView() {
+        
         pane = new VBox(10);
         pane.setPadding(new Insets(20));
         pane.setAlignment(Pos.CENTER);
     
         // Load the logo image
+        
         Image logoImage = new Image(getClass().getResourceAsStream("../../assets/logo.jpg"));
         ImageView logoView = new ImageView(logoImage);
-        logoView.setFitWidth(100);  // Adjust width as needed
+        
+        logoView.setFitWidth(100); 
         logoView.setPreserveRatio(true); // Preserve aspect ratio
     
         usernameField = new TextField();
@@ -49,69 +52,93 @@ public class RegisterView {
         backButton = new Button("Back");
         registerButton = new Button("Register");
     
-        HBox buttonBox = new HBox(10); // 10 is the spacing between buttons
+        HBox buttonBox = new HBox(10); // spacing
+        
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.getChildren().addAll(backButton, registerButton);
     
         pane.getChildren().addAll(logoView, usernameField, firstNameField, lastNameField, passwordField, buttonBox);
+    
     }
 
     // Getters for fields and buttons
+    
     public TextField getUsernameField() {
+    
         return usernameField;
+    
     }
 
     public TextField getFirstNameField() {
+    
         return firstNameField;
+    
     }
 
     public TextField getLastNameField() {
+    
         return lastNameField;
+    
     }
 
     public PasswordField getPasswordField() {
+    
         return passwordField;
+    
     }
 
     public Button getRegisterButton() {
+    
         return registerButton;
+    
     }
 
     public Button getBackButton() {
+    
         return backButton;
+    
     }
 
     public Parent getPane() {
+    
         return pane;  // Return the StackPane as the root
+    
     }
-
-
 
     public Runnable getOnBackEvent() {
+
         return onBackEvent;
+
     }
 
-    // Inside RegisterView class
+    private Runnable onBackEvent;
 
-private Runnable onBackEvent;
+    public void setOnBackEvent(Runnable onBackEvent) {
+    
+        this.onBackEvent = onBackEvent;
+    
+    }
 
-public void setOnBackEvent(Runnable onBackEvent) {
-    this.onBackEvent = onBackEvent;
-}
+    public boolean isUsernameValid() {
+    
+        String username = usernameField.getText();
+    
+        return username.length() >= 4;
+    
+    }
 
-public boolean isUsernameValid() {
-    String username = usernameField.getText();
-    return username.length() >= 4;
-}
+    public boolean isNameValid(String name) {
+    
+        return (name != null && !name.trim().isEmpty());
+    
+    }
 
-public boolean isNameValid(String name) {
-    return (name != null && !name.trim().isEmpty());
-}
+    public boolean isPasswordValid() {
+    
+        String password = passwordField.getText();
+    
+        return password.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$");
 
-public boolean isPasswordValid() {
-    String password = passwordField.getText();
-    return password.matches("^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$");
-}
-
+    }
 
 }
