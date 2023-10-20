@@ -270,7 +270,6 @@ public class VIPController extends DashboardController {
         
         }
         
-    
         // Updates the ListView in the VIP view with all posts from the database
 
         private void populateAllPostsListView() {
