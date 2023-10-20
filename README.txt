@@ -76,7 +76,7 @@ Styling in JavaFX: Ensured consistent and appealing styling across the applicati
 
 GUI Development: Chose to hardcode the GUI, deriving from prior experience with Java Swing. This offered granular control over the GUI components.
 
-Agile Approach: Adopted agile's incremental development strategy. The progress can be traced via the GitHub repository: <link>.
+Agile Approach: Adopted agile's incremental development strategy. The progress can be traced via the GitHub repository where I have just under 100 commits: https://github.com/des1-gner/ass2_oisinAeonn
 
 Comments & Annotations: Placed strategic comments throughout the codebase for clarity and better understanding.
 
@@ -247,6 +247,55 @@ SQL with MariaDB: SQL was used as the primary means of interacting with the Mari
 LinkedHashMaps were no longer required as SQL maintained the order of my Posts, and Users. 
 
 Encapsulation with Package Structuring: By structuring the application into packages, access control was effectively managed. Most variables were kept private, but inheritance necessitated some variables to be declared as protected or public.
+
+In my code, I've made use of various data structures, SOLID principles, and design patterns:
+
+Data Structures:
+
+Lists (e.g., ArrayList): I utilized lists to aggregate and return sets of data, such as when fetching all users or posts.
+
+Maps (e.g., HashMap): I employed maps for representing distributions in my UserDAO and PostDAO classes.
+
+SOLID Principles:
+
+Single Responsibility Principle (SRP):
+
+I designed each class to have a specific, singular responsibility:
+
+UpgradeView solely manages the upgrade screen.
+VIPView is a specialized extension of the dashboard with VIP features.
+UserDAO exclusively handles database operations related to users.
+PostDAO is dedicated to database operations related to posts.
+
+Open/Closed Principle (OCP):
+
+I made an effort to uphold this principle by using inheritance. For instance, VIPView extends DashboardView, which allows for the extension of features without modifying existing behavior.
+Liskov Substitution Principle (LSP):
+
+I did not directly implement Interface Segregation Principle (ISP) or Dependency Inversion Principle (VIP). 
+However I ensured as best as possible that the subclasses I created were substitutable for their base classes, and only implemented what they required to function.
+
+I used the Singleton pattern with DatabaseConnector to ensure a level of abstraction, hinting at the application of DIP.
+
+Structures / Patterns:
+
+Singleton Pattern:
+
+Both in UserDAO and PostDAO, I implemented the Singleton pattern for database connections using DatabaseConnector.getInstance(). This ensures a single instance of the database connection throughout my application.
+Factory Method Pattern (potentially):
+
+I've leveraged the getInstance() methods in a way that suggests the Factory Method pattern. However, in the context of my code, it primarily serves the Singleton pattern.
+Inheritance/Extension:
+
+By making VIPView a subclass of DashboardView, I showcased the use of inheritance and created a space for feature extension and specialization.
+Data Access Object (DAO) Pattern:
+
+I incorporated the DAO pattern in both UserDAO and PostDAO, providing a clear and abstract interface to the database for users and posts.
+Model-View Separation:
+
+I emphasized a separation of the view (GUI components) from the underlying data models, as seen in classes like UpgradeView and VIPView.
+
+These all are apart of the MVC Pattern (Model, View, Controller).
 
 Challenges Faced During Development:
 
