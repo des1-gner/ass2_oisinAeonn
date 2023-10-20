@@ -16,8 +16,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 
+// Controller responsible for managing VIP user functionalities and interactions
+
 public class VIPController extends DashboardController {
 
+    // Constructor: Initializes the controller with the provided VIP view, stage manager, and username
+    // Event Handler for VIP actions
+    
     public VIPController(VIPView view, StageManager stageManager, String username) {
     
         super(view, stageManager, username);
@@ -27,6 +32,8 @@ public class VIPController extends DashboardController {
         view.getExportFilteredPostsButton().setOnAction(e -> handleExportFilteredPostsToCSV());
 
     }
+
+    // Handles the process of downgrading a VIP user to a standard user
 
     private void handleDowngrade() {
 
@@ -57,6 +64,8 @@ public class VIPController extends DashboardController {
         });
 
     }
+
+    // Handles the process of exporting the filtered posts to a CSV file
 
     private void handleExportFilteredPostsToCSV() {
 
@@ -118,6 +127,8 @@ public class VIPController extends DashboardController {
         
         }
     
+        // Overridden method from the parent class to handle exporting multiple selected posts to a CSV file
+
         @Override
 
         protected void handleExportSelectedPostsToCSV() {
@@ -182,35 +193,45 @@ public class VIPController extends DashboardController {
             }
     
         }
+
+        // Handles the process of importing posts from a CSV file to the application
     
         private void handleImportPostsFromCSV() {
-    
+
             FileChooser fileChooser = new FileChooser();
-    
+        
             fileChooser.setTitle("Import Posts from CSV");
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-    
+        
             File file = fileChooser.showOpenDialog(view.getPane().getScene().getWindow());
-    
+        
             if (file != null) {
-            
+        
                 try {
-            
+        
                     List<String> lines = Files.readAllLines(file.toPath());
-    
+        
                     // Skipping the header and parsing posts
-    
+                    
                     for (int i = 1; i < lines.size(); i++) {
-    
+        
                         String line = lines.get(i);
                         String[] attributes = line.split(",");
-    
+        
+                    
+                        // Ensure that the CSV line has the correct number of attributes for a Post
+                        if (attributes.length != 7) {
+                    
+                            throw new IllegalArgumentException("CSV format mismatch on line " + i + ". Expected 7 attributes but found " + attributes.length + ".");
+                    
+                        }
+        
                         try {
-    
+        
                             Post post = new Post(Integer.parseInt(attributes[0].replace("\"", "")), attributes[1].replace("\"", ""), attributes[2].replace("\"", ""),
                             Integer.parseInt(attributes[3]), Integer.parseInt(attributes[4]), attributes[5].replace("\"", ""), attributes[6].replace("\"", ""));
                             PostDAO.insertPost(post);
-                    
+        
                         } 
                         
                         catch (NumberFormatException nfe) {
@@ -218,17 +239,23 @@ public class VIPController extends DashboardController {
                             // If there's an issue with the parsing, show an alert and continue to the next line
                         
                             showAlert("Error", "Issue parsing data on line " + i + ". Skipping this entry.");
-                    
+                        
                         }
-                
+        
                     }
-                
+        
                     showAlert("Success", "Posts imported successfully!");
-    
+        
                     // Refresh the ListView after successfully importing posts
-    
+                    
                     populateAllPostsListView();
-    
+        
+                } 
+                
+                catch (IllegalArgumentException iae) {
+                
+                    showAlert("Error", iae.getMessage());
+                
                 } 
                 
                 catch (Exception e) {
@@ -236,13 +263,15 @@ public class VIPController extends DashboardController {
                     e.printStackTrace();
                 
                     showAlert("Error", "Failed to import posts from CSV.");
-            
+                
                 }
         
             }
-    
+        
         }
+        
     
+        // Updates the ListView in the VIP view with all posts from the database
 
         private void populateAllPostsListView() {
     

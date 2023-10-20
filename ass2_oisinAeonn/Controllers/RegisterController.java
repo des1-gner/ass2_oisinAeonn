@@ -9,10 +9,14 @@ import ass2_oisinAeonn.Database.UserDAO;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+// Controller responsible for managing user registration functionality and interactions
+
 public class RegisterController {
 
     private RegisterView view;
     
+    // Constructor Initializes the controller with the provided view and sets up the action handlers
+
     public RegisterController(RegisterView view) {
         
         this.view = view;
@@ -21,6 +25,8 @@ public class RegisterController {
         view.getBackButton().setOnAction(e -> handleBack());
         
     }
+
+    // Handles the registration process including validation
 
     private void handleRegister() {
     
@@ -83,6 +89,8 @@ public class RegisterController {
     
     }
     
+    // Displays an error alert with the provided title and message
+
     private void showErrorAlert(String title, String message) {
     
         Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -96,6 +104,8 @@ public class RegisterController {
         errorAlert.showAndWait();
     
     }
+
+    // Applies styling to the provided alert
     
     private void styleAlert(Alert alert) {
     
@@ -104,6 +114,8 @@ public class RegisterController {
         dialogPane.getStylesheets().add(getClass().getResource("../../assets/styles.css").toExternalForm());
     
     }
+
+    // Handles the "back" button action (swaps scene to login page)
     
     private void handleBack() {
     
@@ -114,6 +126,8 @@ public class RegisterController {
         }
     
     }
+
+    // Hashes the provided password using SHA-256 and returns the hash
     
     private String hashPassword(String passwordToHash) {
     
@@ -144,6 +158,8 @@ public class RegisterController {
         return generatedPassword;
     
     }
+
+    // Getter for the registration view
 
     public RegisterView getView() {
     

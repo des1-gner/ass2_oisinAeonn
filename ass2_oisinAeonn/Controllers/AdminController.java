@@ -13,9 +13,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 
+// Controller for Admin Functions (Admin can do anything VIP, and standard can do plus manage users)
+
 public class AdminController extends VIPController {
     
     private AdminView adminView;
+
+    // Constructor, setting up button handlers, and parsing username
 
     public AdminController(AdminView view, StageManager stageManager, String username) {
     
@@ -26,12 +30,16 @@ public class AdminController extends VIPController {
     
     }
 
+    // Event Handlers for Button Controls
+
     private void setupButtonEventHandlers() {
     
         adminView.deleteUserBtn.setOnAction(e -> handleDeleteUser());
         adminView.changeUserTypeBtn.setOnAction(e -> handleChangeUserType());
     
     }
+
+    // Method to handle when Delete User Button is clicked
 
     private void handleDeleteUser() {
     
@@ -46,7 +54,9 @@ public class AdminController extends VIPController {
             confirmAlert.setContentText("You are about to delete the user and all of its posts. Do you want to continue?");
     
             if (confirmAlert.showAndWait().get() == ButtonType.OK) {
-    
+                
+                // Delete all posts associated with the user and then delete the user from the Database (if you tried to delete a user with posts the join would not allow this)
+
                 UserDAO.deletePostsForUser(selectedUser.getUsername());
                 UserDAO.deleteUserByUsername(selectedUser.getUsername());
     
@@ -56,6 +66,8 @@ public class AdminController extends VIPController {
     
         } 
         
+        // Show warning if no user has been selected
+
         else {
         
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -69,6 +81,8 @@ public class AdminController extends VIPController {
     
     }
     
+    // Update the Chart to show the User Distribution of userType
+
     public void updateUserDistributionChart(Map<String, Integer> distribution) {
     
         XYChart.Series<String, Number> series = new XYChart.Series<>();
@@ -80,6 +94,8 @@ public class AdminController extends VIPController {
         adminView.userDistributionBarChart.getData().add(series);
     
     }
+
+    // Method when the Change User Type Button is clicked
 
     private void handleChangeUserType() {
     
@@ -97,7 +113,9 @@ public class AdminController extends VIPController {
             Optional<String> result = dialog.showAndWait();
             
             result.ifPresent(chosenType -> {
-            
+                
+                // Update userType in the Database
+
                 UserDAO.updateUserType(selectedUser.getUsername(), chosenType);
             
                 selectedUser.setUserType(chosenType); // Update the model (consider refreshing the ListView if needed)
@@ -113,6 +131,8 @@ public class AdminController extends VIPController {
     
         } 
         
+        // Show alert if no user is selected
+
         else {
         
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -128,6 +148,8 @@ public class AdminController extends VIPController {
     
         }
 
+    // Refresh the list of users shown in the table when called
+
     private void refreshUsersListView() {
     
         // Fetch the updated list of users
@@ -141,6 +163,7 @@ public class AdminController extends VIPController {
     
     }
     
+    // Initialize the User Distribution Chart 
 
     private void setupUserDistributionChart() {
     

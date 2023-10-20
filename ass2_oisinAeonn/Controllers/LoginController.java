@@ -7,11 +7,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.function.Consumer;
 
+// Controller responsible for Logging in
+
 public class LoginController {
 
     private LoginView view;
     private Consumer<String> onLoginSuccessEvent;
     private Runnable onRegisterEvent;
+
+    // Basic Constructor initializing the view
 
     public LoginController(LoginView view) {
     
@@ -20,6 +24,8 @@ public class LoginController {
         initEventHandlers();
     
     }
+
+    // Setter Callbacks 
 
     public void setOnLoginSuccessEvent(Consumer<String> onLoginSuccessEvent) {
     
@@ -39,6 +45,8 @@ public class LoginController {
         view.getRegisterButton().setOnAction(e -> handleRegister());
     
     }
+
+    // Handle login process by validating username, and password
 
     private void handleLogin() {
     
@@ -77,6 +85,8 @@ public class LoginController {
 
     }    
 
+    // Triggers callback event to swap scene to the Register page
+
     private void handleRegister() {
     
         if (onRegisterEvent != null) {
@@ -86,6 +96,9 @@ public class LoginController {
         }
     
     }
+
+    // Generates a SHA-256 hash for a given password.
+    // This is used for password hashing to store and validate passwords securely.
 
     private String hashPassword(String passwordToHash) {
     

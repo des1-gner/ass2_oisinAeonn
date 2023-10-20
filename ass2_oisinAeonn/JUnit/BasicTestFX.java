@@ -23,6 +23,10 @@ public class BasicTestFX extends ApplicationTest {
     
     }
 
+    // Supposed to fail for now I could not get it to return properly, but the automated testing of the GUI still works as shown
+
+    // TestFX to test transition from Login clicking the Register button and transitioning to the register scene
+
     @Test
     
     public void testTransitionToRegisterFromLogin() {
@@ -34,6 +38,8 @@ public class BasicTestFX extends ApplicationTest {
         assertThat(pane).isNotNull();
     
     }
+
+    // TestFX to test logging in using pre-created credentials
 
     @Test
     

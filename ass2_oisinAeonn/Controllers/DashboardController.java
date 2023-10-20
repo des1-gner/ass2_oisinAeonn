@@ -27,6 +27,8 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+ // Controller for the basic operations any user can do
+
 public class DashboardController {
 
     public DashboardView view;
@@ -34,6 +36,8 @@ public class DashboardController {
     protected String username;
     private Post post;
     private Post searchedPost;
+
+    // Constructor, Initializes the controller with views
 
     public DashboardController(DashboardView view, StageManager stageManager, String username) {
         
@@ -50,6 +54,8 @@ public class DashboardController {
     
     }
 
+    // Event Handlers for Buttons mapping to their Method Functions
+
     private void attachHandlers() {
     
         view.getPostButton().setOnAction(e -> addPost());
@@ -64,6 +70,8 @@ public class DashboardController {
 
     }
 
+    // Populate the TableView with all the Posts
+
     private void populateAllPostsTableView() {
     
         List<Post> allPosts = PostDAO.getAllPosts();
@@ -71,6 +79,8 @@ public class DashboardController {
         view.getAllPostsTableView().setItems(FXCollections.observableArrayList(allPosts));
     
     }
+
+    // Export the posts selected in the TableView to CSV
 
     protected void handleExportSelectedPostsToCSV() {
     
@@ -126,6 +136,8 @@ public class DashboardController {
         }
     
     }
+
+    // Add a Post (adapted from Ass1 to take user input from JavaFX GUI)
 
     private void addPost() {
 
@@ -219,6 +231,8 @@ public class DashboardController {
     
     }
 
+    // Export the searched post by postId to CSV
+
     private void handleExportSearchedPostToCSV() {
     
         if (searchedPost != null) {
@@ -274,6 +288,8 @@ public class DashboardController {
 
     }
 
+    // Handle the process of uploading an image for a post (required to add a post)
+
     private void handleUploadImage() {
 
         try {
@@ -313,6 +329,8 @@ public class DashboardController {
         }
     
     }
+
+    // Copies the chosen image to the assets folder
 
     private Path copyFileToAssets(File chosenFile) {
     
@@ -356,11 +374,13 @@ public class DashboardController {
     
     }
 
+    // Switch the Scene to Profile View
+
     public void showProfileScene() {
     
         ProfileView profileView = new ProfileView();  // Create an instance of the ProfileView
     
-        new ProfileController(profileView, username, this.view, stageManager);  // This sets up the event handlers, etc.
+        new ProfileController(profileView, username, this.view, stageManager);  // This sets up the event handlers, etc
     
         // Now swap the content
     
@@ -369,6 +389,8 @@ public class DashboardController {
         currentScene.setRoot(profileView.getMainLayout());
     
     }
+
+    // Utility Method to display alerts to the user
     
     public void showAlert(String title, String message) {
     
@@ -382,6 +404,8 @@ public class DashboardController {
     
     }
     
+    // Switch to the Upgrade Scene 
+
     public void showUpgradeScene() {
     
         UpgradeView upgradeView = new UpgradeView(); // Create the view
@@ -395,6 +419,8 @@ public class DashboardController {
         currentScene.setRoot(upgradeView.getMainFrame());
     
     }
+
+    // Handles the logout process, closing all windows and opening up the first stage
       
     protected void handleLogoutAction() {
     
@@ -413,6 +439,8 @@ public class DashboardController {
         }
     
     }
+
+    // Retrieve a post by postId, and display it to a listView
 
     private void retrievePost() {
     
@@ -476,6 +504,8 @@ public class DashboardController {
     
     }
     
+    // Delete a post by its postId
+
     private void deletePost() {
 
         int postId;
@@ -528,6 +558,10 @@ public class DashboardController {
     
     }
     
+    // Retrieve and display a list of trending posts to the user via the trending tab
+
+    // This is the closest thing to a collection
+
     private void retrieveTrendingPosts() {
     
         // Extract user's choice for column to sort by
