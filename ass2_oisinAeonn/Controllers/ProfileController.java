@@ -244,12 +244,6 @@ public class ProfileController {
     
             }
     
-            if (!username.matches("[a-zA-Z0-9]+") || !firstName.matches("[a-zA-Z]+") || !lastName.matches("[a-zA-Z]+")) {
-    
-                return "Username, First Name, and Last Name should be alphanumeric";
-    
-            }
-    
             if (password.length() < 8) {
     
                 return "Password must be at least 8 characters long";
